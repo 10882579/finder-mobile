@@ -22,6 +22,7 @@ export default (props) => {
       </View>
       <TouchableOpacity
         style={defaultStyle.headerIconContainer}
+        onPress={()=>console.log(props.state)}
         >
         <MIcon
           name='filter-list'

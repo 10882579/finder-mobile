@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Entypo } from '@expo/vector-icons';
 
 import Home from '@screens/home/screen';
+import Create from '@screens/create/screen';
 
 export default createBottomTabNavigator({
   Home: {
@@ -12,7 +13,16 @@ export default createBottomTabNavigator({
         return <FontAwesome name='home' color={tintColor} size={24}/>
       },
     }
-  }
+  },
+  Create: {
+    screen: Create,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => {
+        return <Entypo name='camera' color={tintColor} size={30}/>
+      },
+      tabBarVisible: false,
+    }
+  },
 },
 {
   navigationOptions: {

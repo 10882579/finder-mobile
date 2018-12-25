@@ -54,7 +54,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    home: state.home
+    home: state.home,
+    state: state
   }
 }
 
