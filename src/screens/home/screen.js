@@ -3,13 +3,15 @@ import {
   View,
   Text,
   ScrollView,
-  RefreshControl
+  RefreshControl,
+  AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Header, List } from './components/index';
+import { Header, List, ProgressBar } from './components/index';
 import { defaultStyle } from '@src/static/index';
 import { fetchAllPosts } from '@src/redux/actions/home';
+import { fetchAccount } from '@src/redux/actions/account';
 
 class App extends Component {
 
@@ -17,8 +19,10 @@ class App extends Component {
     refreshing: false
   }
 
-  componentDidMount() {
-
+  async componentDidMount() {
+    const { navigation, fetchAccount } = this.props;
+    const token = await AsyncStorage.getItem('token');
+    fetchAccount(navigation, token)
     this.refreshPage()
 
   }
@@ -31,10 +35,16 @@ class App extends Component {
   }
 
   render() {
+
+    const { create } = this.props;
+
     return (
       <View style={defaultStyle.flex}>
         <Header {...this.props}/>
         <View style={[defaultStyle.flex, {padding: 5}]}>
+          { create.progress !== 100 ? (
+              <ProgressBar {...this.props}/>
+            ) : null }
           <ScrollView style={defaultStyle.flex}
             scrollEventThrottle={1}
             refreshControl={
@@ -55,6 +65,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     home: state.home,
+    create: state.create,
     state: state
   }
 }
@@ -63,6 +74,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllPosts: () => {
       dispatch(fetchAllPosts())
+    },
+    fetchAccount: (nav, token) => {
+      dispatch(fetchAccount(nav, token))
     }
   }
 }
