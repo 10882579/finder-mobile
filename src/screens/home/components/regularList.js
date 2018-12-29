@@ -16,7 +16,7 @@ export default (props) => {
             <TouchableOpacity
               activeOpacity={0.7}
               style={homeStyle.imageFieldPress}
-              onPress={ () => navigation.navigate('PostById', {id: j.id})}
+              onPress={ () => navigation.navigate('Post', {id: j.id})}
               >
               <Image source={{uri: j.photos.uri}} style={defaultStyle.image}/>
               {

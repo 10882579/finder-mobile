@@ -12,7 +12,7 @@ const Post = (props) => {
     <TouchableOpacity
       activeOpacity={0.7}
       style={homeStyle.imageFieldPress}
-      onPress={ () => navigation.navigate('PostById', {id: item.id}) }
+      onPress={ () => navigation.navigate('Post', {id: item.id}) }
       >
       <Image source={{uri: item.photos.uri}} style={defaultStyle.image}/>
       {
