@@ -23,38 +23,37 @@ export default (props) => {
     account,
     navigation,
     publishPost,
+    saveEditedPost,
     updateCreateDataState,
   } = props;
 
   handlePublish = async () => {
 
-    // const value = Object.values(data)
-    // let valid = true;
-    //
-    // for (var i = 0; i < value.length; i++) {
-    //   if(value[i].length == 0){
-    //     valid = false
-    //   }
-    // }
-    // if(valid){
-    //   if (account.accountFetched){
-    //     if(data.editing){
-    //       // await props.goBack()
-    //       // saveEditedPostAsync(navigation, data.id)
-    //     }
-    //     else{
-    //       publishPost(navigation);
-    //     }
-    //   }
-    //   else{
-    //     // console.log('Not Authorized');
-    //     // updateNavigationState({direction: 'Post'})
-    //     // navigation.navigate('Account')
-    //   }
-    // }
-    // else{
-    //   alert("Barcha ma'lumotlarni kiriting!")
-    // }
+    const value = Object.values(data)
+    let valid = true;
+
+    for (var i = 0; i < value.length; i++) {
+      if(value[i].length == 0){
+        valid = false
+      }
+    }
+    if(valid){
+      if (account.accountFetched){
+        if(data.editing){
+          saveEditedPost(navigation, data.id)
+        }
+        else{
+          publishPost(navigation);
+        }
+      }
+      else{
+        updateNavState({direction: 'Post'})
+        navigation.navigate('Account')
+      }
+    }
+    else{
+      alert("Barcha ma'lumotlarni kiriting!")
+    }
   }
 
   return (
@@ -63,7 +62,6 @@ export default (props) => {
       <Categories {...props}/>
       <Conditions {...props}/>
       <Price      {...props}/>
-
 
       <View style={createStyle.additionalDescriptionContainer}>
         <Text style={createStyle.additionalDescriptionText}>Qo'shimcha ma'lumot</Text>

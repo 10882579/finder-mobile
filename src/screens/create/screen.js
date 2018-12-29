@@ -8,7 +8,7 @@ import { ImagePicker, Permissions } from 'expo';
 import { defaultStyle, createStyle } from '@src/static/index';
 import { handleGoBack } from '@redux/actions/handleGoBack';
 
-import { publishPost } from '@src/redux/actions/create';
+import { publishPost, saveEditedPost } from '@src/redux/actions/create';
 import { Header, UploadedImages, ImmediateInfo, Description } from './components/index';
 
 class App extends Component {
@@ -79,18 +79,18 @@ const mapDispatchToProps = (dispatch) => {
         type: 'ERASE_CREATE_DATA_STATE',
       })
     },
-    // updateNavigationState: (obj) => {
-    //   dispatch({
-    //     type: 'UPDATE_NAVIGATION_STATE',
-    //     payload: obj
-    //   })
-    // },
+    updateNavState: (obj) => {
+      dispatch({
+        type: 'UPDATE_NAV_STATE',
+        payload: obj
+      })
+    },
     publishPost: (nav) => {
       dispatch(publishPost(nav))
     },
-    // saveEditedPostAsync: (nav, id) => {
-    //   dispatch(saveEditedPostAsync(nav, id))
-    // },
+    saveEditedPost: (nav, id) => {
+      dispatch(saveEditedPost(nav, id))
+    },
     handleGoBack: (nav) => {
       dispatch(handleGoBack(nav))
     }
