@@ -3,42 +3,14 @@ import { createBottomTabNavigator, createStackNavigator } from 'react-navigation
 import { FontAwesome, Entypo, MaterialCommunityIcons as MIcon } from '@expo/vector-icons';
 
 import Home from '@screens/home/screen';
-import Create from '@screens/create/screen';
-import Account from '@screens/account/screen';
 import Post from '@screens/post/screen';
+import Account from '@screens/account/screen';
+import Create from '@screens/create/screen';
+import Detail from '@screens/detail/screen';
 
-const AccountNav = createStackNavigator({
-  Account: {
-    screen: Account
-  },
-},
-  {
-    headerMode: 'none',
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  }
-)
-
-const HomeNav = createStackNavigator({
+const TabNav = createBottomTabNavigator({
   Home: {
-    screen: Home
-  },
-  Post: {
-    screen: Post,
-  }
-},
-  {
-    headerMode: 'none',
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  })
-
-
-export default createBottomTabNavigator({
-  Home: {
-    screen: HomeNav,
+    screen: Home,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => {
         return <FontAwesome name='home' color={tintColor} size={24}/>
@@ -55,7 +27,7 @@ export default createBottomTabNavigator({
     }
   },
   Account: {
-    screen: AccountNav,
+    screen: Account,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => {
         return <MIcon name='account-location' color={tintColor} size={30}/>
@@ -65,9 +37,6 @@ export default createBottomTabNavigator({
   }
 },
 {
-  navigationOptions: {
-    gesturesEnabled: false,
-  },
   tabBarOptions: {
     showLabel: false,
     activeTintColor: 'white',
@@ -76,4 +45,16 @@ export default createBottomTabNavigator({
       backgroundColor: '#16222A',
     },
   },
+})
+
+export default createStackNavigator({
+  Home: TabNav,
+  Post: {
+    screen: Post
+  },
+  Detail: {
+    screen: Detail
+  }
+}, {
+  headerMode: 'none'
 })
