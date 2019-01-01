@@ -12,14 +12,14 @@ const savePostAsync = async (props) => {
 
 
 export default (props) => {
-  const { account, post, toggleModal, handleGoBack, navigation } = props;
+  const { account, post, toggleModal, navigation } = props;
 
   return (
     <View style={defaultStyle.transparentHeaderContainer}>
       <TouchableOpacity
         style={defaultStyle.headerIconContainer}
         activeOpacity={0.8}
-        onPress={ () => handleGoBack(navigation) }
+        onPress={ () => navigation.goBack() }
       >
         <Ionicons
           name='md-arrow-round-back'

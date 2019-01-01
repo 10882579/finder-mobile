@@ -24,29 +24,7 @@ import { defaultStyle } from '@src/static/index';
 class App extends Component {
 
   state = {
-    fetched: false,
     showModal: false,
-    refreshing: false
-  }
-
-  componentDidMount = async () => {
-    this.fetchPost()
-  }
-
-  componentWillUnmount = async () => {
-    this.props.erasePostState()
-  }
-
-  refreshPage = async () => {
-    await this.setState({...this.state, refreshing: true});
-    await this.fetchPost()
-    await setTimeout(() => this.setState({...this.state, refreshing: false}), 1000);
-  }
-
-  fetchPost = () => {
-    const { navigation, fetchPost } = this.props;
-    const { id } = navigation.state.params;
-    fetchPost(id)
   }
 
   toggleModal = (bool) => {
@@ -67,12 +45,7 @@ class App extends Component {
                 {...this.props}
                 toggleModal={ (bool) => this.toggleModal(bool) }
               />
-              <ScrollView style={defaultStyle.flex} refreshControl={
-                <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={this.refreshPage}
-                />
-              }>
+              <ScrollView style={defaultStyle.flex}>
                 <PostImages     {...this.props} />
                 <ImmediateInfo  {...this.props} />
                 <Owner          {...this.props} />
@@ -100,7 +73,6 @@ const mapStateToProps = (state) => {
   return {
     account: state.account,
     post: state.post,
-    // settings: state.settings,
   }
 }
 
@@ -118,35 +90,8 @@ const mapDispatchToProps = (dispatch) => {
         payload: value
       })
     },
-    erasePostState: () => {
-      dispatch({
-        type: 'ERASE_POST_STATE',
-      })
-    },
-    // eraseAccountDataState: () => {
-    //   dispatch({
-    //     type: 'UPDATE_ACCOUNT_DATA_STATE',
-    //     payload: {
-    //       followings: [],
-    //       publishedPosts: [],
-    //       savedPosts: [],
-    //       post: {fetched: false}
-    //     }
-    //   })
-    // },
-    // eraseNavigationState: () => {
-    //   dispatch({
-    //     type: 'ERASE_NAVIGATION_STATE'
-    //   })
-    // },
-    handleGoBack: (nav) => {
-      dispatch(handleGoBack(nav))
-    },
     deletePost : (nav) => {
       dispatch(deletePost(nav))
-    },
-    fetchPost: (id) => {
-      dispatch(fetchPost(id))
     },
     setPostSold: (nav) => {
       dispatch(setPostSold(nav))

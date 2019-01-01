@@ -6,13 +6,21 @@ import { homeStyle, defaultStyle } from '@src/static/index';
 
 const Post = (props) => {
 
-  const { navigation, item } = props;
+  const { navigation, item, fetchPost } = props;
+
+  handleFetchPost = (id) => {
+    fetchPost(id, (status) => {
+      if(status === 200){
+        navigation.push('Post', {id: id})
+      }
+    })
+  }
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       style={homeStyle.imageFieldPress}
-      onPress={ () => navigation.navigate('Post', {id: item.id}) }
+      onPress={ () => this.handleFetchPost(j.id) }
       >
       <Image source={{uri: item.photos.uri}} style={defaultStyle.image}/>
       {

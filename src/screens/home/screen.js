@@ -12,6 +12,7 @@ import { Header, List, ProgressBar } from './components/index';
 import { defaultStyle } from '@src/static/index';
 import { fetchAllPosts } from '@src/redux/actions/home';
 import { fetchAccount } from '@src/redux/actions/account';
+import { fetchPost } from '@src/redux/actions/post';
 
 class App extends Component {
 
@@ -24,7 +25,6 @@ class App extends Component {
     const token = await AsyncStorage.getItem('token');
     fetchAccount(navigation, token)
     this.refreshPage()
-
   }
 
   refreshPage = () => {
@@ -77,6 +77,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     fetchAccount: (nav, token) => {
       dispatch(fetchAccount(nav, token))
+    },
+    fetchPost: (id, cb) => {
+      dispatch(fetchPost(id, cb))
     }
   }
 }

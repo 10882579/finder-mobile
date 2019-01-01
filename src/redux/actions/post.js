@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-const fetchPost = (id) => {
+const fetchPost = (id, callback) => {
   return (dispatch, getState) => {
     const { account, mode } = getState();
-    const token = account.token.length > 0 ? account.token : null;
     const url = mode.server == 'production' ? (
       `https://finder-uz.herokuapp.com/post/${id}/`
     ) : (
@@ -14,7 +13,7 @@ const fetchPost = (id) => {
       url: url,
       headers: {
         'Accept': 'application/json',
-        'x-auth-token': token
+        'x-auth-token': account.token
       },
     })
     .then(({status, data}) => {
@@ -23,10 +22,11 @@ const fetchPost = (id) => {
           type: "UPDATE_POST_STATE",
           payload: {...data, fetched: true}
         })
+        callback(status)
       }
     })
     .catch((err) => {
-
+      callback(err.response.status)
     })
   }
 }
