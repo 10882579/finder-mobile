@@ -3,20 +3,8 @@ import { Text, View, TouchableOpacity, Image } from 'react-native';
 
 import Header from './header';
 import { ImagePicker } from 'expo';
-import { Ionicons, EvilIcons } from '@expo/vector-icons';
+import { AntDesign, Feather, EvilIcons } from '@expo/vector-icons';
 import { defaultStyle, accountStyle } from '@src/static/index';
-
-const ActivityList = (props) => {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.9}
-      onPress={ props.action }
-      style={accountStyle.activityItem}
-    >
-      <Text style={accountStyle.activityItemName}>{props.name}</Text>
-    </TouchableOpacity>
-  )
-}
 
 export default (props) => {
 
@@ -63,34 +51,43 @@ export default (props) => {
 
   return (
     <View style={defaultStyle.flex}>
-      <View style={[accountStyle.topContainer, defaultStyle.shadow, accountStyle.topContainerHeight]}>
-        <Header {...props}/>
-        <View style={[accountStyle.userInformationContainer]}>
-          <View style={[accountStyle.userImageContainer, accountStyle.userImageContainerDimension]}>
+      <View style={[accountStyle.container, defaultStyle.shadow]}>
+        <View style={accountStyle.topContainer}>
+          <Header {...props}/>
+        </View>
+        <View style={accountStyle.accountImageContainer}>
+          <View style={accountStyle.accountImage}>
             <Image source={{uri: account.image}} style={defaultStyle.image}/>
             <TouchableOpacity
-              style={accountStyle.accountImageChangeButton}
+              style={accountStyle.accountImageUploadButton}
               activeOpacity={0.9} onPress={ this.uploadImage }
             >
-              <EvilIcons name='camera' color='white' size={19}/>
+              <EvilIcons name='camera' color='white' size={20}/>
             </TouchableOpacity>
           </View>
+        </View>
+        <View style={accountStyle.bottomContainer}>
           <View style={accountStyle.userNameContainer}>
-            <Text
-              style={[accountStyle.userFullName, accountStyle.userFullNameForAccount]}
-              numberOfLines={1}
-            >
-              { account.first_name } { account.last_name }
-            </Text>
+            <Text style={accountStyle.userName}>{account.first_name} {account.last_name}</Text>
+          </View>
+          <View style={accountStyle.reatingContainer} />
+          <View style={accountStyle.navigation}>
+            <TouchableOpacity
+              style={accountStyle.navigationList}
+              >
+              <AntDesign name='bars' size={30}/>
+            </TouchableOpacity>
+            <TouchableOpacity style={accountStyle.navigationList}>
+              <Feather name='bookmark' size={30}/>
+            </TouchableOpacity>
+            <TouchableOpacity style={accountStyle.navigationList}>
+              <AntDesign name='hearto' size={30}/>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
-      <View style={defaultStyle.flex}>
-        <View style={accountStyle.accountActivityListContainer}>
-          <ActivityList name="Mening e'lonlarim" action={ () => this.navigateToDetailPage("myposts") }/>
-          <ActivityList name="Kuzatilayotgan e'lonlar" action={ () => this.navigateToDetailPage("savedposts") }/>
-          <ActivityList name="Kuzatilayotgan shaxslar" action={ () => this.navigateToDetailPage("following") }/>
-        </View>
+      <View style={accountStyle.bodyContainer}>
+
       </View>
     </View>
   )
