@@ -1,9 +1,9 @@
 import { StyleSheet, Platform, StatusBar, Dimensions } from 'react-native';
 import { Constants } from 'expo';
 
-const winWidth = Dimensions.get('window').width;
-const winHeight = Dimensions.get('window').height
-const hyp = Math.sqrt((winWidth * winWidth + winHeight * winHeight))
+const { width, height } = Dimensions.get('window');
+const hyp = Math.sqrt((width * width + height * height))
+
 module.exports = StyleSheet.create({
   container: {
     flex: 1, backgroundColor: '#16222A',
@@ -12,8 +12,8 @@ module.exports = StyleSheet.create({
     padding: 30,
   },
   imageContainer: {
-    width: winWidth,
-    height: winWidth + Constants.statusBarHeight + 50,
+    width: width,
+    height: width + Constants.statusBarHeight + 50,
     backgroundColor: 'rgba(22, 34, 42, 0.9)',
     overflow: 'hidden'
   },
@@ -71,9 +71,6 @@ module.exports = StyleSheet.create({
     padding: 20,
     backgroundColor: '#16222A',
     flexDirection: 'row'
-  },
-  itemInformationLeftContainer:{
-
   },
   title: {
     color: 'white',
@@ -134,7 +131,6 @@ module.exports = StyleSheet.create({
   userName: {
     color: 'white',
     fontFamily: 'Default',
-    // letterSpacing: 0.5,
     fontSize: 17,
     marginHorizontal: 20,
   },
@@ -192,7 +188,6 @@ module.exports = StyleSheet.create({
     borderTopColor: 'darkgrey',
     marginHorizontal: 15,
     paddingVertical: 20
-
   },
   negotiationContainerIcon:{
     fontSize: 22,
@@ -226,10 +221,9 @@ module.exports = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontFamily: 'Default',
-    // letterSpacing: 1,
   },
   warningContainer: {
-    width: winWidth,
+    width: width,
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -249,6 +243,5 @@ module.exports = StyleSheet.create({
   },
   warningText: {
     fontFamily: 'Default',
-    // letterSpacing: 1,
   }
 })

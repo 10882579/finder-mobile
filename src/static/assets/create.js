@@ -1,23 +1,21 @@
 import { StyleSheet, Platform, StatusBar, Dimensions } from 'react-native';
 import { Constants } from 'expo';
 
-const winWidth = Dimensions.get('window').width
-const winHeight = Dimensions.get('window').height
+const { width, height } = Dimensions.get('window');
 
 module.exports = StyleSheet.create({
 
   stepContainer: {
-    width: winWidth,
+    width: width,
     height: 'auto',
-    // backgroundColor: '#16222A'
   },
   imageUploadContainerIcon:{
     fontSize: 40,
     color: 'white'
   },
   imageUploadContainer: {
-    width: winWidth,
-    height: winWidth + 75,
+    width: width,
+    height: width + 75,
   },
   titleContainer: {
     position: 'absolute',
@@ -30,7 +28,6 @@ module.exports = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     borderRadius: 3,
-
   },
   titleText: {
     color: 'white',
@@ -79,14 +76,14 @@ module.exports = StyleSheet.create({
     zIndex: 99
   },
   imageListContainer: {
-    width: winWidth,
-    height: winWidth/4,
+    width: width,
+    height: width/4,
     flexDirection: 'row',
     backgroundColor: '#16222A'
   },
   imageListContainerItem: {
-    width: winWidth /4 - 10,
-    height: winWidth /4 - 10,
+    width: width /4 - 10,
+    height: width /4 - 10,
     margin: 5,
     borderStyle: 'dashed',
     borderWidth: 1,
@@ -119,7 +116,6 @@ module.exports = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Default',
     color: 'white',
-    // letterSpacing: 1,
   },
   postAddressContaner: {
     height: 60,
@@ -135,7 +131,7 @@ module.exports = StyleSheet.create({
   },
   postCityAddressContainer: {
     height: 40,
-    width: winWidth /2-15,
+    width: width /2-15,
     paddingLeft: 10,
     borderRadius: 4,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
@@ -146,11 +142,10 @@ module.exports = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Default',
     color: 'white',
-    // letterSpacing: 1,
   },
   postStateAddressContainer: {
     height: 40,
-    width: winWidth /2 - 50,
+    width: width /2 - 50,
     paddingLeft: 10,
     borderRadius: 4,
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
@@ -165,7 +160,7 @@ module.exports = StyleSheet.create({
     backgroundColor: 'white'
   },
   descriptionBlock: {
-    width: winWidth,
+    width: width,
     height: 80,
     flexDirection: 'row',
     paddingHorizontal: 20,
@@ -221,7 +216,6 @@ module.exports = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontFamily: 'Default',
-    // letterSpacing: 1,
   },
   descriptionValueContainer: {
     width: 'auto',
@@ -260,7 +254,7 @@ module.exports = StyleSheet.create({
     justifyContent: 'center',
   },
   priceBlock: {
-    width: winWidth,
+    width: width,
     height: 80,
     flexDirection: 'row',
     paddingHorizontal: 20,
@@ -268,7 +262,7 @@ module.exports = StyleSheet.create({
   },
   priceInputContainer: {
     marginVertical: 20,
-    width: winWidth /3,
+    width: width /3,
     height: 40,
     paddingLeft: 10,
     borderRadius: 4,
@@ -289,7 +283,7 @@ module.exports = StyleSheet.create({
     backgroundColor: 'white'
   },
   additionalDescriptionContainer: {
-    width: winWidth,
+    width: width,
     height: 220,
     padding: 20,
   },
@@ -328,6 +322,4 @@ module.exports = StyleSheet.create({
     color: 'white',
     fontFamily: 'Default'
   },
-
-
 })

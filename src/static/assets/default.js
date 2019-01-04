@@ -1,12 +1,12 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 import { Constants } from 'expo';
 
-const winWidth = Dimensions.get('window').width
+const { width, height } = Dimensions.get('window');
 
 module.exports = StyleSheet.create({
   container: { backgroundColor: '#eff3f4', flex: 1},
   customHeaderContainer: {
-    width: winWidth,
+    width: width,
     borderBottomWidth: 0,
     padding: 0,
     paddingHorizontal: 5,
@@ -24,7 +24,7 @@ module.exports = StyleSheet.create({
     top: Constants.statusBarHeight + 10,
     marginHorizontal: 10,
     height: 50,
-    width: winWidth - 20,
+    width: width - 20,
     borderBottomWidth: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     borderRadius: 4,
@@ -33,12 +33,12 @@ module.exports = StyleSheet.create({
   shadow: {
     ...Platform.select({
       android: {
-        elevation: 5,
+        elevation: 3,
       },
       ios: {
-        shadowColor: '#16222A',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.9,
+        shadowColor: 'lightgrey',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.6,
       }
     })
   },
@@ -59,7 +59,6 @@ module.exports = StyleSheet.create({
   headerBodyText: {
     color: 'white',
     fontFamily: 'Default',
-    // letterSpacing: 1,
     fontSize: 20
   },
   body:{

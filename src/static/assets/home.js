@@ -1,6 +1,6 @@
 import { StyleSheet, Platform, StatusBar, Dimensions } from 'react-native';
 
-let winSize = Dimensions.get('window').width;
+const { width, height } = Dimensions.get('window');
 
 module.exports = StyleSheet.create({
   headerSearchContainer: {
@@ -49,14 +49,14 @@ module.exports = StyleSheet.create({
     flexDirection: 'row',
   },
   premiumImageSingleGrid: {
-    width: winSize - (winSize / 3) - 5,
-    height: winSize - (winSize / 3) - 5,
+    width: width - (width / 3) - 5,
+    height: width - (width / 3) - 5,
     marginRight: 5,
     marginBottom: 5,
   },
   premiumImageDoubleGrid: {
-    width: winSize - (winSize * 2/3) - 10,
-    height: winSize - (winSize * 2/3) - 5,
+    width: width - (width * 2/3) - 10,
+    height: width - (width * 2/3) - 5,
   },
   imageFieldPress: {
     height: '100%',
@@ -64,8 +64,8 @@ module.exports = StyleSheet.create({
     marginBottom: 5
   },
   regularImageGrid: {
-    width: (winSize / 3) -5,
-    height: (winSize / 3) -5,
+    width: (width / 3) -5,
+    height: (width / 3) -5,
     marginRight: 5,
     marginBottom: 5,
   },
