@@ -80,12 +80,16 @@ const fetchUserSavedPosts = (page) => {
     const { account, mode } = getState();
     if(account.accountFetched){
       const url = mode.server == 'production' ? (
-        `https://finder-uz.herokuapp.com/api/${account.token}/saved-post-list/${page}/`
+        `https://finder-uz.herokuapp.com/account/posts/page=${page}`
       ) : (
-        `http://localhost:8000/api/${account.token}/saved-post-list/${page}/`
+        `http://localhost:8000/account/posts/page=${page}`
       )
       axios({
         method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'X-Auth-Token': account.token
+        },
         url: url,
       })
       .then((res) => {
@@ -105,23 +109,29 @@ const fetchFollowingUsers = (page) => {
   return (dispatch, getState) => {
     const { account, mode } = getState();
     const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/api/${account.token}/following-user-list/${page}/`
+      `https://finder-uz.herokuapp.com/account/following/page=${page}`
     ) : (
-      `http://localhost:8000/api/${account.token}/following-user-list/${page}/`
+      `http://localhost:8000/account/following/page=${page}`
     )
-    axios({
-      method: 'POST',
-      url: url,
-    })
-    .then(({data, status}) => {
-      dispatch({
-        type: 'FOLLOWING_USERS',
-        payload: data
+    if(account.accountFetched){
+      axios({
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'X-Auth-Token': account.token
+        },
+        url: url,
       })
-    })
-    .catch((err) => {
-      // console.log(err.response);
-    })
+      .then(({data, status}) => {
+        dispatch({
+          type: 'FOLLOWING_USERS',
+          payload: data
+        })
+      })
+      .catch((err) => {
+        
+      })
+    }
   }
 }
 

@@ -3,15 +3,7 @@ import { View }     from 'react-native';
 import { connect }  from 'react-redux';
 import { Account }  from './components/index';
 
-import {
-  fetchUserPosts,
-  fetchUserSavedPosts,
-  fetchFollowingUsers,
-  updateAccount,
-} from '@src/redux/actions/account';
-import { handleGoBack } from '@redux/actions/handleGoBack';
 import { defaultStyle } from '@src/static/index';
-
 
 class App extends Component {
 
@@ -37,28 +29,12 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.account,
-    // settings: state.settings,
-    // before: state.mode.before,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchUserPosts: (id, page) => {
-      dispatch(fetchUserPosts(id, page))
-    },
-    fetchUserSavedPosts: (page) => {
-      dispatch(fetchUserSavedPosts(page))
-    },
-    fetchFollowingUsers: (page) => {
-      dispatch(fetchFollowingUsers(page))
-    },
-    updateAccountImage: (obj, nav) => {
-      dispatch(updateAccount(obj, nav))
-    },
-    handleGoBack: (nav) => {
-      dispatch(handleGoBack(nav))
-    }
+
   }
 }
 
