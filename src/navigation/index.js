@@ -6,7 +6,6 @@ import Home from '@screens/home/screen';
 import Post from '@screens/post/screen';
 import Account from '@screens/account/screen';
 import Create from '@screens/create/screen';
-import Detail from '@screens/detail/screen';
 
 const TabNav = createBottomTabNavigator({
   Home: {
@@ -52,9 +51,6 @@ export default createStackNavigator({
   Post: {
     screen: Post
   },
-  Detail: {
-    screen: Detail
-  }
 }, {
   headerMode: 'none'
 })
