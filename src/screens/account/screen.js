@@ -4,6 +4,7 @@ import { connect }  from 'react-redux';
 import { Account }  from './components/index';
 
 import { defaultStyle } from '@src/static/index';
+import { fetchPost } from '@redux/actions/post';
 
 class App extends Component {
 
@@ -34,7 +35,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    fetchPost: (id, cb) => {
+      dispatch(fetchPost(id, cb))
+    },
+    updateNavState: (obj) => {
+      dispatch({
+        type: 'UPDATE_NAV_STATE',
+        payload: obj
+      })
+    },
   }
 }
 

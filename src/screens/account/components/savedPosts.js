@@ -6,7 +6,16 @@ import { defaultStyle, accountStyle } from '@src/static/index';
 
 export default (props) => {
 
-  const { saved } = props;
+  const { saved, updateNavState, fetchPost } = props;
+
+  handleFetchPost = (id) => {
+    updateNavState({direction: 'Account'});
+    fetchPost(id, (status) => {
+      if(status === 200){
+        navigation.navigate('Post', {id: id})
+      }
+    });
+  }
 
   return (
     <FlatList
@@ -16,6 +25,7 @@ export default (props) => {
         <TouchableOpacity
           activeOpacity={0.9}
           style={[accountStyle.listItem, defaultStyle.shadow]}
+          onPress={ () => this.handleFetchPost(item.id) }
         >
           <View style={accountStyle.itemImageContainer}>
             <Image source={{uri: item.photos[0].uri}} style={defaultStyle.image}/>

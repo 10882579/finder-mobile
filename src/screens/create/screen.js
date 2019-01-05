@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 import { ImagePicker, Permissions } from 'expo';
 import { defaultStyle, createStyle } from '@src/static/index';
 import { handleGoBack } from '@redux/actions/handleGoBack';
+import { publishPost, saveEditedPost } from '@redux/actions/create';
 
-import { publishPost, saveEditedPost } from '@src/redux/actions/create';
 import { Header, UploadedImages, ImmediateInfo, Description } from './components/index';
 
 class App extends Component {
