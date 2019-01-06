@@ -10,6 +10,7 @@ import Header from './header';
 import AccountImage from './image';
 import UserPosts from './userPosts';
 import SavedPosts from './savedPosts';
+import Following from './following';
 
 import {
   fetchUserPosts,
@@ -77,6 +78,7 @@ class App extends Component {
         <View style={accountStyle.bodyContainer}>
           { render == 'myposts' ? <UserPosts {...this.props}/> : null }
           { render == 'savedPosts' ? <SavedPosts {...this.props}/> : null }
+          { render == 'following' ? <Following {...this.props}/> : null }
         </View>
       </View>
     )

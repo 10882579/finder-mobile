@@ -4,7 +4,7 @@ const handleGoBack = (nav) => {
     const { screen } = mode;
 
     if(screen.length > 0){
-      if (screen[screen.length - 1].direction == 'Post' || screen[screen.length - 1].direction == 'Account'){
+      if (screen[screen.length - 1].direction == 'Post' || screen[screen.length - 1].direction == 'AccountBYId'){
         nav.navigate(screen[screen.length - 1].direction, {id: screen[screen.length - 1].id})
       }
       else{

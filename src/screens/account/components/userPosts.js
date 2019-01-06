@@ -14,7 +14,7 @@ export default (props) => {
       if(status === 200){
         navigation.navigate('Post', {id: id})
       }
-    });
+    })
   }
 
   return (

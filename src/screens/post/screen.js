@@ -99,6 +99,9 @@ const mapDispatchToProps = (dispatch) => {
     savePost: (nav) => {
       dispatch(savePost(nav))
     },
+    handleGoBack: (nav) => {
+      dispatch(handleGoBack(nav))
+    }
   }
 }
 

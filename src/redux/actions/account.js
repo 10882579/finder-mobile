@@ -129,7 +129,7 @@ const fetchFollowingUsers = (page) => {
         })
       })
       .catch((err) => {
-        
+
       })
     }
   }
@@ -204,10 +204,42 @@ const updateAccount = (obj, nav) => {
   }
 }
 
+const followAccount = (id) => {
+  return (dispatch, getState) => {
+    const { account, mode } = getState();
+    if(account.accountFetched){
+      const url = mode.server == 'production' ? (
+        `https://finder-uz.herokuapp.com/account/${id}/follow/`
+      ) : (
+        `http://localhost:8000/account/${id}/follow/`
+      )
+      axios({
+        method: 'POST',
+        url: url,
+        headers: {
+          'Accept': 'application/json',
+          'X-auth-token': account.token
+        },
+      })
+      .then(({data, status}) => {
+        dispatch({
+          type: 'FOLLOW_USER',
+          id: id,
+        })
+      })
+      .catch((err) => {
+
+      })
+    }
+  }
+}
+
+
 export {
   fetchAccount,
   fetchUserPosts,
   fetchUserSavedPosts,
   fetchFollowingUsers,
-  updateAccount
+  updateAccount,
+  followAccount
 }

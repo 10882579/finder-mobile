@@ -128,5 +128,42 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     color: 'grey',
     fontSize: 18
+  },
+  followingUserContainer:{
+    width: width -20,
+    height: 80,
+    marginHorizontal: 10,
+    marginBottom: 10,
+    backgroundColor: 'white',
+    borderRadius: 3,
+    borderTopLeftRadius: 50,
+    borderBottomLeftRadius: 50,
+    flexDirection: 'row',
+  },
+  followingUserImage: {
+    height: 80,
+    width: 80,
+    borderRadius: radius,
+    overflow: 'hidden',
+  },
+  followingUserNameContainer: {
+    padding: 10,
+    width: width - 100,
+    height: '50%',
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+  followingUserName: {
+    fontFamily: 'Default',
+    fontSize: 18,
+    width: width - 140,
+  },
+  likeButtonContainer: {
+    position: 'absolute',
+    right: 10,
+  },
+  likeIcon: {
+    fontSize: 18,
+    color: 'red',
   }
 })

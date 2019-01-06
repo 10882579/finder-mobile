@@ -26,6 +26,18 @@ const reducer = (state = initialState, action) => {
         following: [...state.following, ...action.payload]
       }
       break
+    case 'FOLLOW_USER':
+      const arr = []
+      state.following.map( (v, i) => {
+        if (v.id == action.id){
+          v.following = !v.following
+        }
+      })
+      state = {
+        ...state,
+        following: [...state.following, ...arr]
+      }
+      break
     case 'ERASE_DETAIL_STATE':
       state = {
         ...initialState
