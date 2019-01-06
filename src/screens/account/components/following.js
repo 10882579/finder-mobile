@@ -11,6 +11,7 @@ export default (props) => {
     <FlatList
       data={following}
       scrollEventThrottle={1}
+      bounces={false}
       renderItem={ ({item, index}) => (
         <TouchableOpacity
           activeOpacity={0.9}

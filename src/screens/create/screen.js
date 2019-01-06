@@ -27,6 +27,7 @@ class App extends Component {
         <View style={defaultStyle.flex}>
           <Header {...this.props}/>
           <ScrollView style={defaultStyle.flex}
+            bounces={false}
             ref={ref => this.scrollView = ref}
             scrollEventThrottle={1}
           >

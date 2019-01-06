@@ -21,6 +21,7 @@ export default (props) => {
     <FlatList
       data={posts}
       scrollEventThrottle={1}
+      bounces={false}
       // onScroll={ (e) => fetchPostOnScroll(e.nativeEvent) }
       renderItem={ ({item, index}) => (
         <TouchableOpacity
