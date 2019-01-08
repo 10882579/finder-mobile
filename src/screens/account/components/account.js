@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { Text, View, TouchableOpacity, Image, Dimensions, Animated } from 'react-native';
 
 import { connect }  from 'react-redux';
 import { handleGoBack } from '@redux/actions/handleGoBack';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { defaultStyle, accountStyle } from '@src/static/index';
 
-import Header from './header';
-import AccountImage from './image';
-import UserPosts from './userPosts';
-import SavedPosts from './savedPosts';
-import Following from './following';
+import {
+  Header,
+  AccountImage,
+  UserPosts,
+  SavedPosts,
+  Following
+} from './index';
 
 import {
   fetchUserPosts,
   fetchUserSavedPosts,
   fetchFollowingUsers,
   updateAccount,
-} from '@src/redux/actions/account';
+} from '@redux/actions/account';
+
+const { width, height } = Dimensions.get('window');
 
 
 class App extends Component {
@@ -25,6 +29,11 @@ class App extends Component {
   state = {
     page: 1,
     render: 'myposts'
+  }
+
+  componentWillMount() {
+    this.navbarPosition = new Animated.Value(0)
+    this.left = 0
   }
 
   componentDidMount = () => {
@@ -41,6 +50,19 @@ class App extends Component {
 
   updateState = (name) => {
     this.setState( () => ({render: name}) )
+    if (name == 'myposts'){
+      this.left = 0
+    }
+    else if(name == 'savedPosts'){
+      this.left = width/3
+    }
+    else if(name == 'following'){
+      this.left = width*2/3
+    }
+    Animated.timing(this.navbarPosition, {
+      duration: 200,
+      toValue: this.left
+    }).start()
   }
 
   render() {
@@ -73,6 +95,7 @@ class App extends Component {
                 <AntDesign name='hearto' size={30}/>
               </TouchableOpacity>
             </View>
+            <Animated.View style={[accountStyle.navigationListBorder, {left: this.navbarPosition}]} />
           </View>
         </View>
         <View style={accountStyle.bodyContainer}>

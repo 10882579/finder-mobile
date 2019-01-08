@@ -77,10 +77,17 @@ module.exports = StyleSheet.create({
     flexDirection: 'row',
   },
   navigationList: {
-    height: '100%',
+    height: 55,
     width: width / 3,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  navigationListBorder: {
+    position: 'absolute',
+    bottom: 0,
+    width: width/3,
+    height: 3,
+    backgroundColor: '#1aa3ff'
   },
   bodyContainer:{
     flex: 1,
