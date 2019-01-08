@@ -52,5 +52,10 @@ export default createStackNavigator({
     screen: Post
   },
 }, {
-  headerMode: 'none'
+  headerMode: 'none',
+  transitionConfig : () => ({
+  	transitionSpec: {
+  		duration: 0,
+  	},
+  }),
 })
