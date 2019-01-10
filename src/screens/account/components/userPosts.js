@@ -45,7 +45,7 @@ export default class App extends Component{
         scrollEventThrottle={1}
         onScroll={
           Animated.event(
-            [{nativeEvent: {contentOffset: {y: position}} }],
+            [{nativeEvent: {contentOffset: {y: posts.length >= 20 ? position : 0}} }],
             {listener: (e) => this.fetchPostOnScroll(e.nativeEvent) },
           )
         }
@@ -68,7 +68,7 @@ export default class App extends Component{
             </View>
           </TouchableOpacity>
         )}
-        keyExtractor={ (item, index) => String(item.id)}
+        keyExtractor={ (item, index) => String(item.id) }
       />
     )
   }
