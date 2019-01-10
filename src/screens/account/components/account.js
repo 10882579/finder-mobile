@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, Dimensions, Animated } from 'react-native';
+import { View, TouchableOpacity, Image, Dimensions, Animated } from 'react-native';
 
 import { connect }  from 'react-redux';
 import { handleGoBack } from '@redux/actions/handleGoBack';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { defaultStyle, accountStyle } from '@src/static/index';
+
+import Animation from '../animations/account';
 
 import {
   Header,
@@ -23,7 +25,6 @@ import {
 
 const { width, height } = Dimensions.get('window');
 
-
 class App extends Component {
 
   state = {
@@ -31,19 +32,17 @@ class App extends Component {
     render: 'myposts'
   }
 
-  componentWillMount() {
+  componentWillMount(){
     this.navbarPosition = new Animated.Value(0)
+    this.scrollY        = new Animated.Value(0)
     this.left = 0
   }
 
-  componentDidMount = () => {
+  componentDidMount(){
     const {
-      account,
-      fetchUserPosts,
       fetchUserSavedPosts,
       fetchFollowingUsers,
     } = this.props;
-    fetchUserPosts(account.account_id, this.state.page)
     fetchUserSavedPosts(this.state.page)
     fetchFollowingUsers(this.state.page)
   }
@@ -68,21 +67,23 @@ class App extends Component {
   render() {
 
     const { account } = this.props;
-    const { render } = this.state
+    const { render }  = this.state;
+
+    const { containerHeight, opacity, color } = Animation(this.scrollY)
 
     return (
       <View style={accountStyle.pageView}>
-        <View style={[accountStyle.container, defaultStyle.shadow]}>
-          <View style={accountStyle.topContainer}>
+        <Animated.View style={[accountStyle.container, defaultStyle.shadow, {height: containerHeight}]}>
+          <Animated.View style={[accountStyle.topContainer, {opacity: opacity}]}>
             <Header {...this.props}/>
-          </View>
-          <AccountImage {...this.props} image={account.image}/>
+          </Animated.View>
+          <AccountImage {...this.props} image={account.image} scrollY={this.scrollY}/>
           <View style={accountStyle.bottomContainer}>
-            <View style={accountStyle.userNameContainer}>
-              <Text style={accountStyle.userName}>
+            <Animated.View style={accountStyle.userNameContainer}>
+              <Animated.Text style={[accountStyle.userName, {color: color}]}>
                 {account.first_name} {account.last_name}
-              </Text>
-            </View>
+              </Animated.Text>
+            </Animated.View>
             <View style={accountStyle.reatingContainer} />
             <View style={accountStyle.navigation}>
               <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.updateState('myposts') }>
@@ -97,9 +98,9 @@ class App extends Component {
             </View>
             <Animated.View style={[accountStyle.navigationListBorder, {left: this.navbarPosition}]} />
           </View>
-        </View>
+        </Animated.View>
         <View style={accountStyle.bodyContainer}>
-          { render == 'myposts' ? <UserPosts {...this.props}/> : null }
+          { render == 'myposts' ? <UserPosts {...this.props} position={this.scrollY}/> : null }
           { render == 'savedPosts' ? <SavedPosts {...this.props}/> : null }
           { render == 'following' ? <Following {...this.props}/> : null }
         </View>

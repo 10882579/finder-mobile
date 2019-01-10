@@ -10,8 +10,6 @@ module.exports = StyleSheet.create({
   },
   container: {
     width: width,
-    height: 450,
-    backgroundColor: 'white',
     marginBottom: 10,
   },
   topContainer: {
@@ -21,7 +19,6 @@ module.exports = StyleSheet.create({
   },
   accountImageContainer: {
     position: 'absolute',
-    top: 140,
     left: ((width)/2)-85,
     width: 170,
     height: 170,
@@ -46,16 +43,15 @@ module.exports = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.6)'
   },
   bottomContainer: {
-    paddingTop: 80,
     width: width,
     height: '50%',
     backgroundColor: 'white',
     alignItems: 'center',
-    marginBottom: 5,
     borderBottomColor: 'lightgrey',
     borderBottomWidth: 1,
   },
   userNameContainer:{
+    marginTop: 80,
     height: 45,
     width: width,
     justifyContent: 'center',
@@ -73,8 +69,12 @@ module.exports = StyleSheet.create({
   },
   navigation: {
     width: width,
-    height: 55,
+    height: 55 + Constants.statusBarHeight,
     flexDirection: 'row',
+    backgroundColor: 'white',
+    alignItems: 'flex-end',
+    position: 'absolute',
+    bottom: 0,
   },
   navigationList: {
     height: 55,

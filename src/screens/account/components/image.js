@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
-
+import { View, TouchableOpacity, Image, Animated } from 'react-native';
 import { ImagePicker } from 'expo';
 import { EvilIcons } from '@expo/vector-icons';
 import { defaultStyle, accountStyle } from '@src/static/index';
 
+import Animation from '../animations/image';
+
 
 export default (props) => {
-  const { image, navigation, updateAccountImage } = props;
+  const { image, navigation, updateAccountImage, scrollY } = props;
+
+  const { position, opacity, height } = Animation(scrollY)
+
+  const imageStyle = {
+    top: position,
+    opacity: opacity,
+    height: height
+  }
 
   uploadImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -21,7 +30,7 @@ export default (props) => {
   }
 
   return (
-    <View style={accountStyle.accountImageContainer}>
+    <Animated.View style={[accountStyle.accountImageContainer, imageStyle]}>
       <View style={accountStyle.accountImage}>
         <Image source={{uri: image}} style={defaultStyle.image}/>
         <TouchableOpacity
@@ -31,6 +40,6 @@ export default (props) => {
           <EvilIcons name='camera' color='white' size={20}/>
         </TouchableOpacity>
       </View>
-    </View>
+    </Animated.View>
   )
 }

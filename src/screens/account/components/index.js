@@ -12,5 +12,5 @@ export {
   AccountImage,
   UserPosts,
   SavedPosts,
-  Following
+  Following,
 }
