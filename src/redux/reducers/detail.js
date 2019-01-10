@@ -38,6 +38,12 @@ const reducer = (state = initialState, action) => {
         following: [...state.following, ...action.payload]
       }
       break
+    case 'OVERRIDE_FOLLOWING_USERS':
+      state = {
+        ...state,
+        following: [...action.payload]
+      }
+      break
     case 'FOLLOW_USER':
       const arr = []
       state.following.map( (v, i) => {

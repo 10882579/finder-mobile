@@ -38,13 +38,6 @@ class App extends Component {
     this.left = 0
   }
 
-  componentDidMount(){
-    const {
-      fetchFollowingUsers,
-    } = this.props;
-    fetchFollowingUsers(this.state.page)
-  }
-
   updateState = (name) => {
     this.setState( () => ({render: name}) )
     if (name == 'myposts'){
@@ -124,8 +117,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchUserSavedPosts: (type, page) => {
       dispatch(fetchUserSavedPosts(type, page))
     },
-    fetchFollowingUsers: (page) => {
-      dispatch(fetchFollowingUsers(page))
+    fetchFollowingUsers: (type, page) => {
+      dispatch(fetchFollowingUsers(type, page))
     },
     updateAccountImage: (obj, nav) => {
       dispatch(updateAccount(obj, nav))

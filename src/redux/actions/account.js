@@ -105,7 +105,7 @@ const fetchUserSavedPosts = (type, page) => {
   }
 }
 
-const fetchFollowingUsers = (page) => {
+const fetchFollowingUsers = (type, page) => {
   return (dispatch, getState) => {
     const { account, mode } = getState();
     const url = mode.server == 'production' ? (
@@ -124,7 +124,7 @@ const fetchFollowingUsers = (page) => {
       })
       .then(({data, status}) => {
         dispatch({
-          type: 'FOLLOWING_USERS',
+          type: type,
           payload: data
         })
       })
