@@ -14,10 +14,22 @@ const reducer = (state = initialState, action) => {
         posts: [...state.posts, ...action.payload]
       }
       break
+    case 'OVERRIDE_USER_POSTS':
+      state = {
+        ...state,
+        posts: [...action.payload]
+      }
+      break
     case 'SAVED_POSTS':
       state = {
         ...state,
         savedPosts: [...state.savedPosts, ...action.payload]
+      }
+      break
+    case 'OVERRIDE_SAVED_POSTS':
+      state = {
+        ...state,
+        savedPosts: [...action.payload]
       }
       break
     case 'FOLLOWING_USERS':

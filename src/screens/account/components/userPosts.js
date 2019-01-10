@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, FlatList, Animated } from 'react-native';
-import { Ionicons, Feather } from '@expo/vector-icons';
-
 import { defaultStyle, accountStyle } from '@src/static/index';
 
 export default class App extends Component{
@@ -12,7 +10,7 @@ export default class App extends Component{
 
   componentDidMount(){
     const { account, fetchUserPosts } = this.props;
-    fetchUserPosts(account.account_id, this.state.page)
+    fetchUserPosts(account.account_id, 'OVERRIDE_USER_POSTS', this.state.page)
   }
 
   handleFetchPost = (id) => {
@@ -31,7 +29,7 @@ export default class App extends Component{
 
     if(layoutMeasurement.height + contentOffset.y == (contentSize.height) ){
       this.setState((prev) => ({...prev, page: prev.page +1}), () => {
-        fetchUserPosts(account.account_id, this.state.page)
+        fetchUserPosts(account.account_id, 'USER_POSTS', this.state.page)
       })
     }
   }

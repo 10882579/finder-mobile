@@ -40,10 +40,8 @@ class App extends Component {
 
   componentDidMount(){
     const {
-      fetchUserSavedPosts,
       fetchFollowingUsers,
     } = this.props;
-    fetchUserSavedPosts(this.state.page)
     fetchFollowingUsers(this.state.page)
   }
 
@@ -101,7 +99,7 @@ class App extends Component {
         </Animated.View>
         <View style={accountStyle.bodyContainer}>
           { render == 'myposts' ? <UserPosts {...this.props} position={this.scrollY}/> : null }
-          { render == 'savedPosts' ? <SavedPosts {...this.props}/> : null }
+          { render == 'savedPosts' ? <SavedPosts {...this.props} position={this.scrollY}/> : null }
           { render == 'following' ? <Following {...this.props}/> : null }
         </View>
       </View>
@@ -120,11 +118,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchUserPosts: (id, page) => {
-      dispatch(fetchUserPosts(id, page))
+    fetchUserPosts: (id, type, page) => {
+      dispatch(fetchUserPosts(id, type, page))
     },
-    fetchUserSavedPosts: (page) => {
-      dispatch(fetchUserSavedPosts(page))
+    fetchUserSavedPosts: (type, page) => {
+      dispatch(fetchUserSavedPosts(type, page))
     },
     fetchFollowingUsers: (page) => {
       dispatch(fetchFollowingUsers(page))

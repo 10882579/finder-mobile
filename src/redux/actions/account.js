@@ -47,7 +47,7 @@ const fetchAccount = (nav, token) => {
   }
 }
 
-const fetchUserPosts = (id, page) => {
+const fetchUserPosts = (id, type, page) => {
   return (dispatch, getState) => {
     const { mode, account } = getState();
     const url = mode.server == 'production' ? (
@@ -65,7 +65,7 @@ const fetchUserPosts = (id, page) => {
     })
     .then((res) => {
       dispatch({
-        type: 'USER_POSTS',
+        type: type,
         payload: res.data
       })
     })
@@ -75,7 +75,7 @@ const fetchUserPosts = (id, page) => {
   }
 }
 
-const fetchUserSavedPosts = (page) => {
+const fetchUserSavedPosts = (type, page) => {
   return (dispatch, getState) => {
     const { account, mode } = getState();
     if(account.accountFetched){
@@ -94,7 +94,7 @@ const fetchUserSavedPosts = (page) => {
       })
       .then((res) => {
         dispatch({
-          type: 'SAVED_POSTS',
+          type: type,
           payload: res.data
         })
       })
