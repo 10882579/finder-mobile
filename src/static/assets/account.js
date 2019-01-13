@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { Constants } from 'expo';
 const { width, height } = Dimensions.get('window');
 const radius = Math.round(width + height) / 2
@@ -172,5 +172,47 @@ module.exports = StyleSheet.create({
   likeIcon: {
     fontSize: 18,
     color: 'red',
-  }
+  },
+  contactContainer: {
+    position: 'absolute',
+    borderRadius: radius,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    left: ((width/2)-145),
+    bottom: 235,
+    width: 50,
+    height: 50,
+    zIndex: 999,
+  },
+  likeContainer: {
+    position: 'absolute',
+    borderRadius: radius,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    right: ((width/2)-145),
+    bottom: 235,
+    width: 50,
+    height: 50,
+    zIndex: 999,
+    ...Platform.select({
+      ios: {
+        paddingTop: 5,
+      }
+    })
+  },
+  userScreenNavList: {
+    height: 55,
+    width: width / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userScreenNavListBorder: {
+    position: 'absolute',
+    bottom: 0,
+    width: width/2,
+    height: 3,
+    backgroundColor: '#1aa3ff'
+  },
 })

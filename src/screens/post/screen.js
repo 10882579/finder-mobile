@@ -73,6 +73,7 @@ const mapStateToProps = (state) => {
   return {
     account: state.account,
     post: state.post,
+    mode: state.mode
   }
 }
 

@@ -1,31 +1,35 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
-
 import { Entypo } from '@expo/vector-icons';
 import { postStyle, defaultStyle } from '@src/static/index';
 
-const navigateToAccount = async (props) => {
-  // const {
-  //   navigation,
-  //   account,
-  //   post,
-  //   updateNavigationState,
-  //   eraseNavigationState,
-  //   eraseAccountDataState
-  // } = props;
-  // await updateNavigationState({direction: 'Post', id: navigation.state.params.id})
-  // if(post.account.account_id === account.account_id){
-  //   await eraseNavigationState()
-  //   await eraseAccountDataState()
-  //   navigation.navigate('Account')
-  // }
-  // else{
-  //   navigation.navigate('AccountById', { id: post.account.account_id })
-  // }
-}
+import axios from 'axios';
 
 export default (props) => {
-  const { post } = props;
+
+  const { post, navigation, account, mode } = props;
+
+  const navigateToAccount = (id) => {
+    const url = mode.server == 'production' ? (
+      `https://finder-uz.herokuapp.com/account/${id}/`
+    ) : (
+      `http://localhost:8000/account/${id}/`
+    )
+    axios({
+      method: 'POST',
+      url: url,
+      headers: {
+        'Accept': 'application/json',
+        'X-auth-token': account.token
+      },
+    })
+    .then( ({status, data}) => {
+      navigation.navigate('User', {id, ...data})
+    })
+    .catch((err) => {
+
+    })
+  }
 
   return (
     <View style={postStyle.userInfoContainer}>
@@ -39,7 +43,7 @@ export default (props) => {
           </Text>
         </View>
         <TouchableOpacity activeOpacity={0.8} style={postStyle.userDetailIconContainer}
-          onPress={ () => navigateToAccount(props) }
+          onPress={ () => navigateToAccount(post.account.account_id) }
         >
           <Entypo name='dots-three-vertical' style={postStyle.userDetailIcon}/>
         </TouchableOpacity>

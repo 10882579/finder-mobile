@@ -31,6 +31,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.account,
+    mode: state.mode
   }
 }
 

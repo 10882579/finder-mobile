@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
+import axios from 'axios';
 import { defaultStyle, accountStyle } from '@src/static/index';
 
 export default class App extends Component{
@@ -13,6 +14,30 @@ export default class App extends Component{
   componentDidMount(){
     const { fetchFollowingUsers } = this.props;
     fetchFollowingUsers('OVERRIDE_FOLLOWING_USERS', this.state.page)
+  }
+
+
+  navigateToAccount = (id) => {
+    const { navigation, account, mode } = this.props;
+    const url = mode.server == 'production' ? (
+      `https://finder-uz.herokuapp.com/account/${id}/`
+    ) : (
+      `http://localhost:8000/account/${id}/`
+    )
+    axios({
+      method: 'POST',
+      url: url,
+      headers: {
+        'Accept': 'application/json',
+        'X-auth-token': account.token
+      },
+    })
+    .then( ({status, data}) => {
+      navigation.navigate('User', {id, ...data})
+    })
+    .catch((err) => {
+
+    })
   }
 
   render(){
@@ -27,6 +52,7 @@ export default class App extends Component{
           <TouchableOpacity
             activeOpacity={0.9}
             style={[accountStyle.followingUserContainer, defaultStyle.shadow]}
+            onPress={ () => this.navigateToAccount(item.id) }
           >
             <View style={accountStyle.followingUserImage}>
               <Image source={{uri: item.image}} style={defaultStyle.image}/>
