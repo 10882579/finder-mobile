@@ -5,7 +5,7 @@ import { connect }  from 'react-redux';
 import { handleGoBack } from '@redux/actions/handleGoBack';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { defaultStyle, accountStyle } from '@src/static/index';
-import { Header, AccountImage, LikeAccount } from './components/index';
+import { Header, AccountImage, LikeAccount, Posts } from './components/index';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,11 +19,14 @@ const Message = (props) => {
 
 class App extends Component {
 
-  state = {}
+  state = {
+    render: 'posts'
+  }
 
   componentWillMount() {
     const { params } = this.props.navigation.state;
-    this.setState( () => ({
+    this.setState( (prev) => ({
+      ...prev,
       ...params,
     }))
 
@@ -38,6 +41,9 @@ class App extends Component {
   }
 
   switchNavigation = (name) => {
+    this.setState( (prev) => ({
+      ...prev, render: name
+    }))
     if (name == 'posts'){
       this.left = 0
     }
@@ -82,7 +88,7 @@ class App extends Component {
           </View>
         </View>
         <View style={accountStyle.bodyContainer}>
-
+          { state.render == 'posts' ? <Posts {...this.props} /> : null }
         </View>
       </View>
     )
