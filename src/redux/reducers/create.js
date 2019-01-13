@@ -10,7 +10,17 @@ const initialState  = {
     negotiable: true,
     city_town: '',
     state: '',
-    selectedImages: [],
+    selectedImages: [
+      // {
+      //   uri: 'file:///Users/Benjamin/Library/Developer/CoreSimulator/Devices/A89FE026-96A7-4520-B81A-98C6C4D118D6/data/Containers/Data/Application/1595B9CB-3B40-4A1E-A920-F8A897ECD8BC/Library/Caches/ExponentExperienceData/%2540b10882578%252Fmobile/ImagePicker/F0EFE4F7-23D6-43A0-95DB-2FFB965CFE98.jpg',
+      // },
+      // {
+      //   uri: 'file:///Users/Benjamin/Library/Developer/CoreSimulator/Devices/A89FE026-96A7-4520-B81A-98C6C4D118D6/data/Containers/Data/Application/1595B9CB-3B40-4A1E-A920-F8A897ECD8BC/Library/Caches/ExponentExperienceData/%2540b10882578%252Fmobile/ImagePicker/F0EFE4F7-23D6-43A0-95DB-2FFB965CFE98.jpg',
+      // },
+      // {
+      //   uri: 'file:///Users/Benjamin/Library/Developer/CoreSimulator/Devices/A89FE026-96A7-4520-B81A-98C6C4D118D6/data/Containers/Data/Application/1595B9CB-3B40-4A1E-A920-F8A897ECD8BC/Library/Caches/ExponentExperienceData/%2540b10882578%252Fmobile/ImagePicker/F0EFE4F7-23D6-43A0-95DB-2FFB965CFE98.jpg',
+      // }
+    ],
   },
 }
 

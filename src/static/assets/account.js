@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Constants } from 'expo';
 const { width, height } = Dimensions.get('window');
 const radius = Math.round(width + height) / 2

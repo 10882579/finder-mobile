@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, StatusBar, Dimensions } from 'react-native';
+import { StyleSheet, StatusBar, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 

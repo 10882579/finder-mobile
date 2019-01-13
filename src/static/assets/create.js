@@ -2,6 +2,7 @@ import { StyleSheet, Platform, StatusBar, Dimensions } from 'react-native';
 import { Constants } from 'expo';
 
 const { width, height } = Dimensions.get('window');
+const radius = Math.round(width + height) / 2
 
 module.exports = StyleSheet.create({
 
@@ -9,37 +10,57 @@ module.exports = StyleSheet.create({
     width: width,
     height: 'auto',
   },
-  imageUploadContainerIcon:{
-    fontSize: 40,
-    color: 'white'
-  },
   imageUploadContainer: {
     width: width,
     height: width + 75,
   },
-  titleContainer: {
-    position: 'absolute',
-    top: Constants.statusBarHeight + 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    minWidth: 100,
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-    zIndex: 999,
-    alignSelf: 'center',
+  singleImageContainer: {
+    flex: 1,
+    backgroundColor: '#142530',
+    justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 3,
   },
-  titleText: {
-    color: 'white',
-    fontFamily: 'Default',
-    fontSize: 22,
+  singleImage: {
+    width: '100%',
+    height: '100%',
+  },
+  deleteImageBtn: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    zIndex: 99
+  },
+  imageUploadContainerIcon:{
+    fontSize: 40,
+    color: 'white'
+  },
+  uploadedImageContainer: {
+    width: 40,
+    height: 'auto',
+    position: 'absolute',
+    top: Constants.statusBarHeight + 80,
+    right: 10,
+  },
+  imageContainer: {
+    backgroundColor: 'lightgrey',
+    width: 40,
+    height: 40,
+    marginBottom: 7,
+    borderRadius: 3,
+    overflow: 'hidden',
   },
   imageUploadBtn:{
     width: 60,
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 100,
+    borderRadius: radius,
     overflow: 'hidden',
     position: 'absolute',
     right: 20,
@@ -57,71 +78,29 @@ module.exports = StyleSheet.create({
       }
     })
   },
-  uploadedImageContainer: {
-    flex: 1,
-    backgroundColor: '#142530',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deleteImageBtn: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    zIndex: 99
-  },
-  imageListContainer: {
-    width: width,
-    height: width/4,
-    flexDirection: 'row',
-    backgroundColor: '#16222A'
-  },
-  imageListContainerItem: {
-    width: width /4 - 10,
-    height: width /4 - 10,
-    margin: 5,
-    borderStyle: 'dashed',
-    borderWidth: 1,
-    borderColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  imageListItemIcon: {
-    color: 'white',
-    fontSize: 20
-  },
-  postTitleAddressContainer: {
+  titleAddressContainer: {
     height: 'auto',
     backgroundColor: '#16222A',
-    flexDirection: 'row',
-  },
-  postTitleContainer: {
-    flex: 1,
     padding: 10,
+    paddingBottom: 0,
   },
-  postTitleInputContainer: {
+  titleInputContainer: {
+    flex: 1,
     height: 50,
     borderRadius: 4,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     paddingLeft: 10,
-    marginBottom: 10,
   },
-  postTitle: {
+  titleInput: {
     flex: 1,
     fontSize: 16,
     fontFamily: 'Default',
     color: 'white',
   },
-  postAddressContaner: {
+  addressContaner: {
     height: 60,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 20,
   },
   addressIcon:{
     fontSize: 20,
@@ -129,7 +108,7 @@ module.exports = StyleSheet.create({
     marginLeft: 5,
     marginRight: 10,
   },
-  postCityAddressContainer: {
+  cityNameContainer: {
     height: 40,
     width: width /2-15,
     paddingLeft: 10,
@@ -137,13 +116,13 @@ module.exports = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     marginRight: 10,
   },
-  postAddressInput: {
+  addressInput: {
     flex: 1,
     fontSize: 14,
     fontFamily: 'Default',
     color: 'white',
   },
-  postStateAddressContainer: {
+  stateNameContainer: {
     height: 40,
     width: width /2 - 50,
     paddingLeft: 10,

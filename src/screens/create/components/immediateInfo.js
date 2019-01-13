@@ -28,34 +28,32 @@ export default (props) => {
 
 
   return (
-    <View style={createStyle.postTitleAddressContainer}>
-      <View style={createStyle.postTitleContainer}>
-        <View style={createStyle.postTitleInputContainer}>
+    <View style={createStyle.titleAddressContainer}>
+      <View style={createStyle.titleInputContainer}>
+        <Input
+          placeholder="Sarlavha"
+          style={createStyle.titleInput}
+          value={data.title}
+          action={ (v) => updateCreateDataState({title: v})}
+        />
+      </View>
+      <View style={createStyle.addressContaner}>
+        <Entypo name='location-pin' style={createStyle.addressIcon}/>
+        <View style={createStyle.cityNameContainer}>
           <Input
-            placeholder="Sarlavha"
-            style={createStyle.postTitle}
-            value={data.title}
-            action={ (v) => updateCreateDataState({title: v})}
+            placeholder="Shahar | Tuman"
+            style={createStyle.addressInput}
+            value={data.city_town}
+            action={ (v) => updateCreateDataState({city_town: v})}
           />
         </View>
-        <View style={createStyle.postAddressContaner}>
-          <Entypo name='location-pin' style={createStyle.addressIcon}/>
-          <View style={createStyle.postCityAddressContainer}>
-            <Input
-              placeholder="Shahar | Tuman"
-              style={createStyle.postAddressInput}
-              value={data.city_town}
-              action={ (v) => updateCreateDataState({city_town: v})}
-            />
-          </View>
-          <View style={createStyle.postStateAddressContainer}>
-            <Input
-              placeholder="Viloyat"
-              style={createStyle.postAddressInput}
-              value={data.state}
-              action={ (v) => updateCreateDataState({state: v})}
-            />
-          </View>
+        <View style={createStyle.stateNameContainer}>
+          <Input
+            placeholder="Viloyat"
+            style={createStyle.addressInput}
+            value={data.state}
+            action={ (v) => updateCreateDataState({state: v})}
+          />
         </View>
       </View>
     </View>

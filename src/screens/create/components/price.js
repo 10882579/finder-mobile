@@ -29,7 +29,7 @@ export default (props) => {
             placeholder=""
             placeholderTextColor='white'
             underlineColorAndroid="transparent"
-            style={[createStyle.postAddressInput, {fontSize: 18}]}
+            style={[createStyle.addressInput, {fontSize: 18}]}
             value={data.price}
             onChangeText={ (value) => updateCreateDataState({price: value}) }
             autoCorrect={false}
