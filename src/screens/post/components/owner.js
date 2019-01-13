@@ -28,7 +28,7 @@ export default (props) => {
   const { post } = props;
 
   return (
-    <View style={postStyle.userInformationContainer}>
+    <View style={postStyle.userInfoContainer}>
       <View style={postStyle.userContainer}>
         <View style={postStyle.userImageContainer}>
           <Image source={{uri: post.account.image}} style={defaultStyle.image}/>

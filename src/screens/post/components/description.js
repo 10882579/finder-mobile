@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
 import { Entypo, MaterialCommunityIcons, FontAwesome, Ionicons } from '@expo/vector-icons';
-import { postStyle } from '@src/static/index';
+import { postStyle, defaultStyle } from '@src/static/index';
 
 export default (props) => {
 
@@ -11,37 +11,39 @@ export default (props) => {
   return (
 
     <View>
-      <View style={postStyle.itemDescriptionContainer}>
-        <View style={[postStyle.descriptionBlock]}>
-          <View style={postStyle.descriptionBlockLeft}>
-            <Entypo name='list' style={postStyle.descriptionBlockIcon} />
-          </View>
-          <View style={postStyle.descriptionBlockRight}>
-            <Text style={postStyle.descriptionName}>Kategoriya</Text>
-            <Text style={postStyle.descriptionValue} numberOfLines={1}>{post.category}</Text>
-          </View>
-        </View>
-        <View style={postStyle.descriptionBlock}>
-          <View style={postStyle.descriptionBlockLeft}>
-            <MaterialCommunityIcons name='chart-bubble' style={postStyle.descriptionBlockIcon} />
-          </View>
-          <View style={postStyle.descriptionBlockRight}>
-            <Text style={postStyle.descriptionName}>Holati</Text>
-            <Text style={postStyle.descriptionValue} numberOfLines={1}>{post.condition}</Text>
-          </View>
-        </View>
-      </View>
-      {
-        post.negotiable ? (
-          <View style={postStyle.negotiationContainer}>
-            <View style={postStyle.negotiationInnerContainer}>
-              <FontAwesome name='handshake-o' style={[postStyle.descriptionBlockIcon, postStyle.negotiationContainerIcon]} />
-              <Text style={postStyle.descriptionValue}>Kelishish mumkin</Text>
+      <View style={[defaultStyle.shadow, {backgroundColor: 'white'}]}>
+        <View style={postStyle.itemDescriptionContainer}>
+          <View style={[postStyle.descriptionBlock]}>
+            <View style={postStyle.blockIconContainer}>
+              <Entypo name='list' style={postStyle.blockIcon} />
+            </View>
+            <View style={postStyle.blockContextContainer}>
+              <Text style={postStyle.descriptionName}>Kategoriya</Text>
+              <Text style={postStyle.descriptionValue} numberOfLines={1}>{post.category}</Text>
             </View>
           </View>
-        ) : null
-      }
-      <View style={postStyle.descriptionDetail}>
+          <View style={postStyle.descriptionBlock}>
+            <View style={postStyle.blockIconContainer}>
+              <MaterialCommunityIcons name='chart-bubble' style={postStyle.blockIcon} />
+            </View>
+            <View style={postStyle.blockContextContainer}>
+              <Text style={postStyle.descriptionName}>Holati</Text>
+              <Text style={postStyle.descriptionValue} numberOfLines={1}>{post.condition}</Text>
+            </View>
+          </View>
+        </View>
+        {
+          post.negotiable ? (
+            <View style={postStyle.negotiationContainer}>
+              <View style={postStyle.negotiationInnerContainer}>
+                <FontAwesome name='handshake-o' style={[postStyle.blockIcon, postStyle.negotiationContainerIcon]} />
+                <Text style={postStyle.descriptionValue}>Kelishish mumkin</Text>
+              </View>
+            </View>
+          ) : null
+        }
+      </View>
+      <View style={[postStyle.descriptionDetail, defaultStyle.shadow]}>
         <Text style={postStyle.descriptionDetailValue}>{post.description}</Text>
       </View>
       {

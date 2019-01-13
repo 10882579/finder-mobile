@@ -45,7 +45,7 @@ class App extends Component {
                 {...this.props}
                 toggleModal={ (bool) => this.toggleModal(bool) }
               />
-              <ScrollView style={defaultStyle.flex}>
+              <ScrollView style={defaultStyle.flex} bounces={false} scrollEventThrottle={16}>
                 <PostImages     {...this.props} />
                 <ImmediateInfo  {...this.props} />
                 <Owner          {...this.props} />

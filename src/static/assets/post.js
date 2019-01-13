@@ -3,6 +3,7 @@ import { Constants } from 'expo';
 
 const { width, height } = Dimensions.get('window');
 const hyp = Math.sqrt((width * width + height * height))
+const radius = Math.round(width + height) / 2
 
 module.exports = StyleSheet.create({
   container: {
@@ -67,18 +68,23 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4
   },
-  itemInformationContainer: {
-    padding: 20,
+  itemInfoContainer: {
     backgroundColor: '#16222A',
     flexDirection: 'row'
   },
+  titleContainer:{
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
   title: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Default',
   },
   locationContainer: {
-    marginTop: 10,
+    paddingHorizontal: 15,
+    height: 45,
+    alignItems: 'center',
     flexDirection: 'row',
   },
   locationIcon: {
@@ -91,6 +97,11 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     fontSize: 15,
   },
+  editBtnContainer: {
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   contactContainer: {
     height: 60,
     width: 60,
@@ -98,14 +109,14 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#007acc',
     zIndex: 99,
-    borderRadius: 100,
+    borderRadius: radius,
     overflow: 'hidden'
   },
   contactIcon: {
     fontSize: 32,
     color: 'white',
   },
-  userInformationContainer:{
+  userInfoContainer:{
     backgroundColor: '#16222A',
     paddingHorizontal: 20,
     height: 70,
@@ -121,7 +132,7 @@ module.exports = StyleSheet.create({
   userImageContainer:{
     width: 40,
     height: 40,
-    borderRadius: 100,
+    borderRadius: radius,
     overflow: 'hidden'
   },
   userDetailIcon: {
@@ -137,26 +148,25 @@ module.exports = StyleSheet.create({
   itemDescriptionContainer:{
     flexDirection: 'row',
     backgroundColor: 'white',
+    height: 60,
   },
   descriptionBlock: {
     flex: 1,
     flexDirection: 'row',
-    paddingVertical: 15,
     paddingHorizontal: 10,
   },
-  descriptionBlockLeft: {
+  blockIconContainer: {
+    height: '100%',
     width: 'auto',
-    maxWidth: 30,
     justifyContent: 'center',
-    alignItems: 'center',
     marginRight: 10,
   },
-  descriptionBlockRight: {
-    // paddingRight: 10,
-  },
-  descriptionBlockIcon: {
+  blockIcon: {
     fontSize: 35,
     color: '#003d66',
+  },
+  blockContextContainer: {
+    justifyContent: 'center',
   },
   descriptionName: {
     fontSize: 12,
@@ -180,14 +190,12 @@ module.exports = StyleSheet.create({
   },
   negotiationContainer:{
     backgroundColor: 'white',
+    height: 60,
+    paddingHorizontal: 15,
+    justifyContent: 'center',
   },
   negotiationInnerContainer:{
-    flex: 1,
     flexDirection: 'row',
-    borderTopWidth: 1,
-    borderTopColor: 'darkgrey',
-    marginHorizontal: 15,
-    paddingVertical: 20
   },
   negotiationContainerIcon:{
     fontSize: 22,

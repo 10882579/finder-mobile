@@ -40,8 +40,8 @@ export default (props) => {
   const { post, account } = props;
 
   return (
-    <View style={postStyle.itemInformationContainer}>
-      <View style={[postStyle.itemInformationLeftContainer, defaultStyle.flex]}>
+    <View style={postStyle.itemInfoContainer}>
+      <View style={defaultStyle.flex}>
         <View style={postStyle.titleContainer}>
           <Text style={postStyle.title} numberOfLines={2}>{post.title}</Text>
         </View>
@@ -50,7 +50,7 @@ export default (props) => {
           <Text style={postStyle.location}>{post.city_town}, {post.state}</Text>
         </View>
       </View>
-      <View style={postStyle.itemInformationRightContainer}>
+      <View style={postStyle.editBtnContainer}>
         {
           post.account.account_id == account.account_id ? !post.sold ? (
             <TouchableOpacity style={postStyle.contactContainer} activeOpacity={0.8} onPress={ () => editPostById(props) }>
