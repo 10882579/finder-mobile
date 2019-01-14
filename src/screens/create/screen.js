@@ -25,7 +25,6 @@ class App extends Component {
   render() {
     return (
         <View style={defaultStyle.flex}>
-          <Header {...this.props}/>
           <ScrollView style={defaultStyle.flex}
             bounces={false}
             ref={ref => this.scrollView = ref}
@@ -37,6 +36,7 @@ class App extends Component {
             </View>
             <Description {...this.props}/>
           </ScrollView>
+          <Header {...this.props}/>
         </View>
     )
   }
