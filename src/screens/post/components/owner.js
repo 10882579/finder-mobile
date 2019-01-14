@@ -10,25 +10,30 @@ export default (props) => {
   const { post, navigation, account, mode } = props;
 
   const navigateToAccount = (id) => {
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/${id}/`
-    ) : (
-      `http://localhost:8000/account/${id}/`
-    )
-    axios({
-      method: 'POST',
-      url: url,
-      headers: {
-        'Accept': 'application/json',
-        'X-auth-token': account.token
-      },
-    })
-    .then( ({status, data}) => {
-      navigation.navigate('User', {id, ...data})
-    })
-    .catch((err) => {
+    if (account.account_id == id){
+      navigation.navigate('Account')
+    }
+    else{
+      const url = mode.server == 'production' ? (
+        `https://finder-uz.herokuapp.com/account/${id}/`
+      ) : (
+        `http://localhost:8000/account/${id}/`
+      )
+      axios({
+        method: 'POST',
+        url: url,
+        headers: {
+          'Accept': 'application/json',
+          'X-auth-token': account.token
+        },
+      })
+      .then( ({status, data}) => {
+        navigation.navigate('User', {id, ...data})
+      })
+      .catch((err) => {
 
-    })
+      })
+    }
   }
 
   return (
