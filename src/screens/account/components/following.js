@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-import axios from 'axios';
+import { fetchSpecificAccount } from '@src/requests';
 import { defaultStyle, accountStyle } from '@src/static/index';
 
 export default class App extends Component{
@@ -16,27 +16,14 @@ export default class App extends Component{
     fetchFollowingUsers('OVERRIDE_FOLLOWING_USERS', this.state.page)
   }
 
-
   navigateToAccount = (id) => {
     const { navigation, account, mode } = this.props;
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/${id}/`
-    ) : (
-      `http://localhost:8000/account/${id}/`
-    )
-    axios({
-      method: 'POST',
-      url: url,
-      headers: {
-        'Accept': 'application/json',
-        'X-auth-token': account.token
-      },
-    })
-    .then( ({status, data}) => {
+    fetchSpecificAccount({
+      mode: mode.server,
+      token: account.token,
+      id: id
+    }).then( (data) => {
       navigation.navigate('User', {id, ...data})
-    })
-    .catch((err) => {
-
     })
   }
 
@@ -71,5 +58,4 @@ export default class App extends Component{
       />
     )
   }
-
 }
