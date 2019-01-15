@@ -13,10 +13,9 @@ import {
 
 import {
   deletePost,
-  setPostSold,
 } from '@redux/actions/post';
 
-import { savePost } from '@src/requests';
+import { savePost, setPostSold } from '@src/requests';
 import { handleGoBack } from '@redux/actions/handleGoBack';
 import { defaultStyle } from '@src/static/index';
 
@@ -50,6 +49,20 @@ class App extends Component {
     }
   }
 
+  setPostSold = () => {
+    const { account, mode, navigation } = this.props;
+    if (account.accountFetched){
+      setPostSold({
+        mode: mode.server,
+        id: this.state.id,
+        token: account.token
+      }).then( (status) => {
+        this.setState( (prev) => ({...prev, sold: true, showModal: false}))
+      })
+    }
+  }
+
+
   toggleModal = (bool) => {
     this.setState( (prev) => ({
       ...prev,
@@ -82,6 +95,7 @@ class App extends Component {
               <DeletePost
                 {...this.props}
                 post={this.state}
+                setPostSold={this.setPostSold}
                 showModal={this.state.showModal}
                 toggleModal={ (bool) => this.toggleModal(bool) }
               />
@@ -117,9 +131,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     deletePost : (nav) => {
       dispatch(deletePost(nav))
-    },
-    setPostSold: (nav) => {
-      dispatch(setPostSold(nav))
     },
     handleGoBack: (nav) => {
       dispatch(handleGoBack(nav))

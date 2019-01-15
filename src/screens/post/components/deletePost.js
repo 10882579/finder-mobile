@@ -4,12 +4,6 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import Modal  from 'react-native-modal';
 import { postStyle } from '@src/static/index';
 
-const setPostSoldAsync = async (props) => {
-  const { setPostSold, navigation, toggleModal } = props;
-  await setPostSold(navigation)
-  await toggleModal(false)
-}
-
 const deletePostAsync = async (props) => {
   const { deletePost, navigation, handleGoBack } = props;
   await deletePost(navigation);
@@ -28,7 +22,7 @@ const Button = (props) => (
 
 export default (props) => {
 
-  const { post, toggleModal, showModal } = props;
+  const { post, toggleModal, showModal, setPostSold } = props;
 
   return (
     <Modal
@@ -42,7 +36,7 @@ export default (props) => {
         <View style={postStyle.modalBottomContainer}>
           {
             !post.sold ? (
-              <Button color label='Mahsulot sotildi' action={ () => setPostSoldAsync(props) }/>
+              <Button color label='Mahsulot sotildi' action={ setPostSold }/>
             ) : null
           }
           <Button color label="O'chirmoq"     action={ () => deletePostAsync(props) }/>
