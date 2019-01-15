@@ -4,12 +4,6 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import Modal  from 'react-native-modal';
 import { postStyle } from '@src/static/index';
 
-const deletePostAsync = async (props) => {
-  const { deletePost, navigation, handleGoBack } = props;
-  await deletePost(navigation);
-  await handleGoBack(navigation)
-}
-
 const Button = (props) => (
   <TouchableOpacity
     style={[postStyle.confirmationContainer, props.color ? {backgroundColor: '#007acc'} : null]}
@@ -22,7 +16,7 @@ const Button = (props) => (
 
 export default (props) => {
 
-  const { post, toggleModal, showModal, setPostSold } = props;
+  const { post, toggleModal, showModal, setPostSold, deletePost } = props;
 
   return (
     <Modal
@@ -39,7 +33,7 @@ export default (props) => {
               <Button color label='Mahsulot sotildi' action={ setPostSold }/>
             ) : null
           }
-          <Button color label="O'chirmoq"     action={ () => deletePostAsync(props) }/>
+          <Button color label="O'chirmoq"     action={ deletePost }/>
           <Button       label="Bekor qilmoq"  action={ () => toggleModal(false) }/>
         </View>
       </View>
