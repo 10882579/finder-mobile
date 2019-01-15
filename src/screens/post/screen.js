@@ -13,10 +13,10 @@ import {
 
 import {
   deletePost,
-  savePost,
   setPostSold,
 } from '@redux/actions/post';
 
+import { savePost } from '@src/requests';
 import { handleGoBack } from '@redux/actions/handleGoBack';
 import { defaultStyle } from '@src/static/index';
 
@@ -32,6 +32,22 @@ class App extends Component {
       ...prev,
       ...params,
     }))
+  }
+
+  toggleSavePost = () => {
+    const { account, mode, navigation } = this.props;
+    if (account.accountFetched){
+      savePost({
+        mode: mode.server,
+        id: this.state.id,
+        token: account.token
+      }).then( (status) => {
+        this.setState( (prev) => ({...prev, saved: !prev.saved}))
+      })
+    }
+    else{
+      navigation.navigate('Account')
+    }
   }
 
   toggleModal = (bool) => {
@@ -52,6 +68,7 @@ class App extends Component {
           <Header
             {...this.props}
             post={this.state}
+            toggleSavePost={ this.toggleSavePost }
             toggleModal={ (bool) => this.toggleModal(bool) }
           />
           <ScrollView style={defaultStyle.flex} bounces={false} scrollEventThrottle={16}>
@@ -103,9 +120,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     setPostSold: (nav) => {
       dispatch(setPostSold(nav))
-    },
-    savePost: (nav) => {
-      dispatch(savePost(nav))
     },
     handleGoBack: (nav) => {
       dispatch(handleGoBack(nav))
