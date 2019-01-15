@@ -9,13 +9,18 @@ export default (props) => {
   const { post, navigation, account, mode } = props;
 
   const navigateToAccount = (id) => {
-    fetchSpecificAccount({
-      mode: mode.server,
-      token: account.token,
-      id: id
-    }).then( (data) => {
-      navigation.navigate('User', {id, ...data})
-    })
+    if(account.account_id == id){
+      navigation.navigate('Account')
+    }
+    else{
+      fetchSpecificAccount({
+        mode: mode.server,
+        token: account.token,
+        id: id
+      }).then( (data) => {
+        navigation.navigate('User', {id, ...data})
+      })
+    }
   }
 
   return (
