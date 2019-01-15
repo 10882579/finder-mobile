@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, RefreshControl, Text } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import {
@@ -15,7 +15,6 @@ import {
   deletePost,
   savePost,
   setPostSold,
-  fetchPost,
 } from '@redux/actions/post';
 
 import { handleGoBack } from '@redux/actions/handleGoBack';
@@ -27,42 +26,51 @@ class App extends Component {
     showModal: false,
   }
 
+  componentWillMount() {
+    const { params } = this.props.navigation.state;
+    this.setState( (prev) => ({
+      ...prev,
+      ...params,
+    }))
+  }
+
   toggleModal = (bool) => {
-    this.setState({...this.state, showModal: bool})
+    this.setState( (prev) => ({
+      ...prev,
+      showModal: bool
+    }))
   }
 
   render() {
 
-    const { account, post } = this.props;
+    const post_account = this.state.account;
+    const { account } = this.props;
 
     return (
-
       <View style={defaultStyle.container}>
-        {
-          post.fetched ? (
-            <View style={defaultStyle.flex}>
-              <Header
+        <View style={defaultStyle.flex}>
+          <Header
+            {...this.props}
+            post={this.state}
+            toggleModal={ (bool) => this.toggleModal(bool) }
+          />
+          <ScrollView style={defaultStyle.flex} bounces={false} scrollEventThrottle={16}>
+            <PostImages     {...this.props} post={this.state}/>
+            <ImmediateInfo  {...this.props} post={this.state}/>
+            <Owner          {...this.props} post={this.state}/>
+            <Description    {...this.props} post={this.state}/>
+          </ScrollView>
+          {
+            post_account.account_id == account.account_id ? (
+              <DeletePost
                 {...this.props}
+                post={this.state}
+                showModal={this.state.showModal}
                 toggleModal={ (bool) => this.toggleModal(bool) }
               />
-              <ScrollView style={defaultStyle.flex} bounces={false} scrollEventThrottle={16}>
-                <PostImages     {...this.props} />
-                <ImmediateInfo  {...this.props} />
-                <Owner          {...this.props} />
-                <Description    {...this.props} />
-              </ScrollView>
-              {
-                post.account.account_id == account.account_id ? (
-                  <DeletePost
-                    {...this.props}
-                    showModal={this.state.showModal}
-                    toggleModal={ (bool) => this.toggleModal(bool) }
-                  />
-                ) : null
-              }
-            </View>
-          ) : null
-        }
+            ) : null
+          }
+        </View>
       </View>
     )
 
@@ -72,7 +80,6 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.account,
-    post: state.post,
     mode: state.mode
   }
 }

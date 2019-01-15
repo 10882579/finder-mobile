@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, FlatList, Animated } from 'react-native';
 import { defaultStyle, accountStyle } from '@src/static/index';
+import { fetchPost } from '@src/requests';
 
 export default class App extends Component{
 
@@ -14,12 +15,14 @@ export default class App extends Component{
   }
 
   handleFetchPost = (id) => {
-    const { navigation, fetchPost, updateNavState } = this.props;
+    const { navigation, updateNavState, mode, account } = this.props;
     updateNavState({direction: 'Account'});
-    fetchPost(id, (status) => {
-      if(status === 200){
-        navigation.navigate('Post', {id: id})
-      }
+    fetchPost({
+      mode: mode.server,
+      token: account.token,
+      id: id
+    }).then( (data) => {
+      navigation.navigate('Post', {...data})
     })
   }
 

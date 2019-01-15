@@ -6,8 +6,7 @@ import home     from './reducers/home';
 import mode     from './reducers/mode';
 import create   from './reducers/create';
 import account  from './reducers/account';
-import post     from './reducers/post';
-import detail   from './reducers/detail';
+import detail   from './reducers/detail';``
 
 const reducer = combineReducers(
   {
@@ -15,7 +14,6 @@ const reducer = combineReducers(
     create,
     home,
     mode,
-    post,
     detail
   }
 )

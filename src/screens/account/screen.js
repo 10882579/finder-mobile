@@ -4,7 +4,6 @@ import { connect }  from 'react-redux';
 import { Account }  from './components/index';
 
 import { defaultStyle } from '@src/static/index';
-import { fetchPost } from '@redux/actions/post';
 import { followAccount } from '@redux/actions/account';
 
 class App extends Component {
@@ -37,9 +36,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchPost: (id, cb) => {
-      dispatch(fetchPost(id, cb))
-    },
     followAccount: (id) => {
       dispatch(followAccount(id))
     },

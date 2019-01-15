@@ -2,18 +2,21 @@ import React from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
+import { fetchPost } from '@src/requests';
 import { homeStyle, defaultStyle } from '@src/static/index';
 
 
 export default (props) => {
 
-  const { navigation, item, fetchPost } = props;
+  const { navigation, item, mode, account } = props;
 
   handleFetchPost = (id) => {
-    fetchPost(id, (status) => {
-      if(status === 200){
-        navigation.push('Post', {id: id})
-      }
+    fetchPost({
+      mode: mode.server,
+      token: account.token,
+      id: id
+    }).then( (data) => {
+      navigation.navigate('Post', {...data})
     })
   }
 

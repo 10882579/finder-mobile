@@ -12,7 +12,6 @@ import { Header, List, ProgressBar } from './components/index';
 import { defaultStyle } from '@src/static/index';
 import { fetchAllPosts } from '@redux/actions/home';
 import { fetchAccount } from '@redux/actions/account';
-import { fetchPost } from '@redux/actions/post';
 
 class App extends Component {
 
@@ -65,7 +64,9 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     home: state.home,
+    account: state.account,
     create: state.create,
+    mode: state.mode,
     state: state
   }
 }
@@ -78,9 +79,6 @@ const mapDispatchToProps = (dispatch) => {
     fetchAccount: (nav, token) => {
       dispatch(fetchAccount(nav, token))
     },
-    fetchPost: (id, cb) => {
-      dispatch(fetchPost(id, cb))
-    }
   }
 }
 

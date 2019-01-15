@@ -102,7 +102,6 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    account: state.account,
     posts: state.detail.posts,
     saved: state.detail.savedPosts,
     following: state.detail.following
