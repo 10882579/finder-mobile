@@ -3,7 +3,6 @@ import {
   View,
   TextInput,
 } from 'react-native';
-
 import { Entypo }     from '@expo/vector-icons';
 import { createStyle }  from '@src/static/index'
 
@@ -17,6 +16,7 @@ const Input = (props) => {
       value={props.value}
       onChangeText={ (v) => props.action(v) }
       autoCorrect={false}
+      onFocus={props.onFocus}
     />
   )
 }
@@ -24,7 +24,7 @@ const Input = (props) => {
 
 export default (props) => {
 
-  const { data, updateCreateDataState } = props;
+  const { data, updateCreateDataState, scrollToInput } = props;
 
 
   return (
@@ -34,6 +34,7 @@ export default (props) => {
           placeholder="Sarlavha"
           style={createStyle.titleInput}
           value={data.title}
+          onFocus={ (event) => scrollToInput(event) }
           action={ (v) => updateCreateDataState({title: v})}
         />
       </View>
@@ -44,6 +45,7 @@ export default (props) => {
             placeholder="Shahar | Tuman"
             style={createStyle.addressInput}
             value={data.city_town}
+            onFocus={ (event) => scrollToInput(event) }
             action={ (v) => updateCreateDataState({city_town: v})}
           />
         </View>
@@ -52,6 +54,7 @@ export default (props) => {
             placeholder="Viloyat"
             style={createStyle.addressInput}
             value={data.state}
+            onFocus={ (event) => scrollToInput(event) }
             action={ (v) => updateCreateDataState({state: v})}
           />
         </View>

@@ -13,7 +13,7 @@ import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
 export default (props) => {
 
-  const { data, updateCreateDataState } = props;
+  const { data, updateCreateDataState, scrollToInput } = props;
 
   return (
     <View>
@@ -31,6 +31,7 @@ export default (props) => {
             underlineColorAndroid="transparent"
             style={[createStyle.addressInput, {fontSize: 18}]}
             value={data.price}
+            onFocus={ (event) => scrollToInput(event) }
             onChangeText={ (value) => updateCreateDataState({price: value}) }
             autoCorrect={false}
           />
