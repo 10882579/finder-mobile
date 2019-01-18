@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Image, Dimensions, Animated } from 'react-native';
 
-import { connect }  from 'react-redux';
-import { handleGoBack } from '@redux/actions/handleGoBack';
+import { connect } from 'react-redux';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { defaultStyle, accountStyle } from '@src/static/index';
 
@@ -17,6 +16,7 @@ import {
 } from './index';
 
 import {
+  followAccount,
   fetchUserPosts,
   fetchUserSavedPosts,
   fetchFollowingUsers,
@@ -66,7 +66,7 @@ class App extends Component {
       <View style={accountStyle.pageView}>
         <Animated.View style={[accountStyle.container, defaultStyle.shadow, {height: containerHeight}]}>
           <Animated.View style={[accountStyle.topContainer, {opacity: opacity}]}>
-            <Header {...this.props}/>
+            <Header {...this.props} showSettings/>
           </Animated.View>
           <AccountImage {...this.props} image={account.image} scrollY={this.scrollY}/>
           <View style={accountStyle.bottomContainer}>
@@ -110,6 +110,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    followAccount: (id) => {
+      dispatch(followAccount(id))
+    },
     fetchUserPosts: (id, type, page) => {
       dispatch(fetchUserPosts(id, type, page))
     },
@@ -122,9 +125,6 @@ const mapDispatchToProps = (dispatch) => {
     updateAccountImage: (obj, nav) => {
       dispatch(updateAccount(obj, nav))
     },
-    handleGoBack: (nav) => {
-      dispatch(handleGoBack(nav))
-    }
   }
 }
 

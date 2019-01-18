@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View }     from 'react-native';
-import { connect }  from 'react-redux';
-import { Account }  from './components/index';
-
+import { View } from 'react-native';
+import { connect } from 'react-redux';
+import { handleGoBack } from '@redux/actions/handleGoBack';
+import { Account, Login } from './components/index';
 import { defaultStyle } from '@src/static/index';
-import { followAccount } from '@redux/actions/account';
 
 class App extends Component {
 
@@ -13,15 +12,12 @@ class App extends Component {
     const { account } = this.props;
 
     return (
-
       <View style={[defaultStyle.flex, {backgroundColor: 'white'}]}>
 
-        { account.accountFetched ? <Account {...this.props}/> : null }
+        { account.accountFetched ? <Account {...this.props}/> : <Login {...this.props}/> }
 
       </View>
-
     )
-
   }
 }
 
@@ -36,8 +32,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    followAccount: (id) => {
-      dispatch(followAccount(id))
+    handleGoBack: (nav) => {
+      dispatch(handleGoBack(nav))
     },
     updateNavState: (obj) => {
       dispatch({

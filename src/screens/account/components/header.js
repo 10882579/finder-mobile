@@ -5,9 +5,9 @@ import { Ionicons }     from '@expo/vector-icons';
 import { defaultStyle } from '@src/static/index';
 
 export default (props) => {
-  const { navigation } = props;
+  const { navigation, showSettings } = props;
   return (
-    <View style={[defaultStyle.customHeaderContainer]}>
+    <View style={[defaultStyle.customHeaderContainer, props.style]}>
       <TouchableOpacity
         style={defaultStyle.headerIconContainer}
         activeOpacity={0.8}
@@ -19,16 +19,20 @@ export default (props) => {
         />
       </TouchableOpacity>
       <View style={defaultStyle.headerBodyContainer}/>
-      <TouchableOpacity
-        style={defaultStyle.headerIconContainer}
-        activeOpacity={0.8}
-        onPress={ () => navigation.navigate('Settings') }
-      >
-        <Ionicons
-          name='md-settings'
-          style={defaultStyle.headerIcon}
-        />
-      </TouchableOpacity>
+      {
+        showSettings ? (
+          <TouchableOpacity
+            style={defaultStyle.headerIconContainer}
+            activeOpacity={0.8}
+            onPress={ () => navigation.navigate('Settings') }
+          >
+            <Ionicons
+              name='md-settings'
+              style={defaultStyle.headerIcon}
+            />
+          </TouchableOpacity>
+        ) : null
+      }
     </View>
   )
 }
