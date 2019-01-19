@@ -24,20 +24,20 @@ const fetchAccount = (nav, token) => {
             type: 'UPDATE_ACCOUNT_STATE',
             payload: {...res.data, token: token, accountFetched: true}
           })
-          if(screen.length > 0){
-            if(screen[screen.length - 1].direction == 'Post'){
-              nav.navigate('Post', {id: screen[screen.length - 1].id})
-            }
-            if(screen[screen.length - 1].direction == 'Account'){
-              if (res.data.account_id !== screen[screen.length - 1].id){
-                nav.navigate('Account', {id: screen[screen.length - 1].id})
-              }
-            }
-            else{
-              nav.navigate(screen[screen.length - 1].direction)
-            }
-            dispatch({type: 'POP_LAST_SCREEN'})
-          }
+          // if(screen.length > 0){
+          //   if(screen[screen.length - 1].direction == 'Post'){
+          //     nav.navigate('Post', {id: screen[screen.length - 1].id})
+          //   }
+          //   if(screen[screen.length - 1].direction == 'Account'){
+          //     if (res.data.account_id !== screen[screen.length - 1].id){
+          //       nav.navigate('Account', {id: screen[screen.length - 1].id})
+          //     }
+          //   }
+          //   else{
+          //     nav.navigate(screen[screen.length - 1].direction)
+          //   }
+          //   dispatch({type: 'POP_LAST_SCREEN'})
+          // }
         }
       })
       .catch((err) => {

@@ -122,10 +122,41 @@ const deletePost = (obj) => {
   })
 }
 
+const loginToAccount = (obj) => {
+  return new Promise( (resolve, reject) => {
+    const url = obj.mode == 'production' ? (
+      `https://finder-uz.herokuapp.com/account/login/`
+    ) : (
+      `http://localhost:8000/account/login/`
+    )
+    axios({
+      method: 'POST',
+      url: url,
+      headers: {
+        'Accept': 'application/json',
+      },
+      data: obj.data
+    })
+    .then( ({data, status}) => {
+      if (status == 200){
+        resolve({status, data})
+      }
+    })
+    .catch( ({response}) => {
+      if(response.status == 400){
+        const status = response.status;
+        const text   = response.data[0]
+        reject({status, text})
+      }
+    })
+  })
+}
+
 export {
   fetchSpecificAccount,
   fetchPost,
   savePost,
   setPostSold,
-  deletePost
+  deletePost,
+  loginToAccount
 }
