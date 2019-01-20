@@ -17,18 +17,27 @@ import { loginToAccount } from '@src/requests';
 import { fetchAccount } from '@redux/actions/account';
 import { Header } from './index';
 
+import LogoAnimation from '../animations/logo';
 import Animation from '../animations/login';
 
 class App extends Component {
 
 
-  componentWillMount() {
+  componentWillMount(){
     this.keyboardHeight = new Animated.Value(0)
+    this.loginScreen    = new Animated.Value(0)
 
     this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow',  this.keyboardWillShow)
     this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide',  this.keyboardWillHide)
     this.keyboardDidShowListener  = Keyboard.addListener('keyboardDidShow',   this.keyboardWillShow)
     this.keyboardDidHideListener  = Keyboard.addListener('keyboardDidHide',   this.keyboardWillHide)
+  }
+
+  componentDidMount(){
+    Animated.timing(this.loginScreen, {
+      duration: 1500,
+      toValue: 500,
+    }).start()
   }
 
   keyboardWillShow = (e) => {
@@ -70,19 +79,27 @@ class App extends Component {
   render() {
 
     const { login, updateLoginState } = this.props;
+    const { width, height, logoSize, opacity } = LogoAnimation(this.keyboardHeight)
+    const { logoFadeIn, logoPosition, loginFadeIn, loginPosition } = Animation(this.loginScreen)
 
-    const { width, height, logoSize, opacity } = Animation(this.keyboardHeight)
+    const style = {
+      width: width,
+      height: height,
+      opacity: logoFadeIn,
+      marginBottom: logoPosition
+    }
+
 
     return (
       <KeyboardAvoidingView style={loginStyle.container} behavior="padding">
         <Header {...this.props} style={loginStyle.header} opacity={opacity}/>
-        <Animated.View style={[loginStyle.logoContainer, {width: width, height: height}]}>
+        <Animated.View style={[loginStyle.logoContainer, style]}>
           <Animated.Image
             source={require('@src/static/imgs/logo-grey.png')}
             style={[loginStyle.logo, {width: logoSize, height: logoSize}]}
           />
         </Animated.View>
-        <View>
+        <Animated.View style={{opacity: loginFadeIn, paddingBottom: loginPosition}}>
           <View style={loginStyle.inputContainer}>
             <AntDesign name='user' color='white' size={28}/>
             <TextInput
@@ -113,7 +130,7 @@ class App extends Component {
           <TouchableOpacity style={loginStyle.submitBtn} onPress={ this.login }>
             <Text style={loginStyle.submitText}>LOG IN</Text>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       </KeyboardAvoidingView>
     )
   }

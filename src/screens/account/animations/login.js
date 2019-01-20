@@ -1,23 +1,23 @@
 module.exports = (target) => {
   return {
-    width: target.interpolate({
-      inputRange: [0, 100],
-      outputRange: [190, 120],
+    logoFadeIn: target.interpolate({
+      inputRange: [0, 250],
+      outputRange: [0, 1],
       extrapolate: 'clamp'
     }),
-    height: target.interpolate({
-      inputRange: [0, 100],
-      outputRange: [150, 90],
+    logoPosition: target.interpolate({
+      inputRange: [0, 250],
+      outputRange: [0, 10],
       extrapolate: 'clamp'
     }),
-    logoSize: target.interpolate({
-      inputRange: [0, 100],
-      outputRange: [140, 90],
+    loginFadeIn: target.interpolate({
+      inputRange: [200, 500],
+      outputRange: [0, 1],
       extrapolate: 'clamp'
     }),
-    opacity: target.interpolate({
-      inputRange: [0, 100],
-      outputRange: [1, 0],
+    loginPosition: target.interpolate({
+      inputRange: [200, 500],
+      outputRange: [0, 10],
       extrapolate: 'clamp'
     }),
   }
