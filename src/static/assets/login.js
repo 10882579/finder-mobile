@@ -20,7 +20,7 @@ module.exports = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     height: 150,
     width: 190,
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 4,
     borderWidth: 1,
     borderColor: '#1aa3ff'

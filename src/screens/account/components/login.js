@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   TextInput,
   KeyboardAvoidingView,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  Animated,
+  Keyboard,
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
@@ -15,7 +17,35 @@ import { loginToAccount } from '@src/requests';
 import { fetchAccount } from '@redux/actions/account';
 import { Header } from './index';
 
+import Animation from '../animations/login';
+
 class App extends Component {
+
+
+  componentWillMount() {
+    this.keyboardHeight = new Animated.Value(0)
+
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow',  this.keyboardWillShow)
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide',  this.keyboardWillHide)
+    this.keyboardDidShowListener  = Keyboard.addListener('keyboardDidShow',   this.keyboardWillShow)
+    this.keyboardDidHideListener  = Keyboard.addListener('keyboardDidHide',   this.keyboardWillHide)
+  }
+
+  keyboardWillShow = (e) => {
+    const duration = Platform.OS == 'android' ? 100 : e.duration
+    Animated.timing(this.keyboardHeight, {
+      duration: duration + 100,
+      toValue: e.endCoordinates.height
+    }).start()
+  }
+
+  keyboardWillHide = (e) => {
+    const duration = Platform.OS == 'android' ? 100 : e.duration
+    Animated.timing(this.keyboardHeight, {
+      duration: duration + 100,
+      toValue: 0
+    }).start()
+  }
 
   login = () => {
     const { mode, login, fetchAccount, navigation, eraseLoginState } = this.props;
@@ -41,15 +71,17 @@ class App extends Component {
 
     const { login, updateLoginState } = this.props;
 
+    const { width, height, logoSize, opacity } = Animation(this.keyboardHeight)
+
     return (
       <KeyboardAvoidingView style={loginStyle.container} behavior="padding">
-        <Header {...this.props} style={loginStyle.header}/>
-        <View style={loginStyle.logoContainer}>
-          <Image
+        <Header {...this.props} style={loginStyle.header} opacity={opacity}/>
+        <Animated.View style={[loginStyle.logoContainer, {width: width, height: height}]}>
+          <Animated.Image
             source={require('@src/static/imgs/logo-grey.png')}
-            style={loginStyle.logo}
+            style={[loginStyle.logo, {width: logoSize, height: logoSize}]}
           />
-        </View>
+        </Animated.View>
         <View>
           <View style={loginStyle.inputContainer}>
             <AntDesign name='user' color='white' size={28}/>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Animated } from 'react-native';
 
 import { Ionicons }     from '@expo/vector-icons';
 import { defaultStyle } from '@src/static/index';
@@ -7,7 +7,7 @@ import { defaultStyle } from '@src/static/index';
 export default (props) => {
   const { navigation, showSettings } = props;
   return (
-    <View style={[defaultStyle.customHeaderContainer, props.style]}>
+    <Animated.View style={[defaultStyle.customHeaderContainer, props.style, {opacity: props.opacity}]}>
       <TouchableOpacity
         style={defaultStyle.headerIconContainer}
         activeOpacity={0.8}
@@ -33,6 +33,6 @@ export default (props) => {
           </TouchableOpacity>
         ) : null
       }
-    </View>
+    </Animated.View>
   )
 }
