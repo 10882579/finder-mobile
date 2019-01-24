@@ -8,14 +8,14 @@ import {
   AsyncStorage,
   Animated,
   Keyboard,
-  Platform
+  Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { loginStyle } from '@src/static/index';
 import { loginToAccount } from '@src/requests';
 import { fetchAccount } from '@redux/actions/account';
-import { Header } from './index';
+import { Header, Register } from './index';
 
 import LogoAnimation from '../animations/logo';
 import Animation from '../animations/login';
@@ -105,8 +105,8 @@ class App extends Component {
             <TextInput
               autoCorrect={false}
               autoCapitalize='none'
-              placeholder='Username | Email'
-              placeholderTextColor='grey'
+              placeholder='Telefon raqam | Email'
+              placeholderTextColor='#b5e8ff'
               underlineColorAndroid="transparent"
               style={loginStyle.loginInput}
               value={login.entry}
@@ -119,8 +119,8 @@ class App extends Component {
               autoCorrect={false}
               autoCapitalize='none'
               secureTextEntry={true}
-              placeholder='Password'
-              placeholderTextColor='grey'
+              placeholder='Yashirin kod'
+              placeholderTextColor='#b5e8ff'
               underlineColorAndroid="transparent"
               style={loginStyle.loginInput}
               value={login.password}
@@ -131,6 +131,7 @@ class App extends Component {
             <Text style={loginStyle.submitText}>LOG IN</Text>
           </TouchableOpacity>
         </Animated.View>
+        <Register {...this.props}/>
       </KeyboardAvoidingView>
     )
   }

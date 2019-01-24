@@ -33,7 +33,7 @@ module.exports = StyleSheet.create({
   shadow: {
     ...Platform.select({
       android: {
-        elevation: 3,
+        elevation: 1,
       },
       ios: {
         shadowColor: 'lightgrey',
