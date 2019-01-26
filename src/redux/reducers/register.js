@@ -16,8 +16,7 @@ const reducer = (state = initialState, action) => {
       break
     case 'ERASE_REGISTER_STATE':
       state = {
-        ...state,
-        ...action.payload
+        ...initialState
       }
       break
   }

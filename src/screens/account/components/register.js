@@ -8,11 +8,14 @@ import {
   Dimensions,
   Image,
   Keyboard,
+  AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { registerStyle } from '@src/static/index';
+import { registerAccount } from '@src/requests';
+import { fetchAccount } from '@redux/actions/account';
 import Header from './registerHeader'
 import Animation from '../animations/register';
 
@@ -38,12 +41,28 @@ class App extends Component {
       duration: 750
     }).start()
   }
+
   scrollToInput = (event) => {
     this.scrollView.props.scrollToFocusedInput(event.nativeEvent.target)
   }
 
+  register = () => {
+    const { mode, register, navigation, fetchAccount, eraseRegisterState } = this.props;
+    registerAccount({
+      mode: mode.server,
+      data: register
+    }).then( (data) => {
+      AsyncStorage.setItem('token', data.token);
+      fetchAccount(navigation, data.token)
+      eraseRegisterState()
+    }).catch( (err) => {
+      console.log(err);
+    })
+  }
+
   render() {
 
+    const { register, updateRegisterState } = this.props;
     const { opacity, fadeIn } = Animation(this.registerHeight, height);
 
     return (
@@ -73,21 +92,27 @@ class App extends Component {
                 <View style={[registerStyle.userNameInput, {marginRight: 10}]}>
                   <TextInput
                     style={registerStyle.input}
+                    selectTextOnFocus={true}
                     autoCorrect={false}
                     autoCapitalize='none'
                     placeholder='Ism-sharif'
                     underlineColorAndroid="transparent"
+                    value={register.first_name}
                     onFocus={ (event) => this.scrollToInput(event) }
+                    onChangeText={ (v) => updateRegisterState({first_name: v}) }
                   />
                 </View>
                 <View style={registerStyle.userNameInput}>
                   <TextInput
                     style={registerStyle.input}
+                    selectTextOnFocus={true}
                     autoCorrect={false}
                     autoCapitalize='none'
                     placeholder='Familiya'
                     underlineColorAndroid="transparent"
+                    value={register.last_name}
                     onFocus={ (event) => this.scrollToInput(event) }
+                    onChangeText={ (v) => updateRegisterState({last_name: v}) }
                   />
                 </View>
               </View>
@@ -97,11 +122,14 @@ class App extends Component {
                 </View>
                 <TextInput
                   style={registerStyle.input}
+                  selectTextOnFocus={true}
                   autoCorrect={false}
                   autoCapitalize='none'
                   placeholder='example@example.com'
                   underlineColorAndroid="transparent"
+                  value={register.email}
                   onFocus={ (event) => this.scrollToInput(event) }
+                  onChangeText={ (v) => updateRegisterState({email: v}) }
                 />
               </View>
               <View style={registerStyle.inputContainer}>
@@ -110,12 +138,16 @@ class App extends Component {
                 </View>
                 <TextInput
                   style={registerStyle.input}
+                  selectTextOnFocus={true}
+                  maxLength={9}
                   autoCorrect={false}
                   autoCapitalize='none'
                   placeholder='(9X) XXX-XXXX'
                   keyboardType='phone-pad'
                   underlineColorAndroid="transparent"
+                  value={register.phone_number}
                   onFocus={ (event) => this.scrollToInput(event) }
+                  onChangeText={ (v) => updateRegisterState({phone_number: v}) }
                 />
               </View>
               <View style={registerStyle.inputContainer}>
@@ -124,15 +156,18 @@ class App extends Component {
                 </View>
                 <TextInput
                   style={registerStyle.input}
+                  selectTextOnFocus={true}
                   autoCorrect={false}
                   autoCapitalize='none'
                   secureTextEntry={true}
                   placeholder='Yashirin kod kiriting'
                   underlineColorAndroid="transparent"
+                  value={register.password}
                   onFocus={ (event) => this.scrollToInput(event) }
+                  onChangeText={ (v) => updateRegisterState({password: v}) }
                 />
               </View>
-              <TouchableOpacity style={registerStyle.submitBtn}>
+              <TouchableOpacity style={registerStyle.submitBtn} onPress={ this.register }>
                 <Text style={registerStyle.submitText}>REGISTER</Text>
               </TouchableOpacity>
             </Animated.View>
@@ -145,13 +180,24 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-
+    register: state.register,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    updateRegisterState: (obj) => {
+      dispatch({
+        type: 'UPDATE_REGISTER_STATE',
+        payload: obj
+      })
+    },
+    eraseRegisterState: () => {
+      dispatch({type: 'ERASE_REGISTER_STATE'})
+    },
+    fetchAccount: (nav, token) => {
+      dispatch(fetchAccount(nav, token))
+    },
   }
 }
 
