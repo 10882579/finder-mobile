@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 import { fetchSpecificAccount } from '@src/requests';
 import { defaultStyle, accountStyle } from '@src/static/index';
@@ -49,7 +49,7 @@ export default class App extends Component{
                 {item.first_name} {item.last_name}
               </Text>
               <TouchableOpacity style={accountStyle.likeButtonContainer} onPress={ () => followAccount(item.id) }>
-                <AntDesign name={item.following ? 'heart' : 'hearto'} style={accountStyle.likeIcon}/>
+                <FontAwesome name={item.following ? 'thumbs-up' : 'thumbs-o-up'} style={accountStyle.likeIcon}/>
               </TouchableOpacity>
             </View>
           </TouchableOpacity>

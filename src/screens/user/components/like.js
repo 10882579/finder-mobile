@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { accountStyle } from '@src/static/index';
 import axios from 'axios';
 
@@ -39,7 +39,7 @@ export default (props) => {
       style={accountStyle.likeContainer}
       onPress={ () => this.followAccount(params.id) }
     >
-      <AntDesign name={props.following ? 'heart' : 'hearto'} color="red" size={28}/>
+      <FontAwesome name={props.following ? 'thumbs-up' : 'thumbs-o-up'} color="#1aa3ff" size={28}/>
     </TouchableOpacity>
   )
 }

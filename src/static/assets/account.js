@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Constants } from 'expo';
 const { width, height } = Dimensions.get('window');
 const radius = Math.round(width + height) / 2
@@ -170,8 +170,8 @@ module.exports = StyleSheet.create({
     right: 10,
   },
   likeIcon: {
-    fontSize: 18,
-    color: 'red',
+    fontSize: 22,
+    color: '#1aa3ff',
   },
   contactContainer: {
     position: 'absolute',
@@ -196,11 +196,6 @@ module.exports = StyleSheet.create({
     width: 50,
     height: 50,
     zIndex: 999,
-    ...Platform.select({
-      ios: {
-        paddingTop: 5,
-      }
-    })
   },
   userScreenNavList: {
     height: 55,
