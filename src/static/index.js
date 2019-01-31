@@ -5,6 +5,7 @@ import createStyle  from './assets/create';
 import postStyle    from './assets/post';
 import loginStyle   from './assets/login';
 import registerStyle from './assets/register';
+import splashStyle  from './assets/splash';
 
 export {
   homeStyle,
@@ -13,5 +14,6 @@ export {
   accountStyle,
   postStyle,
   loginStyle,
+  splashStyle,
   registerStyle
 }
