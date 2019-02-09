@@ -174,7 +174,9 @@ const registerAccount = (obj) => {
     })
     .catch( ({response}) => {
       if(response.status == 400){
-        reject(response.data)
+        const status = response.status;
+        const errors   = response.data
+        reject({status, errors})
       }
     })
   })

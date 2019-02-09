@@ -16,12 +16,18 @@ import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-awa
 import { registerStyle } from '@src/static/index';
 import { registerAccount } from '@src/requests';
 import { fetchAccount } from '@redux/actions/account';
-import Header from './registerHeader'
+import Header from './registerHeader';
+import Alert from './alert';
 import Animation from '../animations/register';
 
 const { width, height } = Dimensions.get('window');
 
 class App extends Component {
+
+  state = {
+    showModal: false,
+    errors: []
+  }
 
   componentWillMount(){
     this.registerHeight = new Animated.Value(0)
@@ -46,6 +52,13 @@ class App extends Component {
     this.scrollView.props.scrollToFocusedInput(event.nativeEvent.target)
   }
 
+  toggleAlert = (errors) => {
+    this.setState( (prev) => ({
+      showModal: !prev.showModal,
+      errors: errors,
+    }))
+  }
+
   register = () => {
     const { mode, register, navigation, fetchAccount, eraseRegisterState } = this.props;
     registerAccount({
@@ -55,8 +68,10 @@ class App extends Component {
       AsyncStorage.setItem('token', data.token);
       fetchAccount(navigation, data.token)
       eraseRegisterState()
-    }).catch( (err) => {
-      console.log(err);
+    }).catch( ({status, errors}) => {
+      if (status == 400){
+        this.toggleAlert(errors);
+      }
     })
   }
 
@@ -173,6 +188,7 @@ class App extends Component {
             </Animated.View>
           </ScrollView>
         </Animated.View>
+        <Alert {...this.state} toggleAlert={this.toggleAlert} />
       </View>
     )
   }
