@@ -6,9 +6,11 @@ import AccountImage   from './image';
 import UserPosts      from './userPosts';
 import SavedPosts     from './savedPosts';
 import Following      from './following';
+import Alert          from './alert';
 
 export {
   Account,
+  Alert,
   Login,
   Register,
   Header,

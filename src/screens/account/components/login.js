@@ -15,13 +15,17 @@ import { AntDesign } from '@expo/vector-icons';
 import { loginStyle } from '@src/static/index';
 import { loginToAccount } from '@src/requests';
 import { fetchAccount } from '@redux/actions/account';
-import { Header, Register } from './index';
+import { Header, Register, Alert } from './index';
 
 import LogoAnimation from '../animations/logo';
 import Animation from '../animations/login';
 
 class App extends Component {
 
+  state = {
+    showModal: false,
+    errors: []
+  }
 
   componentWillMount(){
     this.keyboardHeight = new Animated.Value(0)
@@ -56,6 +60,13 @@ class App extends Component {
     }).start()
   }
 
+  toggleAlert = (errors) => {
+    this.setState( (prev) => ({
+      showModal: !prev.showModal,
+      errors: errors,
+    }))
+  }
+
   login = () => {
     const { mode, login, fetchAccount, navigation, eraseLoginState } = this.props;
 
@@ -68,9 +79,9 @@ class App extends Component {
         fetchAccount(navigation, data.token)
         eraseLoginState()
       }
-    }).catch( ({status, text}) => {
+    }).catch( ({status, errors}) => {
       if (status == 400){
-        alert(text)
+        this.toggleAlert(errors);
       }
     })
   }
@@ -132,6 +143,7 @@ class App extends Component {
           </TouchableOpacity>
         </Animated.View>
         <Register {...this.props}/>
+        <Alert {...this.state} toggleAlert={this.toggleAlert} />
       </KeyboardAvoidingView>
     )
   }

@@ -145,8 +145,8 @@ const loginToAccount = (obj) => {
     .catch( ({response}) => {
       if(response.status == 400){
         const status = response.status;
-        const text   = response.data[0]
-        reject({status, text})
+        const errors   = response.data
+        reject({status, errors})
       }
     })
   })

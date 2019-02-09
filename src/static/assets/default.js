@@ -86,6 +86,46 @@ module.exports = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center'
+  },
+  alert:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 0,
+  },
+  alertContainer: {
+    backgroundColor:'white',
+    width: width - 40,
+    borderRadius: 5,
+    overflow: 'hidden'
+  },
+  errorLogoContainer:{
+    width: '100%',
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorListContainer: {
+    paddingHorizontal: 15,
+    paddingBottom: 15,
+    width: '100%',
+    justifyContent: 'center',
+  },
+  errorText: {
+    fontFamily: 'Default',
+    marginBottom: 10,
+  },
+  dismissBtn: {
+    width: '100%',
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f3575a',
+  },
+  dismissBtnText: {
+    color:'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'Default'
   }
-
 })
