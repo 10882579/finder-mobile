@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import { FontAwesome, Entypo, MaterialCommunityIcons as MIcon } from '@expo/vector-icons';
 
 import Home from '@screens/home/screen';
@@ -8,43 +8,46 @@ import Account from '@screens/account/screen';
 import Create from '@screens/create/screen';
 import User from '@screens/user/screen';
 
-const TabNav = createBottomTabNavigator({
+import CustomDrawer from './customDrawerNav';
+
+const TabNav = createDrawerNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => {
-        return <FontAwesome name='home' color={tintColor} size={24}/>
+      drawerIcon: ({ tintColor }) => {
+        return <FontAwesome name='home' color={tintColor} size={26}/>
       },
     }
   },
   Create: {
     screen: Create,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => {
-        return <Entypo name='camera' color={tintColor} size={30}/>
+      drawerIcon: ({ tintColor }) => {
+        return <Entypo name='camera' color={tintColor} size={24}/>
       },
-      tabBarVisible: false,
     }
   },
   Account: {
     screen: Account,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => {
-        return <MIcon name='account-location' color={tintColor} size={30}/>
+      drawerIcon: ({ tintColor }) => {
+        return <MIcon name='account-location' color={tintColor} size={26}/>
       },
-      tabBarVisible: false,
     }
   }
 },
 {
-  tabBarOptions: {
-    showLabel: false,
+  contentComponent: CustomDrawer,
+  contentOptions: {
     activeTintColor: 'white',
+    activeBackgroundColor: 'none',
     inactiveTintColor: '#859398',
-    tabStyle: {
-      backgroundColor: '#16222A',
-    },
-  },
+    inactiveBackgroundColor: 'none',
+    labelStyle: {
+      fontFamily: 'Default',
+      fontSize: 16,
+    }
+  }
 })
 
 export default createStackNavigator({

@@ -22,7 +22,7 @@ export default (props) => {
       </View>
       <TouchableOpacity
         style={defaultStyle.headerIconContainer}
-        onPress={()=>console.log(props.state)}
+        onPress={ () => props.navigation.toggleDrawer() }
         >
         <MIcon
           name='filter-list'
