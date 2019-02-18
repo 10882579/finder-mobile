@@ -10,7 +10,7 @@ import User from '@screens/user/screen';
 
 import CustomDrawer from './customDrawerNav';
 
-const TabNav = createDrawerNavigator({
+const DrawerNavigation = createDrawerNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
@@ -51,7 +51,7 @@ const TabNav = createDrawerNavigator({
 })
 
 export default createStackNavigator({
-  Home: TabNav,
+  Home: DrawerNavigation,
   Post: {
     screen: Post
   },
