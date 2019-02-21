@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Animated } from 'react-native';
+import { View, Animated } from 'react-native';
 import { Provider } from 'react-redux';
 import { Font } from 'expo';
 import { splashStyle } from '@src/static/index';

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
-import { FontAwesome, Entypo, MaterialCommunityIcons as MIcon } from '@expo/vector-icons';
+import { FontAwesome, Entypo, MaterialCommunityIcons as MIcon, MaterialIcons } from '@expo/vector-icons';
 
 import Home from '@screens/home/screen';
 import Post from '@screens/post/screen';
 import Account from '@screens/account/screen';
 import Create from '@screens/create/screen';
 import User from '@screens/user/screen';
+import Notifications from '@screens/notification/screen';
 
 import CustomDrawer from './customDrawerNav';
 
@@ -27,6 +28,14 @@ const DrawerNavigation = createDrawerNavigator({
       },
     }
   },
+  Notifications : {
+    screen: Notifications,
+    navigationOptions: {
+      drawerIcon: ({ tintColor }) => {
+        return <MaterialIcons name='notifications' color={tintColor} size={26}/>
+      },
+    }
+  },
   Account: {
     screen: Account,
     navigationOptions: {
@@ -37,6 +46,7 @@ const DrawerNavigation = createDrawerNavigator({
   }
 },
 {
+  initialRouteName: 'Notifications',
   contentComponent: CustomDrawer,
   contentOptions: {
     activeTintColor: 'white',
