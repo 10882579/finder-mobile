@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text, Image, Animated, Dimensions } from 'react-native';
+import { View, TouchableOpacity, Text, Animated, Dimensions } from 'react-native';
 
 import { connect }  from 'react-redux';
 import { handleGoBack } from '@redux/actions/handleGoBack';

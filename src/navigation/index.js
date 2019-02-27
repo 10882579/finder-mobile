@@ -46,7 +46,6 @@ const DrawerNavigation = createDrawerNavigator({
   }
 },
 {
-  initialRouteName: 'Notifications',
   contentComponent: CustomDrawer,
   contentOptions: {
     activeTintColor: 'white',

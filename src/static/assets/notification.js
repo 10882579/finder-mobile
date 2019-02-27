@@ -27,5 +27,9 @@ module.exports = StyleSheet.create({
   headerTitleText: {
     fontFamily: 'Default',
     fontSize: 16
-  }
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2'
+  },
 })

@@ -1,5 +1,7 @@
-import Header from './header';
+import Header         from './header';
+import Conversations  from './conversations';
 
 export {
-  Header
+  Header,
+  Conversations
 }

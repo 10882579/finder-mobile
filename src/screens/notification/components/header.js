@@ -1,79 +1,99 @@
 import React from 'react';
-import { View, StatusBar, Text, TouchableOpacity, Dimensions, Animated } from 'react-native';
+import { View, StatusBar, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import { defaultStyle, notificationStyle } from '@src/static/index';
-
 import Animation from '../animations/header';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-export default (props) => {
+export default class App extends React.Component {
 
-  this.chatWidth = new Animated.Value(50);
-
-  const renderMessages = () => {
-    Animated.timing(this.chatWidth, {
-      duration: 500,
-      toValue: width - 102 
-    }).start()
+  componentWillMount(){
+    this.width = new Animated.Value(50);
   }
 
-  const renderNotifications = () => {
-    Animated.timing(this.chatWidth, {
+  renderMessages = () => {
+    const { fetchConversations, updateState } = this.props; 
+    fetchConversations( (data, status) => {
+      if(status == 200){
+        Animated.timing(this.width, {
+          duration: 500,
+          toValue: width - 102
+        }).start( () => {
+          updateState({
+            renderMessages: true,
+            data: data
+          })
+        })
+      }
+    })
+  }
+
+  renderNotifications = () => {
+    const { updateState } = this.props; 
+    Animated.timing(this.width, {
       duration: 500,
       toValue: 50 
-    }).start()
+    }).start( () => {
+      updateState({
+        renderMessages: false,
+        data: []
+      })
+    })
   }
 
-  const { fadeIn, fadeOut } = Animation(this.chatWidth, width);
+  render(){
+    const { navigation } = this.props;
+    const { fadeIn, fadeOut } = Animation(this.width, width);
 
-  return (
-    <View style={[
+    return (
+      <View style={[
         defaultStyle.customHeaderContainer, 
         notificationStyle.headerContainer,
         defaultStyle.shadow
       ]}>
-      <StatusBar barStyle="dark-content"/>
-      <View style={[notificationStyle.headerButtonContainer]}>
-        <TouchableOpacity 
-          style={notificationStyle.headerButton} 
-          onPress={ () => props.navigation.toggleDrawer() }
-        >
-          <Feather name='menu' size={25}/>
-        </TouchableOpacity>
-      </View>
-      <View style={notificationStyle.divider}/>
-      <View style={[notificationStyle.headerButtonContainer, defaultStyle.flex]}>
-        <TouchableOpacity 
-          style={notificationStyle.headerButton}
-          onPress={ renderNotifications } 
-        >
-          <MaterialIcons name='notifications-none' size={28}/>
-        </TouchableOpacity>
-        <View style={defaultStyle.flex}>
-          <Animated.Text 
-            style={[notificationStyle.headerTitleText, {opacity: fadeOut}]}
+        <StatusBar barStyle="dark-content"/>
+        <View style={[notificationStyle.headerButtonContainer]}>
+          <TouchableOpacity 
+            style={notificationStyle.headerButton} 
+            onPress={ () => navigation.toggleDrawer() }
           >
-              Notifications
-          </Animated.Text>
+            <Feather name='menu' size={25}/>
+          </TouchableOpacity>
         </View>
-      </View>
-      <View style={notificationStyle.divider}/>
-      <Animated.View style={[notificationStyle.headerButtonContainer, { width: this.chatWidth }]}>
-        <TouchableOpacity 
-          style={notificationStyle.headerButton}
-          onPress={ renderMessages }
-        >
-          <Feather name='message-circle' size={25}/>
-        </TouchableOpacity>
-        <View style={defaultStyle.flex}>
-          <Animated.Text 
-            style={[notificationStyle.headerTitleText, {opacity: fadeIn}]}
+        <View style={notificationStyle.divider}/>
+        <View style={[notificationStyle.headerButtonContainer, defaultStyle.flex]}>
+          <TouchableOpacity 
+            style={notificationStyle.headerButton}
+            onPress={ this.renderNotifications } 
           >
-            Messages
-          </Animated.Text>
+            <MaterialIcons name='notifications-none' size={28}/>
+          </TouchableOpacity>
+          <View style={defaultStyle.flex}>
+            <Animated.Text 
+              style={[notificationStyle.headerTitleText, {opacity: fadeOut}]}
+            >
+                Notifications
+            </Animated.Text>
+          </View>
         </View>
-      </Animated.View>
-    </View>
-  )
+        <View style={notificationStyle.divider}/>
+        <Animated.View style={[notificationStyle.headerButtonContainer, { width: this.width }]}>
+          <TouchableOpacity 
+            style={notificationStyle.headerButton}
+            onPress={ this.renderMessages }
+          >
+            <Feather name='message-circle' size={25}/>
+          </TouchableOpacity>
+          <View style={defaultStyle.flex}>
+            <Animated.Text 
+              style={[notificationStyle.headerTitleText, {opacity: fadeIn}]}
+            >
+              Messages
+            </Animated.Text>
+          </View>
+        </Animated.View>
+      </View>
+    )
+  }
 }

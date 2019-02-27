@@ -7,6 +7,7 @@ import loginStyle         from './assets/login';
 import registerStyle      from './assets/register';
 import splashStyle        from './assets/splash';
 import notificationStyle  from './assets/notification';
+import chatStyle          from './assets/chat';
 
 export {
   homeStyle,
@@ -17,5 +18,6 @@ export {
   loginStyle,
   splashStyle,
   registerStyle,
-  notificationStyle
+  notificationStyle,
+  chatStyle,
 }

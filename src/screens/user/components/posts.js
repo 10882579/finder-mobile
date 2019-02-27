@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, FlatList, Animated } from 'react-native';
+import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
 import { defaultStyle, accountStyle } from '@src/static/index';
 import { fetchPost } from '@src/requests';
 
