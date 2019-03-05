@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, SafeAreaView, TouchableOpacity, Image, Text } from 'react-native';
 import { defaultStyle, chatStyle } from '@src/static/index';
+import { fetchMessages } from '@redux/actions/notification';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -9,8 +10,16 @@ class App extends Component {
     this.data = this.props.data
   }
 
+  navigateToChat = (data) => {
+    const { navigation, fetchMessages } = this.props;
+    fetchMessages(data.account_id, (messages, status) => {
+      if (status == 200){
+        navigation.navigate('Chat', {...data, messages: messages})
+      }
+    })
+  }
+
   render() {
-    const { navigation } = this.props;
     return (
       <View style={chatStyle.container}>
         <SafeAreaView style={defaultStyle.flex}>
@@ -19,7 +28,7 @@ class App extends Component {
               this.data.map( (item, index) => (
                 <TouchableOpacity activeOpacity={0.8} key={index} 
                   style={chatStyle.conversationItem}
-                  onPress={ () => navigation.navigate('Chat', {...this.data[0]}) }
+                  onPress={ () => this.navigateToChat(this.data[0]) }
                 >
                   <View style={chatStyle.imageContainer}>
                     <Image source={{uri: item.image}} style={defaultStyle.image}/>
@@ -50,7 +59,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    
+    fetchMessages: (id, cb) => {
+      dispatch(fetchMessages(id, cb))
+    }
   }
 }
 

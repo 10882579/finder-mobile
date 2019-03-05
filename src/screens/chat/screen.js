@@ -13,6 +13,15 @@ class App extends Component {
 		messages: []
   }
 
+  componentWillMount = () => {
+    const { navigation } = this.props;
+    const { params } = navigation.state;
+    this.setState( (prev) => ({
+      ...prev,
+      messages: params.messages
+    }))
+  }
+
   componentDidMount = () => {
 
     const { account, mode, navigation } = this.props;

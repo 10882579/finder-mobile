@@ -6,7 +6,7 @@ export default (props) => {
 
   const { data, account } = props;
   return (
-    <ScrollView style={chatStyle.messagesContainer} bounces={false}>
+    <ScrollView style={chatStyle.messagesContainer} bounces={false} scrollEventThrottle={8}>
       {
         data.map( (item, i) => (
           <View 
