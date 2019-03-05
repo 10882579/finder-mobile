@@ -10,13 +10,17 @@ class App extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
     return (
       <View style={chatStyle.container}>
         <SafeAreaView style={defaultStyle.flex}>
           <ScrollView style={defaultStyle.flex} bounces={false}>
             {
               this.data.map( (item, index) => (
-                <TouchableOpacity activeOpacity={0.8} key={index} style={chatStyle.conversationItem}>
+                <TouchableOpacity activeOpacity={0.8} key={index} 
+                  style={chatStyle.conversationItem}
+                  onPress={ () => navigation.navigate('Chat', {...this.data[0]}) }
+                >
                   <View style={chatStyle.imageContainer}>
                     <Image source={{uri: item.image}} style={defaultStyle.image}/>
                   </View>

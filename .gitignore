@@ -5,5 +5,4 @@ npm-debug.*
 *.p12
 *.key
 *.mobileprovision
-src/screens/chat.js
 src/functions.js

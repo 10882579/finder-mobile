@@ -7,6 +7,7 @@ import Post from '@screens/post/screen';
 import Account from '@screens/account/screen';
 import Create from '@screens/create/screen';
 import User from '@screens/user/screen';
+import Chat from '@screens/chat/screen';
 import Notifications from '@screens/notification/screen';
 
 import CustomDrawer from './customDrawerNav';
@@ -66,6 +67,9 @@ export default createStackNavigator({
   },
   User: {
     screen: User
+  },
+  Chat: {
+    screen: Chat
   }
 }, {
   headerMode: 'none',

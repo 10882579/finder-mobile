@@ -33,4 +33,101 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     fontSize: 16
   },
+  chatContainer: {
+    flex: 1,
+    backgroundColor: '#f2f2f2',
+  },
+  header: {
+    backgroundColor: 'white',
+  },
+  headerIcon: {
+    color: 'black',
+    fontSize: 24,
+  },
+  userImageContainer:{ 
+    width: 40,
+    height: 40,
+    borderRadius: radius,
+    overflow: 'hidden'
+  },
+  headerUsernameContainer: {
+    flex: 1,
+    height: '100%',
+    justifyContent: 'center',
+    paddingHorizontal: 15,
+  },
+  usernameText: {
+    fontFamily: 'Default',
+    fontSize: 18,
+  },
+  conversationsContainer: {
+    flex: 1,
+    marginTop: 5,
+  },
+  messageListItem: {
+    width: '100%',
+    flexDirection: 'row',
+    marginVertical: 7,
+  },
+  messageItemImageContainer:{
+    width: 40,
+    justifyContent: 'flex-end',
+    marginHorizontal: 10,
+  },
+  messageItemImage: {
+    width: 40,
+    height: 40,
+    borderRadius: radius,
+    overflow: 'hidden',
+  },
+  messageItemContext: {
+    backgroundColor: 'white',
+    width: '60%',
+    padding: 7,
+    borderRadius: 5,
+  },
+  senderUsername: {
+    fontFamily: 'Default',
+    color: '#1aa3ff',
+    marginBottom: 7,
+  },
+  messageText: {
+    fontFamily: 'Default',
+    textAlign: 'justify',
+  },
+  messageTimeText:{
+    marginTop: 5,
+    color: 'grey',
+    alignSelf: 'flex-end',
+    fontSize: 13,
+  },
+  messageCreateContainer: {
+    position: 'absolute',
+    bottom: 0,
+    height: 'auto',
+    width: width,
+    backgroundColor: 'white',
+    borderTopWidth: 0.5,
+    borderTopColor: 'lightgrey',
+    flexDirection: 'row',
+  },
+  messageInputContainer: {
+    flex: 1,
+    maxHeight: 100,
+    minHeight: 50,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    justifyContent: 'center',
+  },
+  messageInput: {
+    fontFamily: 'Default',
+    fontSize: 15,
+    textAlign: 'justify',
+  },
+  sendButton: {
+    width: 50,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 })
