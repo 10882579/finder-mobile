@@ -3,7 +3,7 @@ import { View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity }
 import { FontAwesome } from '@expo/vector-icons';
 import { Header, Messages } from './components/index';
 import { handleGoBack } from '@redux/actions/handleGoBack';
-import { chatStyle } from '@src/static/index';
+import { chatStyle, defaultStyle } from '@src/static/index';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -50,7 +50,6 @@ class App extends Component {
     this.socket.close()
   }
 
-
   sendMessage = async () => {
     if(this.state.text.length > 0){
       await this.socket.send(JSON.stringify(
@@ -66,7 +65,7 @@ class App extends Component {
     return (
       <KeyboardAvoidingView style={chatStyle.chatContainer} behavior='padding'>
         <Header {...this.props}/>
-        <SafeAreaView style={chatStyle.conversationsContainer}>
+        <SafeAreaView style={[defaultStyle.flex]}>
           <Messages {...this.props} data={this.state.messages}/>
           <View style={chatStyle.messageCreateContainer}>
             <View style={chatStyle.messageInputContainer}>

@@ -35,10 +35,13 @@ module.exports = StyleSheet.create({
   },
   chatContainer: {
     flex: 1,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: 'white',
   },
   header: {
+    position: 'absolute',
     backgroundColor: 'white',
+    top: 0,
+    zIndex: 9999,
   },
   headerIcon: {
     color: 'black',
@@ -60,9 +63,10 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     fontSize: 18,
   },
-  conversationsContainer: {
+  messagesContainer:{
     flex: 1,
-    marginTop: 5,
+    marginTop: 50,
+    backgroundColor: '#f2f2f2',
   },
   messageListItem: {
     width: '100%',
@@ -102,8 +106,6 @@ module.exports = StyleSheet.create({
     fontSize: 13,
   },
   messageCreateContainer: {
-    position: 'absolute',
-    bottom: 0,
     height: 'auto',
     width: width,
     backgroundColor: 'white',
