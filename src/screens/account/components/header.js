@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Animated } from 'react-native';
+import { View, TouchableOpacity, Animated, StatusBar } from 'react-native';
 
 import { Ionicons }     from '@expo/vector-icons';
 import { defaultStyle } from '@src/static/index';
@@ -8,6 +8,7 @@ export default (props) => {
   const { navigation, showSettings } = props;
   return (
     <Animated.View style={[defaultStyle.customHeaderContainer, props.style, {opacity: props.opacity}]}>
+      <StatusBar barStyle='light-content'/>
       <TouchableOpacity
         style={defaultStyle.headerIconContainer}
         activeOpacity={0.8}

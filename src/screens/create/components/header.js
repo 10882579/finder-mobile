@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   TouchableOpacity,
+  StatusBar
 } from 'react-native';
 
 import { Ionicons, Feather }  from '@expo/vector-icons';
@@ -26,6 +27,7 @@ export default (props) => {
 
   return (
     <View style={defaultStyle.transparentHeaderContainer}>
+      <StatusBar barStyle='light-content'/>
       <TouchableOpacity
         style={defaultStyle.headerIconContainer}
         activeOpacity={0.8}
