@@ -116,7 +116,7 @@ module.exports = StyleSheet.create({
   messageInputContainer: {
     flex: 1,
     maxHeight: 100,
-    minHeight: 50,
+    minHeight: 40,
     paddingHorizontal: 15,
     paddingVertical: 10,
     justifyContent: 'center',
@@ -128,7 +128,7 @@ module.exports = StyleSheet.create({
   },
   sendButton: {
     width: 50,
-    height: 60,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
   },

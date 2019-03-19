@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 import { FontAwesome } from '@expo/vector-icons';
 import { Header, Messages } from './components/index';
 import { handleGoBack } from '@redux/actions/handleGoBack';
@@ -10,7 +11,8 @@ class App extends Component {
 
   state = {
 		text: '',
-		messages: []
+    messages: [],
+    bottom: 'always',
   }
 
   componentWillMount = () => {
@@ -20,6 +22,8 @@ class App extends Component {
       ...prev,
       messages: params.messages
     }))
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow)
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide)
   }
 
   componentDidMount = () => {
@@ -57,6 +61,17 @@ class App extends Component {
 
   componentWillUnmount(){
     this.socket.close()
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
+
+  keyboardWillShow = () => {
+    this.setState( (prev) => ({...prev, bottom: 'never'}))
+  }
+
+  keyboardWillHide = () => {
+    this.setState( (prev) => ({...prev, bottom: 'always'}))
   }
 
   sendMessage = async () => {
@@ -74,7 +89,7 @@ class App extends Component {
     return (
       <KeyboardAvoidingView style={chatStyle.chatContainer} behavior='padding'>
         <Header {...this.props}/>
-        <SafeAreaView style={[defaultStyle.flex]}>
+        <SafeAreaView style={[defaultStyle.flex]} forceInset={{bottom: this.state.bottom}}>
           <Messages {...this.props} data={this.state.messages}/>
           <View style={chatStyle.messageCreateContainer}>
             <View style={chatStyle.messageInputContainer}>
