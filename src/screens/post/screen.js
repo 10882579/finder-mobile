@@ -10,7 +10,7 @@ import {
   Description,
   DeletePost
 } from './components/index';
-
+import { fetchMessages } from '@redux/actions/notification';
 import { savePost, setPostSold, deletePost } from '@src/requests';
 import { handleGoBack } from '@redux/actions/handleGoBack';
 import { defaultStyle } from '@src/static/index';
@@ -127,6 +127,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchMessages: (id, cb) => {
+      dispatch(fetchMessages(id, cb))
+    },
     updateNavState: (obj) => {
       dispatch({
         type: 'UPDATE_NAV_STATE',
