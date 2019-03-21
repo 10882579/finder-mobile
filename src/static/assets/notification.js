@@ -12,7 +12,7 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     minWidth: 50,
-    overFlow: 'hidden',
+    overflow: 'hidden',
   },
   headerButton: {
     width: 50,
