@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { AntDesign, Feather } from '@expo/vector-icons';
-import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { registerStyle } from '@src/static/index';
 import { registerAccount } from '@src/requests';
 import { fetchAccount } from '@redux/actions/account';
@@ -46,10 +45,6 @@ class App extends Component {
       toValue: 0,
       duration: 750
     }).start()
-  }
-
-  scrollToInput = (event) => {
-    this.scrollView.props.scrollToFocusedInput(event.nativeEvent.target)
   }
 
   toggleAlert = (errors) => {
@@ -93,12 +88,7 @@ class App extends Component {
         </TouchableOpacity>
         <Animated.View style={[registerStyle.registerBodyContainer, {height: this.registerHeight}]}>
           <Header {...this.props} action={this.decreaseRegisterHeight}/>
-          <ScrollView
-            style={registerStyle.registration}
-            bounces={false}
-            innerRef={ref => this.scrollView = ref}
-            scrollEventThrottle={1}
-          >
+          <View style={registerStyle.registration}>
             <Animated.View style={[registerStyle.registration, {opacity: fadeIn}]}>
               <View style={registerStyle.logoContainer}>
                 <Image source={require('@src/static/imgs/logo-blue.png')} style={registerStyle.logo}/>
@@ -113,7 +103,6 @@ class App extends Component {
                     placeholder='Ism-sharif'
                     underlineColorAndroid="transparent"
                     value={register.first_name}
-                    onFocus={ (event) => this.scrollToInput(event) }
                     onChangeText={ (v) => updateRegisterState({first_name: v}) }
                   />
                 </View>
@@ -126,7 +115,6 @@ class App extends Component {
                     placeholder='Familiya'
                     underlineColorAndroid="transparent"
                     value={register.last_name}
-                    onFocus={ (event) => this.scrollToInput(event) }
                     onChangeText={ (v) => updateRegisterState({last_name: v}) }
                   />
                 </View>
@@ -143,7 +131,6 @@ class App extends Component {
                   placeholder='example@example.com'
                   underlineColorAndroid="transparent"
                   value={register.email}
-                  onFocus={ (event) => this.scrollToInput(event) }
                   onChangeText={ (v) => updateRegisterState({email: v}) }
                 />
               </View>
@@ -161,7 +148,6 @@ class App extends Component {
                   keyboardType='phone-pad'
                   underlineColorAndroid="transparent"
                   value={register.phone_number}
-                  onFocus={ (event) => this.scrollToInput(event) }
                   onChangeText={ (v) => updateRegisterState({phone_number: v}) }
                 />
               </View>
@@ -178,7 +164,6 @@ class App extends Component {
                   placeholder='Yashirin kod kiriting'
                   underlineColorAndroid="transparent"
                   value={register.password}
-                  onFocus={ (event) => this.scrollToInput(event) }
                   onChangeText={ (v) => updateRegisterState({password: v}) }
                 />
               </View>
@@ -186,7 +171,7 @@ class App extends Component {
                 <Text style={registerStyle.submitText}>REGISTER</Text>
               </TouchableOpacity>
             </Animated.View>
-          </ScrollView>
+          </View>
         </Animated.View>
         <Alert {...this.state} toggleAlert={this.toggleAlert} />
       </View>
