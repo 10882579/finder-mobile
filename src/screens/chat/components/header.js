@@ -13,7 +13,7 @@ export default (props) => {
       <StatusBar barStyle='dark-content' />
       <TouchableOpacity style={[defaultStyle.headerIconContainer]} 
         activeOpacity={0.8}
-        onPress={ () => props.handleGoBack(navigation) }
+        onPress={ () => navigation.goBack() }
       >
         <Ionicons
           name='md-arrow-round-back'
