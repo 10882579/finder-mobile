@@ -37,7 +37,7 @@ export default (props) => {
   return (
     <TouchableOpacity
       style={accountStyle.likeContainer}
-      onPress={ () => this.followAccount(params.id) }
+      onPress={ () => this.followAccount(params.account.account_id) }
     >
       <FontAwesome name={props.following ? 'thumbs-up' : 'thumbs-o-up'} color="#1aa3ff" size={28}/>
     </TouchableOpacity>
