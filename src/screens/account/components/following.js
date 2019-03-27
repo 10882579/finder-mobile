@@ -23,7 +23,7 @@ export default class App extends Component{
       token: account.token,
       id: id
     }).then( (data) => {
-      navigation.navigate('User', {id, ...data})
+      navigation.navigate('User', {...data})
     })
   }
 

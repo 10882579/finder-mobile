@@ -3,19 +3,12 @@ import { View, TouchableOpacity, Text, Animated, Dimensions } from 'react-native
 
 import { connect }  from 'react-redux';
 import { handleGoBack } from '@redux/actions/handleGoBack';
-import { AntDesign, Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { fetchMessages } from '@redux/actions/notification';
 import { defaultStyle, accountStyle } from '@src/static/index';
-import { Header, AccountImage, LikeAccount, Posts } from './components/index';
+import { Header, AccountImage, LikeAccount, Posts, Contact } from './components/index';
 
 const { width, height } = Dimensions.get('window');
-
-const Message = (props) => {
-  return (
-    <TouchableOpacity style={accountStyle.contactContainer}>
-      <Feather name='message-circle' color="#1aa3ff" size={28}/>
-    </TouchableOpacity>
-  )
-}
 
 class App extends Component {
 
@@ -66,7 +59,7 @@ class App extends Component {
           <View style={accountStyle.topContainer}>
             <Header {...this.props}/>
           </View>
-          <Message />
+          <Contact {...this.props}/>
           <AccountImage {...this.props} image={state.account.image}/>
           <LikeAccount {...this.props} following={state.following} followAccount={ this.followAccount }/>
           <View style={accountStyle.bottomContainer}>
@@ -106,6 +99,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleGoBack: (nav) => {
       dispatch(handleGoBack(nav))
+    },
+    fetchMessages: (id, cb) => {
+      dispatch(fetchMessages(id, cb))
     },
   }
 }
