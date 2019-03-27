@@ -8,10 +8,9 @@ module.exports = StyleSheet.create({
     alignItems: 'center'
   },
   logoContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    marginBottom: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderRadius: 4,
     borderWidth: 1,
     borderColor: '#1aa3ff'

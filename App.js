@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Animated } from 'react-native';
+import { View, Image, StatusBar } from 'react-native';
+import * as Animate from 'react-native-animatable';
 import { Provider } from 'react-redux';
 import { Font } from 'expo';
 import { splashStyle } from '@src/static/index';
@@ -7,52 +8,34 @@ import store from '@src/redux/store';
 import Navigation from '@src/navigation/index';
 
 export default class App extends React.Component {
+
   state = {
     isReady: false
-   }
-
-   componentWillMount(){
-     this.splash = new Animated.Value(0);
-   }
+  }
 
   async componentDidMount() {
     await Font.loadAsync({
       'Default': require('./src/static/fonts/Ubuntu/Ubuntu-Regular.ttf')
     });
-    Animated.timing(this.splash, {
-      toValue: 500,
-      duration: 2000
-    }).start( () => this.setState({isReady: true}))
   }
 
   splashScreen = () => {
 
-    const width = this.splash.interpolate({
-      inputRange: [0, 450],
-      outputRange: [100, 190],
-      extrapolate: 'clamp'
-    })
-
-    const height = this.splash.interpolate({
-      inputRange: [0, 450],
-      outputRange: [70, 150],
-      extrapolate: 'clamp'
-    })
-
-    const logoSize = this.splash.interpolate({
-      inputRange: [0, 450],
-      outputRange: [70, 140],
-      extrapolate: 'clamp'
-    })
-
     return (
       <View style={splashStyle.container}>
-        <Animated.View style={[splashStyle.logoContainer, {height: height, width: width}]}>
-          <Animated.Image
+        <StatusBar barStyle='light-content'/>
+        <Animate.View
+          animation='zoomIn'
+          iterationCount={1}
+          duration={1500}
+          style={splashStyle.logoContainer}
+          onAnimationEnd={ () => this.setState({isReady: true}) }
+        >
+          <Image
             source={require('@src/static/imgs/logo-grey.png')}
-            style={[splashStyle.logo, {height: logoSize, width: logoSize}]}
+            style={splashStyle.logo}
           />
-        </Animated.View>
+        </Animate.View>
       </View>
     )
   }
