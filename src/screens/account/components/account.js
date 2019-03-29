@@ -84,7 +84,7 @@ class App extends Component {
                 <Feather name='bookmark' size={30}/>
               </TouchableOpacity>
               <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.updateState('following') }>
-                <AntDesign name='hearto' size={30}/>
+                <AntDesign name='like2' size={30}/>
               </TouchableOpacity>
             </View>
             <Animated.View style={[accountStyle.navigationListBorder, {left: this.navbarPosition}]} />
