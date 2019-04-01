@@ -4,28 +4,33 @@ const { width, height } = Dimensions.get('window');
 const radius = Math.round(width + height) / 2
 
 module.exports = StyleSheet.create({
-  pageView: {
-    flex: 1,
-    backgroundColor: '#f7f7f7',
-  },
-  container: {
+  mainContainer: {
+    position: 'absolute',
+    backgroundColor: 'white',
     width: width,
-    marginBottom: 10,
+    top: 0,
   },
   topContainer: {
     width: width,
-    height: '50%',
     backgroundColor: '#16222A',
+    paddingTop: Constants.statusBarHeight,
+    paddingHorizontal: 5,
+  },
+  backBtnContainer:{
+    width: 50,
+    height: 65,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  accountContainer: {
+    position: 'absolute',
+    left: 60,
+    right: 60,
   },
   accountImageContainer: {
-    position: 'absolute',
-    left: ((width)/2)-85,
-    width: 170,
-    height: 170,
+    marginVertical: 7.5,
     borderRadius: radius,
     backgroundColor: 'white',
-    padding: 10,
-    zIndex: 999,
   },
   accountImage: {
     flex: 1,
@@ -34,49 +39,36 @@ module.exports = StyleSheet.create({
     overflow: 'hidden',
   },
   accountImageUploadButton:{
+    backgroundColor: 'rgba(0,0,0,0.6)',
     position: 'absolute',
-    bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     height: 25,
-    backgroundColor: 'rgba(0,0,0,0.6)'
+    bottom: 0,
+  },
+  nameContainer:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    width: '100%',
+    height: 55,
+  },
+  name: {
+    fontFamily: 'Default',
   },
   bottomContainer: {
     width: width,
-    height: '50%',
-    backgroundColor: 'white',
-    alignItems: 'center',
-    borderBottomColor: 'lightgrey',
-    borderBottomWidth: 1,
+    overflow: 'hidden'
   },
-  userNameContainer:{
-    marginTop: 80,
-    height: 45,
+  navigationContainer: {
     width: width,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  userName: {
-    fontFamily: 'Default',
-    fontSize: 22,
-  },
-  reatingContainer: {
-    height: 45,
-    width: width,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  navigation: {
-    width: width,
-    height: 55 + Constants.statusBarHeight,
+    height: 55,
     flexDirection: 'row',
-    backgroundColor: 'white',
-    alignItems: 'flex-end',
     position: 'absolute',
     bottom: 0,
   },
-  navigationList: {
+   navigationList: {
     height: 55,
     width: width / 3,
     justifyContent: 'center',
@@ -84,15 +76,16 @@ module.exports = StyleSheet.create({
   },
   navigationListBorder: {
     position: 'absolute',
-    bottom: 0,
     width: width/3,
+    bottom: 0,
     height: 3,
     backgroundColor: '#1aa3ff'
   },
-  bodyContainer:{
+  scrollviewContainer: {
     flex: 1,
     width: width,
-    backgroundColor: '#f7f7f7',
+    paddingVertical: 10,
+    marginTop: 450,
   },
   listItem: {
     width: width - 20,

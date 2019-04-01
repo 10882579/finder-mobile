@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, FlatList, Animated } from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView, Animated } from 'react-native';
 import { defaultStyle, accountStyle } from '@src/static/index';
 import { fetchPost } from '@src/requests';
 
@@ -41,36 +41,42 @@ export default class App extends Component{
     const { saved, position } = this.props;
 
     return (
-      <FlatList
-        data={saved}
-        scrollEventThrottle={5}
+      <ScrollView
+        scrollEventThrottle={16}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
         onScroll={
           Animated.event(
             [{nativeEvent: {contentOffset: {y: saved.length >= 20 ? position : 0}} }],
             {listener: (e) => this.fetchPostOnScroll(e.nativeEvent) },
           )
         }
-        renderItem={ ({item, index}) => (
-          <TouchableOpacity
-            activeOpacity={0.9}
-            style={[accountStyle.listItem, defaultStyle.shadow]}
-            onPress={ () => this.handleFetchPost(item.id) }
-          >
-            <View style={accountStyle.itemImageContainer}>
-              <Image source={{uri: item.photos[0].uri}} style={defaultStyle.image}/>
-            </View>
-            <View style={accountStyle.itemInformation}>
-              <View style={accountStyle.itemTitleContainer}>
-                <Text style={accountStyle.itemTitle} numberOfLines={2}>{item.title}</Text>
-              </View>
-              <View style={accountStyle.itemPriceContainer}>
-                <Text style={accountStyle.itemPrice} numberOfLines={1}>{item.price}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
-        keyExtractor={ (item, index) => String(item.id)}
-      />
+      >
+        <View style={accountStyle.scrollviewContainer}>
+          {
+            saved.map( (item) => (
+              <TouchableOpacity
+                key={item.id}
+                activeOpacity={0.9}
+                style={[accountStyle.listItem, defaultStyle.shadow]}
+                onPress={ () => this.handleFetchPost(item.id) }
+              >
+                <View style={accountStyle.itemImageContainer}>
+                  <Image source={{uri: item.photos[0].uri}} style={defaultStyle.image}/>
+                </View>
+                <View style={accountStyle.itemInformation}>
+                  <View style={accountStyle.itemTitleContainer}>
+                    <Text style={accountStyle.itemTitle} numberOfLines={2}>{item.title}</Text>
+                  </View>
+                  <View style={accountStyle.itemPriceContainer}>
+                    <Text style={accountStyle.itemPrice} numberOfLines={1}>{item.price}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))
+          }
+        </View>
+      </ScrollView>
     )
   }
 }

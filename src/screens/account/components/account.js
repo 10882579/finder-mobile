@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image, Dimensions, Animated } from 'react-native';
+import { View, TouchableOpacity, Dimensions, Animated, StatusBar } from 'react-native';
 
 import { connect } from 'react-redux';
-import { AntDesign, Feather } from '@expo/vector-icons';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { defaultStyle, accountStyle } from '@src/static/index';
+
+const AnimatedIcon = Animated.createAnimatedComponent(Ionicons);
 
 import Animation from '../animations/account';
 
 import {
-  Header,
   AccountImage,
   UserPosts,
   SavedPosts,
@@ -23,13 +24,13 @@ import {
   updateAccount,
 } from '@redux/actions/account';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 class App extends Component {
 
   state = {
     page: 1,
-    render: 'myposts'
+    screen: 'myposts'
   }
 
   componentWillMount(){
@@ -39,7 +40,7 @@ class App extends Component {
   }
 
   updateState = (name) => {
-    this.setState( () => ({render: name}) )
+    this.setState( () => ({screen: name}) )
     if (name == 'myposts'){
       this.left = 0
     }
@@ -49,34 +50,49 @@ class App extends Component {
     else if(name == 'following'){
       this.left = width*2/3
     }
-    Animated.timing(this.navbarPosition, {
-      duration: 200,
-      toValue: this.left
-    }).start()
+    Animated.parallel([
+      Animated.timing(this.navbarPosition, {
+        duration: 200,
+        toValue: this.left
+      }),
+      Animated.timing(this.scrollY, {
+        duration: 500,
+        toValue: 0
+      })
+    ]).start()
   }
 
   render() {
 
-    const { account } = this.props;
-    const { render }  = this.state;
+    const { account, handleGoBack, navigation } = this.props;
+    const { screen }  = this.state;
 
-    const { containerHeight, opacity, color } = Animation(this.scrollY)
+    const { topHeight, bottomHeight, color, iconColor } = Animation(this.scrollY)
 
     return (
-      <View style={accountStyle.pageView}>
-        <Animated.View style={[accountStyle.container, defaultStyle.shadow, {height: containerHeight}]}>
-          <Animated.View style={[accountStyle.topContainer, {opacity: opacity}]}>
-            <Header {...this.props} showSettings/>
+      <View style={defaultStyle.flex}>
+        { screen == 'myposts' ? <UserPosts {...this.props} position={this.scrollY}/> : null }
+        { screen == 'savedPosts' ? <SavedPosts {...this.props} position={this.scrollY}/> : null }
+        { screen == 'following' ? <Following {...this.props}/> : null }
+        <View style={[accountStyle.mainContainer, defaultStyle.shadow]}>
+          <StatusBar barStyle="light-content"/>
+          <Animated.View style={[accountStyle.topContainer, {height: topHeight, backgroundColor: color}]}>
+            <TouchableOpacity
+              style={accountStyle.backBtnContainer}
+              activeOpacity={0.8}
+              onPress={ () => handleGoBack(navigation) }
+            >
+              <AnimatedIcon
+                name='md-arrow-round-back'
+                style={{
+                  fontSize: 24,
+                  color: iconColor
+                }}
+              />
+            </TouchableOpacity>
           </Animated.View>
-          <AccountImage {...this.props} image={account.image} scrollY={this.scrollY}/>
-          <View style={accountStyle.bottomContainer}>
-            <Animated.View style={accountStyle.userNameContainer}>
-              <Animated.Text style={[accountStyle.userName, {color: color}]}>
-                {account.first_name} {account.last_name}
-              </Animated.Text>
-            </Animated.View>
-            <View style={accountStyle.reatingContainer} />
-            <View style={accountStyle.navigation}>
+          <Animated.View style={[accountStyle.bottomContainer, {height: bottomHeight}]}>
+            <View style={accountStyle.navigationContainer}>
               <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.updateState('myposts') }>
                 <AntDesign name='bars' size={30}/>
               </TouchableOpacity>
@@ -88,12 +104,8 @@ class App extends Component {
               </TouchableOpacity>
             </View>
             <Animated.View style={[accountStyle.navigationListBorder, {left: this.navbarPosition}]} />
-          </View>
-        </Animated.View>
-        <View style={accountStyle.bodyContainer}>
-          { render == 'myposts' ? <UserPosts {...this.props} position={this.scrollY}/> : null }
-          { render == 'savedPosts' ? <SavedPosts {...this.props} position={this.scrollY}/> : null }
-          { render == 'following' ? <Following {...this.props}/> : null }
+          </Animated.View>
+          <AccountImage {...this.props} image={account.image} scrollY={this.scrollY}/>
         </View>
       </View>
     )
