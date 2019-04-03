@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text, Animated, Dimensions } from 'react-native';
+import { View, TouchableOpacity, Text, Animated, Dimensions, StatusBar } from 'react-native';
 
 import { connect }  from 'react-redux';
 import { handleGoBack } from '@redux/actions/handleGoBack';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { fetchMessages } from '@redux/actions/notification';
 import { defaultStyle, accountStyle } from '@src/static/index';
 import { Header, AccountImage, LikeAccount, Posts, Contact } from './components/index';
@@ -13,7 +13,7 @@ const { width, height } = Dimensions.get('window');
 class App extends Component {
 
   state = {
-    render: 'posts'
+    screen: 'posts'
   }
 
   componentWillMount() {
@@ -35,7 +35,7 @@ class App extends Component {
 
   switchNavigation = (name) => {
     this.setState( (prev) => ({
-      ...prev, render: name
+      ...prev, screen: name
     }))
     if (name == 'posts'){
       this.left = 0
@@ -51,37 +51,42 @@ class App extends Component {
 
   render() {
 
-    const { state } = this;
+    const { navigation } = this.props;
 
     return (
-      <View style={accountStyle.pageView}>
-        <View style={[accountStyle.container, defaultStyle.shadow, {height: 450}]}>
-          <View style={accountStyle.topContainer}>
-            <Header {...this.props}/>
+      <View style={defaultStyle.flex}>
+        { this.state.screen == 'posts' ? <Posts {...this.props} /> : null }
+        <View style={[accountStyle.mainContainer, defaultStyle.shadow]}>
+          <StatusBar barStyle="light-content"/>
+          <View style={[accountStyle.topContainer, {height: 225}]}>
+            <TouchableOpacity
+              style={accountStyle.backBtnContainer}
+              activeOpacity={0.8}
+              onPress={ () => navigation.goBack() }
+            >
+              <Ionicons
+                name='md-arrow-round-back'
+                style={{
+                  fontSize: 24,
+                  color: 'white'
+                }}
+              />
+            </TouchableOpacity>
           </View>
-          <Contact {...this.props}/>
-          <AccountImage {...this.props} image={state.account.image}/>
-          <LikeAccount {...this.props} following={state.following} followAccount={ this.followAccount }/>
-          <View style={accountStyle.bottomContainer}>
-            <View style={accountStyle.userNameContainer}>
-              <Text style={accountStyle.userName}>
-                {state.account.first_name} {state.account.last_name}
-              </Text>
-            </View>
-            <View style={accountStyle.reatingContainer} />
-            <View style={accountStyle.navigation}>
+          <View style={[accountStyle.bottomContainer, {height: 225}]}>
+            <View style={accountStyle.navigationContainer}>
               <TouchableOpacity style={accountStyle.userScreenNavList} onPress={ () => this.switchNavigation('posts') }>
                 <AntDesign name='bars' size={30}/>
               </TouchableOpacity>
               <TouchableOpacity style={accountStyle.userScreenNavList} onPress={ () => this.switchNavigation('rating') }>
                 <AntDesign name='staro' size={30}/>
               </TouchableOpacity>
-            </View>
+            </View>          
             <Animated.View style={[accountStyle.userScreenNavListBorder, {left: this.navbarPosition}]} />
           </View>
-        </View>
-        <View style={accountStyle.bodyContainer}>
-          { state.render == 'posts' ? <Posts {...this.props} /> : null }
+          <Contact {...this.props}/>
+          <AccountImage {...this.props} data={this.state.account}/>
+          <LikeAccount {...this.props} following={this.state.following} followAccount={ this.followAccount }/>
         </View>
       </View>
     )

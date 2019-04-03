@@ -1,14 +1,29 @@
-import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import React from 'react';
+import { View, Image, Text, Dimensions } from 'react-native';
 import { defaultStyle, accountStyle } from '@src/static/index';
 
+const { width } = Dimensions.get('window');
+
 export default (props) => {
-  const { image } = props;
+  const { data } = props;
+  const scale = {
+    width: 170,
+    height: 170,
+    padding: 10,
+    left: (width-120)/2-85
+  }
 
   return (
-    <View style={[accountStyle.accountImageContainer, {top: 140}]}>
-      <View style={accountStyle.accountImage}>
-        <Image source={{uri: image}} style={defaultStyle.image}/>
+    <View style={[accountStyle.accountContainer, {top: 140}]}>
+      <View style={[accountStyle.accountImageContainer, scale]}>
+        <View style={accountStyle.accountImage}>
+          <Image source={{uri: data.image}} style={defaultStyle.image}/>
+        </View>
+      </View>
+      <View style={[accountStyle.nameContainer, {top: 170}]}>
+        <Text style={[accountStyle.name, {fontSize: 22}]} numberOfLines={1}>
+          {data.first_name} {data.last_name}
+        </Text>
       </View>
     </View>
   )

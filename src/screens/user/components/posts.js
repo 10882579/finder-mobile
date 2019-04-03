@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { defaultStyle, accountStyle } from '@src/static/index';
 import { fetchPost } from '@src/requests';
 
@@ -13,15 +13,14 @@ export default class App extends Component{
   }
 
   componentDidMount(){
-
     const { account, mode, navigation } = this.props;
     const { params } = navigation.state;
     const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/${params.id}/posts/page=${this.state.page}`
+      `https://finder-uz.herokuapp.com/account/${params.account.account_id}/posts/page=${this.state.page}`
     ) : (
-      `http://localhost:8000/account/${params.id}/posts/page=${this.state.page}`
+      `http://localhost:8000/account/${params.account.account_id}/posts/page=${this.state.page}`
     )
-
+      
     axios({
       method: 'POST',
       headers: {
@@ -52,30 +51,36 @@ export default class App extends Component{
   render(){
 
     return (
-      <FlatList
-        data={this.state.posts}
-        scrollEventThrottle={1}
-        renderItem={ ({item, index}) => (
-          <TouchableOpacity
-            activeOpacity={0.9}
-            style={[accountStyle.listItem, defaultStyle.shadow]}
-            onPress={ () => handleFetchPost(item.id) }
-          >
-            <View style={accountStyle.itemImageContainer}>
-              <Image source={{uri: item.photos[0].uri}} style={defaultStyle.image}/>
-            </View>
-            <View style={accountStyle.itemInformation}>
-              <View style={accountStyle.itemTitleContainer}>
-                <Text style={accountStyle.itemTitle} numberOfLines={2}>{item.title}</Text>
-              </View>
-              <View style={accountStyle.itemPriceContainer}>
-                <Text style={accountStyle.itemPrice} numberOfLines={1}>{item.price}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
-        keyExtractor={ (item, index) => String(item.id) }
-      />
+      <ScrollView
+        scrollEventThrottle={16}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={accountStyle.scrollviewContainer}>
+          {
+            this.state.posts.map( (item, index) => (
+              <TouchableOpacity
+                key={index}
+                activeOpacity={0.9}
+                style={[accountStyle.listItem, defaultStyle.shadow]}
+                onPress={ () => handleFetchPost(item.id) }
+              >
+                <View style={accountStyle.itemImageContainer}>
+                  <Image source={{uri: item.photos[0].uri}} style={defaultStyle.image}/>
+                </View>
+                <View style={accountStyle.itemInformation}>
+                  <View style={accountStyle.itemTitleContainer}>
+                    <Text style={accountStyle.itemTitle} numberOfLines={2}>{item.title}</Text>
+                  </View>
+                  <View style={accountStyle.itemPriceContainer}>
+                    <Text style={accountStyle.itemPrice} numberOfLines={1}>{item.price}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))
+          }
+        </View>
+      </ScrollView>
     )
   }
 
