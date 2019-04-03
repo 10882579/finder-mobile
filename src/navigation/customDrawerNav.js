@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import { AsyncStorage, StyleSheet, View, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 
+import { defaultStyle } from '@src/static/index';
+
+const { width, height } = Dimensions.get('window');
+const radius = Math.round(width + height) / 2
+
 class CustomDrawerContentComponent extends Component{
+
+	state = {
+		defaultUserImage: 'https://s3.amazonaws.com/educate.uz/default/male_default.jpg',
+	}
 
 	render(){
 
@@ -13,11 +22,37 @@ class CustomDrawerContentComponent extends Component{
 		return(
 			<SafeAreaView style={styles.container}>
 				<View style={styles.topContainer}>
-					<View style={styles.logoContainer}>
-						<Image source={require('@src/static/imgs/logo-grey.png')} style={styles.logo}/>
+					<View style={styles.imageContainer}>
+						{
+							account.accountFetched ? (
+								<Image source={{uri: account.image}} style={defaultStyle.image}/>
+							) : (
+								<Image source={{uri: this.state.defaultUserImage}} style={defaultStyle.image}/>
+							)
+						}
+					</View>
+					<View style={styles.nameContainer}>
+						{
+							account.accountFetched ? (
+								<View>
+									<Text numberOfLines={1} style={styles.name}>
+										{account.first_name} {account.last_name}
+									</Text>
+									<Text numberOfLines={1} style={styles.email}>
+										{account.email}
+									</Text>
+								</View>
+							) : (
+								<Text numberOfLines={1} style={styles.name}>
+									Guest visitor
+								</Text>
+							)
+						}
 					</View>
 				</View>
-				<DrawerItems {...this.props}/>
+				<View style={defaultStyle.flex}>
+					<DrawerItems {...this.props}/>
+				</View>
 				{
 					account.accountFetched ? (
 						<TouchableOpacity style={styles.logoutContainer} onPress={ logout }>
@@ -34,24 +69,38 @@ class CustomDrawerContentComponent extends Component{
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#16222A',
+		backgroundColor: '#021825',
 		overflow: 'hidden'
 	},
 	topContainer: {
 		width: '100%',
-		height: 170,
-		borderBottomWidth: 1,
-		borderBottomColor: '#859398'
+		height: height/3,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
-	logoContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  logo: {
-    width: 140,
-    height: 140,
-    resizeMode: 'contain'
+	imageContainer: {
+		width: height/7,
+		height: height/7,
+		borderRadius: radius,
+		overflow: 'hidden',
+		borderWidth: 1,
+		borderColor: '#E5E4E0',
+	},
+	nameContainer: {
+		width: width *2/3 - 60,
+		paddingVertical: 15,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	name: {
+		color: 'white', 
+		fontSize: 20, 
+		fontFamily: 'Default-Bold' 
+	},
+	email: {
+		color: '#859398', 
+		fontSize: 15, 
+		fontFamily: 'Default' 
 	},
 	logoutContainer: {
 		flexDirection: 'row',
@@ -64,8 +113,9 @@ const styles = StyleSheet.create({
 	},
 	logoutText: {
 		paddingHorizontal: 15,
-		color: '#859398',
+		color: 'white',
 		fontFamily: 'Default',
+		fontWeight: '400',
 		fontSize: 16
 	}
 })

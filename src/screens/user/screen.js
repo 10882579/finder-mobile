@@ -6,7 +6,7 @@ import { handleGoBack } from '@redux/actions/handleGoBack';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { fetchMessages } from '@redux/actions/notification';
 import { defaultStyle, accountStyle } from '@src/static/index';
-import { Header, AccountImage, LikeAccount, Posts, Contact } from './components/index';
+import { AccountImage, LikeAccount, Posts, Contact } from './components/index';
 
 const { width, height } = Dimensions.get('window');
 

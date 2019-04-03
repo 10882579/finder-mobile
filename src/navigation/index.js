@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Dimensions } from 'react-native';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
-import { FontAwesome, Entypo, MaterialCommunityIcons as MIcon, MaterialIcons } from '@expo/vector-icons';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 
 import Home from '@screens/home/screen';
 import Post from '@screens/post/screen';
@@ -12,47 +13,57 @@ import Notifications from '@screens/notification/screen';
 
 import CustomDrawer from './customDrawerNav';
 
+const { width } = Dimensions.get('window');
+
 const DrawerNavigation = createDrawerNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
       drawerIcon: ({ tintColor }) => {
-        return <FontAwesome name='home' color={tintColor} size={26}/>
+        return <Ionicons name='md-home' color={tintColor} size={28}/>
       },
+      title: 'Asosiy sahifa'
     }
   },
   Create: {
     screen: Create,
     navigationOptions: {
       drawerIcon: ({ tintColor }) => {
-        return <Entypo name='camera' color={tintColor} size={24}/>
+        return <Entypo name='camera' color={tintColor} size={23}/>
       },
+      title: "E'lon berish"
     }
   },
   Notifications : {
     screen: Notifications,
     navigationOptions: {
       drawerIcon: ({ tintColor }) => {
-        return <MaterialIcons name='notifications' color={tintColor} size={26}/>
+        return <Ionicons name='md-notifications' color={tintColor} size={28}/>
       },
+      title: 'Bildirgilar'
     }
   },
   Account: {
     screen: Account,
     navigationOptions: {
       drawerIcon: ({ tintColor }) => {
-        return <MIcon name='account-location' color={tintColor} size={26}/>
+        return <Ionicons name='ios-person' color={tintColor} size={28}/>
       },
+      title: "Shaxsiy sahifa"
     }
   }
 },
 {
   contentComponent: CustomDrawer,
+  drawerWidth: width *2/3,
   contentOptions: {
-    activeTintColor: 'white',
+    activeTintColor: '#01B18C',
     activeBackgroundColor: 'none',
-    inactiveTintColor: '#859398',
+    inactiveTintColor: 'white',
     inactiveBackgroundColor: 'none',
+    itemsContainerStyle: {
+      marginVertical: 0,
+    },
     labelStyle: {
       fontFamily: 'Default',
       fontSize: 16,
