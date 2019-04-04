@@ -15,8 +15,8 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      'Default': require('./src/static/fonts/El_Messiri/ElMessiri-Regular.ttf'),
-      'Default-Bold': require('./src/static/fonts/El_Messiri/ElMessiri-Bold.ttf'),
+      'Default': require('./src/static/fonts/Source/Source-Regular.ttf'),
+      'Default-Bold': require('./src/static/fonts/Source/Source-SemiBold.ttf'),
     });
   }
 
