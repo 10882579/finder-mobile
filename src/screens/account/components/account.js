@@ -40,7 +40,7 @@ class App extends Component {
   }
 
   updateState = (name) => {
-    this.setState( () => ({screen: name}) )
+    this.setState( () => ({screen: ''}) )
     if (name == 'myposts'){
       this.left = 0
     }
@@ -59,7 +59,7 @@ class App extends Component {
         duration: 500,
         toValue: 0
       })
-    ]).start()
+    ]).start(() => this.setState( () => ({screen: name}) ))
   }
 
   render() {
