@@ -70,7 +70,7 @@ class App extends Component {
     const { topHeight, bottomHeight, color, iconColor } = Animation(this.scrollY)
 
     return (
-      <View style={defaultStyle.flex}>
+      <View style={defaultStyle.container}>
         { screen == 'myposts' ? <UserPosts {...this.props} position={this.scrollY}/> : null }
         { screen == 'savedPosts' ? <SavedPosts {...this.props} position={this.scrollY}/> : null }
         { screen == 'following' ? <Following {...this.props}/> : null }

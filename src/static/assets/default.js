@@ -4,7 +4,7 @@ import { Constants } from 'expo';
 const { width, height } = Dimensions.get('window');
 
 module.exports = StyleSheet.create({
-  container: { backgroundColor: '#eff3f4', flex: 1},
+  container: { backgroundColor: '#f2f2f2', flex: 1},
   customHeaderContainer: {
     width: width,
     borderBottomWidth: 0,
@@ -33,7 +33,7 @@ module.exports = StyleSheet.create({
   shadow: {
     ...Platform.select({
       android: {
-        elevation: 1,
+        elevation: 2,
       },
       ios: {
         shadowColor: 'lightgrey',

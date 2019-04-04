@@ -16,7 +16,7 @@ module.exports = StyleSheet.create({
     borderBottomLeftRadius: radius,
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
-    marginBottom: 5,
+    marginBottom: 10,
   },
   imageContainer:{
     height: 80,

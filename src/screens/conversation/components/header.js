@@ -25,11 +25,11 @@ export default class App extends React.Component {
         <View style={notificationStyle.divider}/>
         <View style={[defaultStyle.headerBodyContainer, defaultStyle.displayInLine]}>
           <View style={notificationStyle.headerButton}>
-            <Feather name='bell' size={26}/>
+            <Feather name='message-circle' size={26}/>
           </View>
           <View style={defaultStyle.flex}>
             <Text style={notificationStyle.headerTitleText}>
-              Bildirgilar
+              Muloqotlar
             </Text>
           </View>
         </View>

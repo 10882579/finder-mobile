@@ -9,6 +9,7 @@ import Account from '@screens/account/screen';
 import Create from '@screens/create/screen';
 import User from '@screens/user/screen';
 import Chat from '@screens/chat/screen';
+import Conversations from '@screens/conversation/screen';
 import Notifications from '@screens/notification/screen';
 
 import CustomDrawer from './customDrawerNav';
@@ -32,6 +33,15 @@ const DrawerNavigation = createDrawerNavigator({
         return <Entypo name='camera' color={tintColor} size={23}/>
       },
       title: "E'lon berish"
+    }
+  },
+  Conversations: {
+    screen: Conversations,
+    navigationOptions: {
+      drawerIcon: ({ tintColor }) => {
+        return <Ionicons name='ios-chatbubbles' color={tintColor} size={28}/>
+      },
+      title: 'Muloqotlar'
     }
   },
   Notifications : {
