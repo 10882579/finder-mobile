@@ -63,7 +63,7 @@ export default class App extends Component{
                 onPress={ () => this.handleFetchPost(item.id) }
               >
                 <View style={[defaultStyle.flex, {borderRadius: 4, overflow: 'hidden'}]}>
-                  <Image source={{uri: item.photos[0].uri}} style={defaultStyle.image}/>
+                  <Image source={{uri: item.images[0].uri}} style={defaultStyle.image}/>
                 </View>
                 <View style={accountStyle.itemInformation}>
                   <View style={accountStyle.itemTitleContainer}>
