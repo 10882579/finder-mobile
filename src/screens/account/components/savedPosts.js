@@ -42,8 +42,8 @@ export default class App extends Component{
 
     return (
       <ScrollView
-        scrollEventThrottle={16}
         bounces={false}
+        scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         onScroll={
           Animated.event(
@@ -61,16 +61,16 @@ export default class App extends Component{
                 style={[accountStyle.listItem, defaultStyle.shadow]}
                 onPress={ () => this.handleFetchPost(item.id) }
               >
-                <View style={accountStyle.itemImageContainer}>
+                <View style={[defaultStyle.flex, {borderRadius: 4, overflow: 'hidden'}]}>
                   <Image source={{uri: item.photos[0].uri}} style={defaultStyle.image}/>
                 </View>
                 <View style={accountStyle.itemInformation}>
                   <View style={accountStyle.itemTitleContainer}>
                     <Text style={accountStyle.itemTitle} numberOfLines={2}>{item.title}</Text>
                   </View>
-                  <View style={accountStyle.itemPriceContainer}>
-                    <Text style={accountStyle.itemPrice} numberOfLines={1}>{item.price}</Text>
-                  </View>
+                </View>
+                <View style={accountStyle.itemPriceContainer}>
+                  <Text style={accountStyle.itemPrice} numberOfLines={1}>{item.price}</Text>
                 </View>
               </TouchableOpacity>
             ))

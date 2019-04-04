@@ -36,7 +36,7 @@ export default class App extends Component{
         bounces={false}
         showsVerticalScrollIndicator={false}
       >
-        <View style={accountStyle.scrollviewContainer}>
+        <View style={accountStyle.followScrollviewContainer}>
           {
             following.map( (item) => (
               <TouchableOpacity
