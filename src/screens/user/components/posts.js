@@ -30,7 +30,6 @@ export default class App extends Component{
       url: url,
     })
     .then((res) => {
-      console.log(res.data)
       this.setState( (prev) => ({...prev, posts: [...res.data]}) )
     })
     .catch((err) => {

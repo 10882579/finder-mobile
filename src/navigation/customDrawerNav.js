@@ -34,7 +34,7 @@ class CustomDrawerContentComponent extends Component{
 					<View style={styles.nameContainer}>
 						{
 							account.accountFetched ? (
-								<View>
+								<View style={defaultStyle.alignCenterHorizontal}>
 									<Text numberOfLines={1} style={styles.name}>
 										{account.first_name} {account.last_name}
 									</Text>
