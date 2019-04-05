@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, Animated } from 'react-native';
+import { View, TouchableOpacity, Image, Animated, Text } from 'react-native';
 import { ImagePicker } from 'expo';
-import { EvilIcons } from '@expo/vector-icons';
+import { EvilIcons, FontAwesome } from '@expo/vector-icons';
 import { defaultStyle, accountStyle } from '@src/static/index';
 
 import Animation from '../animations/image';
@@ -24,6 +24,11 @@ export default (props) => {
     }
   }
 
+  const rating    = 4.3;
+  const ratings   = Array.from({length: Math.floor(rating)});
+  const remainder = (rating - Math.floor(rating))
+
+
   return (
     <Animated.View style={[accountStyle.accountContainer, position]}>
       <Animated.View style={[accountStyle.accountImageContainer, scale]}>
@@ -41,6 +46,23 @@ export default (props) => {
         <Animated.Text style={[accountStyle.name, {fontSize: nameScale}]} numberOfLines={1}>
           {account.first_name} {account.last_name}
         </Animated.Text>
+        <View style={accountStyle.ratingContainer}>
+          <Text style={accountStyle.rating}>{rating}</Text>
+          <View style={accountStyle.ratingStarContainer}>
+            {
+              ratings.map( (_, i) => (
+                <FontAwesome name='star' style={accountStyle.ratingStar}/>
+              ))
+            }
+            {
+              remainder !== 0 && remainder <= 0.5 ? (
+                <FontAwesome name='star-half' style={accountStyle.ratingStar}/>
+              ) : (
+                <FontAwesome name='star' style={accountStyle.ratingStar}/>
+              )
+            }
+          </View>
+        </View>
       </Animated.View>
     </Animated.View>
   )

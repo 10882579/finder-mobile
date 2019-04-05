@@ -45,7 +45,7 @@ module.exports = (scrollY) => {
     }),
     namePosition: scrollY.interpolate({
       inputRange: [0, MAX_HEIGHT/2-55, SC_DISTANCE-55],
-      outputRange: [170, 100, 5],
+      outputRange: [175, 105, 5],
       extrapolate: 'clamp'
     }),
     opacity: scrollY.interpolate({

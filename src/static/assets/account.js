@@ -57,6 +57,26 @@ module.exports = StyleSheet.create({
   name: {
     fontFamily: 'Default',
   },
+  ratingContainer: {
+    marginTop: 5,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  rating: {
+    fontFamily: 'Default',
+    fontSize: 17,
+    marginRight: 7,
+    color: 'grey',
+  },
+  ratingStarContainer:{
+    flexDirection: 'row',
+  },
+  ratingStar: {
+    width: 20,
+    fontSize: 20,
+    color: 'gold',
+    marginHorizontal: 2,
+  },
   bottomContainer: {
     width: width,
     overflow: 'hidden'
