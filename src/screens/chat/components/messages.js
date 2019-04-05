@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, ScrollView, Text, Image } from 'react-native';
-import { chatStyle, defaultStyle } from '@src/static/index';
+import { View, ScrollView, Text } from 'react-native';
+import { chatStyle } from '@src/static/index';
 import { messageCreateAt } from '@src/timefilter';
 
 export default class App extends React.Component {
@@ -14,7 +14,7 @@ export default class App extends React.Component {
     return (
       <ScrollView 
         bounces={false}
-        style={chatStyle.messagesContainer}
+        style={chatStyle.scrollViewContainer}
         scrollEventThrottle={8}
         showsVerticalScrollIndicator={false}
         ref={ref => this.scrollView = ref}
@@ -25,26 +25,24 @@ export default class App extends React.Component {
           this.scrollView.scrollToEnd({animated: false});
         }}
       >
-        {
-          data.map( (item, i) => (
-            <View 
-              style={[
-                chatStyle.messageListItem, 
-                account.account_id == item.account_id ? {flexDirection: 'row-reverse'} : null
-            ]} key={i}>
-              <View style={chatStyle.messageItemImageContainer}>
-                <View style={chatStyle.messageItemImage}>
-                  <Image source={{uri: item.image}} style={defaultStyle.image}/>
+        <View style={chatStyle.messagesContainer}>
+          {
+            data.map( (item, i) => (
+              <View 
+                style={[
+                  chatStyle.messageListItem, 
+                  account.account_id == item.account_id ? {
+                    flexDirection: 'row-reverse'
+                  } : null
+              ]} key={i}>
+                <View style={chatStyle.messageItemContext}>
+                  <Text style={chatStyle.messageText}>{item.message}</Text>
+                  <Text style={chatStyle.messageTimeText}>{messageCreateAt(item.created_at)}</Text>
                 </View>
               </View>
-              <View style={chatStyle.messageItemContext}>
-                <Text numberOfLines={1} style={chatStyle.senderUsername}>{item.first_name} {item.last_name}</Text>
-                <Text style={chatStyle.messageText}>{item.message}</Text>
-                <Text style={chatStyle.messageTimeText}>{messageCreateAt(item.created_at)}</Text>
-              </View>
-            </View>
-          ))
-        }
+            ))
+          }
+        </View>
       </ScrollView>
     )
   }

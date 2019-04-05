@@ -1,4 +1,5 @@
 import { StyleSheet,  Dimensions } from 'react-native';
+import { Constants } from 'expo';
 const { width, height } = Dimensions.get('window');
 const radius = Math.round(width + height) / 2
 
@@ -21,6 +22,8 @@ module.exports = StyleSheet.create({
   imageContainer:{
     height: 80,
     width: 80,
+    borderWidth: 1,
+		borderColor: '#16222A',
     borderRadius: radius,
     overflow: 'hidden'
   },
@@ -33,23 +36,30 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     fontSize: 16
   },
+  // Chat Screen style 
   chatContainer: {
+    flex: 1,
+    paddingTop: Constants.statusBarHeight,
+  },
+  safeAreaViewContainer: {
     flex: 1,
     backgroundColor: 'white',
   },
   header: {
     position: 'absolute',
     backgroundColor: 'white',
+    height: 55 + Constants.statusBarHeight,
     top: 0,
-    zIndex: 9999,
   },
   headerIcon: {
     color: 'black',
     fontSize: 24,
   },
   userImageContainer:{ 
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
+    borderWidth: 1,
+		borderColor: '#16222A',
     borderRadius: radius,
     overflow: 'hidden'
   },
@@ -63,47 +73,39 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     fontSize: 18,
   },
-  messagesContainer:{
+  scrollViewContainer:{
     flex: 1,
-    marginTop: 50,
     backgroundColor: '#f2f2f2',
+  },
+  messagesContainer: {
+    flex: 1, 
+    marginTop: 55, 
+    paddingVertical: 10,
+    paddingHorizontal: 13,
   },
   messageListItem: {
     width: '100%',
     flexDirection: 'row',
-    marginVertical: 7,
-  },
-  messageItemImageContainer:{
-    width: 40,
-    justifyContent: 'flex-end',
-    marginHorizontal: 10,
-  },
-  messageItemImage: {
-    width: 40,
-    height: 40,
-    borderRadius: radius,
-    overflow: 'hidden',
+    marginBottom: 10,
   },
   messageItemContext: {
     backgroundColor: 'white',
     width: '60%',
     padding: 7,
     borderRadius: 5,
-  },
-  senderUsername: {
-    fontFamily: 'Default',
-    color: '#1aa3ff',
-    marginBottom: 7,
+    borderWidth: 1,
+		borderColor: '#E5E4E0',
   },
   messageText: {
     fontFamily: 'Default',
     textAlign: 'justify',
+    fontSize: 14,
   },
   messageTimeText:{
     marginTop: 5,
     color: 'grey',
     alignSelf: 'flex-end',
-    fontSize: 13,
+    fontSize: 12,
   },
   messageCreateContainer: {
     height: 'auto',

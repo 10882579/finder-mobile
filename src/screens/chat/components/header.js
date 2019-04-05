@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, Text, StatusBar } from 'react-native';
+import { View, TouchableOpacity, Image, Text, StatusBar, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { chatStyle, defaultStyle } from '@src/static/index';
 
@@ -10,7 +10,7 @@ export default (props) => {
 
   return (
     <View style={[defaultStyle.customHeaderContainer, chatStyle.header, defaultStyle.shadow]}>
-      <StatusBar barStyle='dark-content' />
+      <StatusBar barStyle={ Platform.OS == 'ios' ? 'dark-content' : 'light-content'}/>
       <TouchableOpacity style={[defaultStyle.headerIconContainer]} 
         activeOpacity={0.8}
         onPress={ () => navigation.goBack() }

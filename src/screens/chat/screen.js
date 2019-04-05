@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, TextInput, KeyboardAvoidingView, TouchableOpacity, Keyboard } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
-import { FontAwesome } from '@expo/vector-icons';
+import { View, TextInput, KeyboardAvoidingView, TouchableOpacity, SafeAreaView } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import { Header, Messages } from './components/index';
 import { handleGoBack } from '@redux/actions/handleGoBack';
-import { chatStyle, defaultStyle } from '@src/static/index';
+import { chatStyle } from '@src/static/index';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -12,7 +11,6 @@ class App extends Component {
   state = {
 		text: '',
     messages: [],
-    bottom: 'always',
   }
 
   componentWillMount = () => {
@@ -22,8 +20,6 @@ class App extends Component {
       ...prev,
       messages: params.messages
     }))
-    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow)
-    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide)
   }
 
   componentDidMount = () => {
@@ -61,17 +57,6 @@ class App extends Component {
 
   componentWillUnmount(){
     this.socket.close()
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
-  }
-
-
-  keyboardWillShow = () => {
-    this.setState( (prev) => ({...prev, bottom: 'never'}))
-  }
-
-  keyboardWillHide = () => {
-    this.setState( (prev) => ({...prev, bottom: 'always'}))
   }
 
   sendMessage = async () => {
@@ -88,8 +73,7 @@ class App extends Component {
 	render() {
     return (
       <KeyboardAvoidingView style={chatStyle.chatContainer} behavior='padding'>
-        <Header {...this.props}/>
-        <SafeAreaView style={[defaultStyle.flex]} forceInset={{bottom: this.state.bottom}}>
+        <SafeAreaView style={chatStyle.safeAreaViewContainer}>
           <Messages {...this.props} data={this.state.messages}/>
           <View style={chatStyle.messageCreateContainer}>
             <View style={chatStyle.messageInputContainer}>
@@ -105,10 +89,11 @@ class App extends Component {
               />
             </View>
             <TouchableOpacity style={chatStyle.sendButton} onPress={ this.sendMessage }>
-              <FontAwesome name='send-o' color='#16222A' size={22} />
+              <MaterialIcons name='send' color='#16222A' size={26} />
             </TouchableOpacity>
           </View>
         </SafeAreaView>
+        <Header {...this.props}/>
       </KeyboardAvoidingView>
     )
   }

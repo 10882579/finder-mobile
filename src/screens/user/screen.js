@@ -54,7 +54,7 @@ class App extends Component {
     const { navigation } = this.props;
 
     return (
-      <View style={defaultStyle.flex}>
+      <View style={defaultStyle.container}>
         { this.state.screen == 'posts' ? <Posts {...this.props} /> : null }
         <View style={[accountStyle.mainContainer, defaultStyle.shadow]}>
           <StatusBar barStyle="light-content"/>

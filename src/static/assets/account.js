@@ -155,6 +155,8 @@ module.exports = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: radius,
+    borderWidth: 1,
+    borderColor: '#16222A',
     overflow: 'hidden',
   },
   followingUserNameContainer: {
