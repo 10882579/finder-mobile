@@ -246,4 +246,50 @@ module.exports = StyleSheet.create({
     height: 3,
     backgroundColor: '#1aa3ff'
   },
+  commentListItem: {
+    width: width - 20,
+    backgroundColor: 'white',
+    marginHorizontal: 5,
+    borderRadius: 5,
+    padding: 15,
+  },
+  reviewerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  reviewerImage: {
+    width: 50,
+    height: 50,
+    borderRadius: radius,
+    borderWidth: 1,
+    borderColor: 'darkgrey',
+    overflow: 'hidden',
+    marginRight: 10,
+  },
+  reviewerName: {
+    fontFamily: 'Default',
+    fontSize: 17,
+  },
+  reviewRatingContainer: {
+    width: width - 110,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  reviewerRatingStar: {
+    width: 17,
+    fontSize: 16,
+    marginHorizontal: 0,
+  },
+  reviewCreatedAt:{
+    fontFamily: 'Default',
+    color: 'grey',
+    fontSize: 16,
+  },
+  review: {
+    fontFamily: 'Default',
+    fontSize: 15,
+    textAlign: 'justify',
+  },
 })

@@ -6,7 +6,7 @@ import { handleGoBack } from '@redux/actions/handleGoBack';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { fetchMessages } from '@redux/actions/notification';
 import { defaultStyle, accountStyle } from '@src/static/index';
-import { AccountImage, LikeAccount, Posts, Contact } from './components/index';
+import { AccountImage, LikeAccount, Posts, Contact, Comments } from './components/index';
 
 const { width, height } = Dimensions.get('window');
 
@@ -56,6 +56,7 @@ class App extends Component {
     return (
       <View style={defaultStyle.container}>
         { this.state.screen == 'posts' ? <Posts {...this.props} /> : null }
+        { this.state.screen == 'rating' ? <Comments {...this.props} /> : null }
         <View style={[accountStyle.mainContainer, defaultStyle.shadow]}>
           <StatusBar barStyle="light-content"/>
           <View style={[accountStyle.topContainer, {height: 225}]}>
