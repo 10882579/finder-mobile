@@ -53,5 +53,10 @@ module.exports = (scrollY) => {
       outputRange: [1, 0],
       extrapolate: 'clamp'
     }),
+    fadeOut: scrollY.interpolate({
+      inputRange: [MAX_HEIGHT/2-55, SC_DISTANCE-100],
+      outputRange: [1, 0],
+      extrapolate: 'clamp'
+    }),
   }
 }

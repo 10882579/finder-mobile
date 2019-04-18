@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Dimensions, Animated, StatusBar } from 'react-native';
+import { View, TouchableOpacity, Dimensions, Animated, StatusBar, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
@@ -67,7 +67,7 @@ class App extends Component {
     const { account, handleGoBack, navigation } = this.props;
     const { screen }  = this.state;
 
-    const { topHeight, bottomHeight, color, iconColor } = Animation(this.scrollY)
+    const { topHeight, bottomHeight, color, iconColor, fadeIn } = Animation(this.scrollY);
 
     return (
       <View style={defaultStyle.container}>
@@ -90,6 +90,9 @@ class App extends Component {
                 }}
               />
             </TouchableOpacity>
+            <Animated.View style={[accountStyle.headerNameContainer, {opacity: fadeIn}]}>
+              <Text numberOfLines={1} style={accountStyle.name}>{account.first_name} {account.last_name}</Text>
+            </Animated.View>
           </Animated.View>
           <Animated.View style={[accountStyle.bottomContainer, {height: bottomHeight}]}>
             <View style={accountStyle.navigationContainer}>

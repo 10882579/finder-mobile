@@ -22,6 +22,16 @@ module.exports = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  headerNameContainer: {
+    position: 'absolute',
+    top: Constants.statusBarHeight,
+    paddingHorizontal: 5,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    height: 65,
+    left: 120,
+    right: 20,
+  },
   accountContainer: {
     position: 'absolute',
     left: 60,
@@ -56,6 +66,7 @@ module.exports = StyleSheet.create({
   },
   name: {
     fontFamily: 'Default',
+    fontSize: 20,
   },
   ratingContainer: {
     marginTop: 5,
@@ -74,7 +85,6 @@ module.exports = StyleSheet.create({
   ratingStar: {
     width: 20,
     fontSize: 20,
-    color: 'gold',
     marginHorizontal: 2,
   },
   bottomContainer: {

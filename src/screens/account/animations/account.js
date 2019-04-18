@@ -26,5 +26,10 @@ module.exports = (scrollY) => {
       outputRange: ['#16222A', 'white'],
       extrapolate: 'clamp'
     }),
+    fadeIn: scrollY.interpolate({
+      inputRange: [SC_DISTANCE-100, SC_DISTANCE-55],
+      outputRange: [0, 1],
+      extrapolate: 'clamp'
+    }),
   }
 }
