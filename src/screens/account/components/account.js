@@ -1,114 +1,84 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Dimensions, Animated, StatusBar, Text } from 'react-native';
-
-import { connect } from 'react-redux';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { View, TouchableOpacity, Image, Text } from 'react-native';
+import { AntDesign, Feather, EvilIcons } from '@expo/vector-icons';
 import { defaultStyle, accountStyle } from '@src/static/index';
+import { ImagePicker } from 'expo';
+import { connect } from 'react-redux';
 
-const AnimatedIcon = Animated.createAnimatedComponent(Ionicons);
-
-import Animation from '../animations/account';
-
-import {
-  AccountImage,
-  UserPosts,
-  SavedPosts,
-  Following
-} from './index';
+import { Header, Rating } from './index';
 
 import {
-  followAccount,
   fetchUserPosts,
   fetchUserSavedPosts,
   fetchFollowingUsers,
   updateAccount,
 } from '@redux/actions/account';
 
-const { width } = Dimensions.get('window');
-
 class App extends Component {
 
-  state = {
-    page: 1,
-    screen: 'myposts'
-  }
+  uploadImage = async () => {
 
-  componentWillMount(){
-    this.navbarPosition = new Animated.Value(0)
-    this.scrollY        = new Animated.Value(0)
-    this.left = 0
-  }
+    const { updateAccountImage, navigation } = this.props;
 
-  updateState = (name) => {
-    this.setState( () => ({screen: ''}) )
-    if (name == 'myposts'){
-      this.left = 0
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      mediaTypes: 'Images',
+      aspect: [1, 1],
+    });
+    if (!result.cancelled){
+      updateAccountImage({image: result.uri}, navigation)
     }
-    else if(name == 'savedPosts'){
-      this.left = width/3
-    }
-    else if(name == 'following'){
-      this.left = width*2/3
-    }
-    Animated.parallel([
-      Animated.timing(this.navbarPosition, {
-        duration: 200,
-        toValue: this.left
-      }),
-      Animated.timing(this.scrollY, {
-        duration: 500,
-        toValue: 0
-      })
-    ]).start(() => this.setState( () => ({screen: name}) ))
   }
 
   render() {
 
-    const { account, handleGoBack, navigation } = this.props;
-    const { screen }  = this.state;
-
-    const { topHeight, bottomHeight, color, iconColor, fadeIn } = Animation(this.scrollY);
+    const { account } = this.props;
 
     return (
       <View style={defaultStyle.container}>
-        { screen == 'myposts' ? <UserPosts {...this.props} position={this.scrollY}/> : null }
-        { screen == 'savedPosts' ? <SavedPosts {...this.props} position={this.scrollY}/> : null }
-        { screen == 'following' ? <Following {...this.props}/> : null }
         <View style={[accountStyle.mainContainer, defaultStyle.shadow]}>
-          <StatusBar barStyle="light-content"/>
-          <Animated.View style={[accountStyle.topContainer, {height: topHeight, backgroundColor: color}]}>
-            <TouchableOpacity
-              style={accountStyle.backBtnContainer}
-              activeOpacity={0.8}
-              onPress={ () => handleGoBack(navigation) }
-            >
-              <AnimatedIcon
-                name='md-arrow-round-back'
-                style={{
-                  fontSize: 24,
-                  color: iconColor
-                }}
-              />
-            </TouchableOpacity>
-            <Animated.View style={[accountStyle.headerNameContainer, {opacity: fadeIn}]}>
-              <Text numberOfLines={1} style={accountStyle.name}>{account.first_name} {account.last_name}</Text>
-            </Animated.View>
-          </Animated.View>
-          <Animated.View style={[accountStyle.bottomContainer, {height: bottomHeight}]}>
-            <View style={accountStyle.navigationContainer}>
-              <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.updateState('myposts') }>
-                <AntDesign name='bars' size={30}/>
-              </TouchableOpacity>
-              <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.updateState('savedPosts') }>
-                <Feather name='bookmark' size={30}/>
-              </TouchableOpacity>
-              <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.updateState('following') }>
-                <AntDesign name='like2' size={30}/>
-              </TouchableOpacity>
+          <View style={accountStyle.topContainer}>
+            <Header {...this.props}/>
+          </View>
+          <View style={defaultStyle.flex}>
+            <View style={accountStyle.nameContainer}>
+              <Text style={accountStyle.name} numberOfLines={1}>
+                {account.first_name} {account.last_name}
+              </Text>
             </View>
-            <Animated.View style={[accountStyle.navigationListBorder, {left: this.navbarPosition}]} />
-          </Animated.View>
-          <AccountImage {...this.props} image={account.image} scrollY={this.scrollY}/>
+            <Rating rating={account.rating} />
+          </View>
+          <View style={accountStyle.accountContainer}>
+            <View style={accountStyle.accountImageContainer}>
+              <View style={accountStyle.accountImage}>
+                <Image source={{uri: account.image}} style={defaultStyle.image}/>
+                <TouchableOpacity
+                  style={accountStyle.accountImageUploadButton}
+                  activeOpacity={0.9} onPress={ this.uploadImage }
+                >
+                  <EvilIcons name='camera' color='white' size={20}/>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={accountStyle.navigationContainer}>
+          <TouchableOpacity style={accountStyle.navigationList}>
+            <AntDesign name='bars' size={28}/>
+            <Text style={accountStyle.navigationText}>E'lonlarim</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={accountStyle.navigationList}>
+            <Feather name='bookmark' size={28}/>
+            <Text style={accountStyle.navigationText}>Belgilangan e'lonlar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={accountStyle.navigationList}>
+            <AntDesign name='like2' size={28}/>
+            <Text style={accountStyle.navigationText}>Kuzatilayotkanlar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={accountStyle.navigationList}>
+            <AntDesign name='staro' size={28}/>
+            <Text style={accountStyle.navigationText}>Reyting</Text>
+          </TouchableOpacity>
         </View>
       </View>
     )
@@ -125,9 +95,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    followAccount: (id) => {
-      dispatch(followAccount(id))
-    },
     fetchUserPosts: (id, type, page) => {
       dispatch(fetchUserPosts(id, type, page))
     },

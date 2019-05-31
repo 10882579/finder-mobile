@@ -2,11 +2,11 @@ import Account        from './account';
 import Login          from './login';
 import Register       from './register';
 import Header         from './header';
-import AccountImage   from './image';
 import UserPosts      from './userPosts';
 import SavedPosts     from './savedPosts';
 import Following      from './following';
 import Alert          from './alert';
+import Rating         from './rating';
 
 export {
   Account,
@@ -14,8 +14,8 @@ export {
   Login,
   Register,
   Header,
-  AccountImage,
   UserPosts,
   SavedPosts,
   Following,
+  Rating,
 }

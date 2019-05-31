@@ -12,7 +12,7 @@ export default class App extends Component{
 
   componentDidMount(){
     const { account, fetchUserPosts } = this.props;
-    fetchUserPosts(account.account_id, 'OVERRIDE_USER_POSTS', this.state.page)
+    // fetchUserPosts(account.account_id, 'OVERRIDE_USER_POSTS', this.state.page)
   }
 
   handleFetchPost = (id) => {
