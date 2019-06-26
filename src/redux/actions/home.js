@@ -105,6 +105,36 @@ const fetchAllPosts = () => {
     })
   }
 }
+
+const fetchPost = (id, cb) => {
+  return (dispatch, getState) => {
+    const { account, mode } = getState();
+    const url = mode.server == 'production' ? (
+      `https://finder-uz.herokuapp.com/post/${id}/`
+    ) : (
+      `http://localhost:8000/post/${id}/`
+    )
+    axios({
+      method: 'POST',
+      url: url,
+      headers: {
+        'Accept': 'application/json',
+        'X-Auth-Token': account.token
+      },
+    })
+    .then(({status, data}) => {
+      if(status === 200){
+        cb(data, null);
+      }
+    })
+    .catch((err) => {
+      cb(null, err.response);
+    })
+  }
+}
+
+
 export {
   fetchAllPosts,
+  fetchPost
 }

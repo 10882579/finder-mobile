@@ -64,6 +64,7 @@ const DrawerNavigation = createDrawerNavigator({
   }
 },
 {
+  initialRouteName: 'Account',
   contentComponent: CustomDrawer,
   drawerWidth: width *2/3,
   contentOptions: {

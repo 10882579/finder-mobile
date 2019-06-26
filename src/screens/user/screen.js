@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text, Animated, Dimensions, StatusBar } from 'react-native';
+import { View, TouchableOpacity, Text, StatusBar, Image } from 'react-native';
 
 import { connect }  from 'react-redux';
 import { handleGoBack } from '@redux/actions/handleGoBack';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { fetchMessages } from '@redux/actions/notification';
+import { followAccount } from '@redux/actions/account';
 import { defaultStyle, accountStyle } from '@src/static/index';
-import { AccountImage, LikeAccount, Posts, Contact, Comments } from './components/index';
+import { DetailView, Contact, Rating, LikeAccount } from './components/index';
 
-const { width, height } = Dimensions.get('window');
 
 class App extends Component {
 
@@ -22,73 +22,65 @@ class App extends Component {
       ...prev,
       ...params,
     }))
-
-    this.navbarPosition = new Animated.Value(0)
   }
 
-  followAccount = () => {
-    this.setState( (prev) => ({
-      ...prev,
-      following: !prev.following
-    }) )
-  }
-
-  switchNavigation = (name) => {
-    this.setState( (prev) => ({
-      ...prev, screen: name
-    }))
-    if (name == 'posts'){
-      this.left = 0
-    }
-    else if(name == 'rating'){
-      this.left = width/2
-    }
-    Animated.timing(this.navbarPosition, {
-      duration: 200,
-      toValue: this.left
-    }).start()
+  followAccount = (id) => {
+    const { followAccount } = this.props;
+    followAccount(id, () => {
+      this.setState( (prev) => ({
+        ...prev,
+        following: !prev.following
+      }))
+    })
+    
   }
 
   render() {
 
     const { navigation } = this.props;
+    const { account } = this.state;
 
     return (
       <View style={defaultStyle.container}>
-        { this.state.screen == 'posts' ? <Posts {...this.props} /> : null }
-        { this.state.screen == 'rating' ? <Comments {...this.props} /> : null }
         <View style={[accountStyle.mainContainer, defaultStyle.shadow]}>
-          <StatusBar barStyle="light-content"/>
-          <View style={[accountStyle.topContainer, {height: 225}]}>
-            <TouchableOpacity
-              style={accountStyle.backBtnContainer}
-              activeOpacity={0.8}
-              onPress={ () => navigation.goBack() }
-            >
-              <Ionicons
-                name='md-arrow-round-back'
-                style={{
-                  fontSize: 24,
-                  color: 'white'
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={[accountStyle.bottomContainer, {height: 225}]}>
-            <View style={accountStyle.navigationContainer}>
-              <TouchableOpacity style={accountStyle.userScreenNavList} onPress={ () => this.switchNavigation('posts') }>
-                <AntDesign name='bars' size={30}/>
+          <View style={accountStyle.topContainer}>
+            <View style={defaultStyle.customHeaderContainer}>
+              <StatusBar barStyle='light-content'/>
+              <TouchableOpacity
+                style={defaultStyle.headerIconContainer}
+                activeOpacity={0.8}
+                onPress={ () => navigation.goBack() }
+              >
+                <Ionicons
+                  name='md-arrow-round-back'
+                  style={defaultStyle.headerIcon}
+                />
               </TouchableOpacity>
-              <TouchableOpacity style={accountStyle.userScreenNavList} onPress={ () => this.switchNavigation('rating') }>
-                <AntDesign name='staro' size={30}/>
-              </TouchableOpacity>
-            </View>          
-            <Animated.View style={[accountStyle.userScreenNavListBorder, {left: this.navbarPosition}]} />
+              <View style={defaultStyle.headerBodyContainer}/>
+            </View>
+            <Contact {...this.props}/>
+            <LikeAccount {...this.props}
+              following={ this.state.following }
+              follow={ this.followAccount }
+            />
           </View>
-          <Contact {...this.props}/>
-          <AccountImage {...this.props} data={this.state.account}/>
-          <LikeAccount {...this.props} following={this.state.following} followAccount={ this.followAccount }/>
+          <View style={defaultStyle.flex}>
+            <View style={accountStyle.nameContainer}>
+              <Text style={accountStyle.name} numberOfLines={1}>
+                {account.first_name} {account.last_name}
+              </Text>
+            </View>
+            <Rating rating={account.rating} />
+          </View>
+          <View style={accountStyle.accountContainer}>
+            <View style={accountStyle.accountImageContainer}>
+              <View style={accountStyle.accountImage}>
+                <Image source={{uri: account.image}} style={defaultStyle.image}/>
+              </View>
+            </View>
+          </View>
         </View>
+        <DetailView {...this.props}/>
       </View>
     )
   }
@@ -109,6 +101,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchMessages: (id, cb) => {
       dispatch(fetchMessages(id, cb))
     },
+    followAccount: (id, cb) => {
+      dispatch(followAccount(id, cb))
+    }
   }
 }
 

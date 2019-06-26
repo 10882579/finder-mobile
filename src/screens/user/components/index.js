@@ -1,13 +1,13 @@
-import AccountImage   from './image';
+import DetailView     from './detailview';
 import LikeAccount    from './like';
-import Posts          from './posts';
 import Contact        from './contact';
 import Comments       from './comments';
+import Rating         from './rating';
 
 export {
-  AccountImage,
+  DetailView,
   LikeAccount,
-  Posts,
   Contact,
-  Comments
+  Comments,
+  Rating
 }

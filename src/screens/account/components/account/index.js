@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Image, Text } from 'react-native';
-import { AntDesign, Feather, EvilIcons } from '@expo/vector-icons';
 import { defaultStyle, accountStyle } from '@src/static/index';
+import { EvilIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
 import { connect } from 'react-redux';
+import { fetchPost } from '@redux/actions/home';
 
-import { Header, Rating } from './index';
+import Header from "./header";
+import Rating from './rating';
+import DetailView from './detailview';
 
-import {
-  fetchUserPosts,
-  fetchUserSavedPosts,
-  fetchFollowingUsers,
-  updateAccount,
+import { 
+  fetchUserPosts, 
+  fetchUserSavedPosts, 
+  fetchFollowingUsers, 
+  fetchSpecificAccount,
+  followAccount
 } from '@redux/actions/account';
 
 class App extends Component {
@@ -62,24 +66,7 @@ class App extends Component {
             </View>
           </View>
         </View>
-        <View style={accountStyle.navigationContainer}>
-          <TouchableOpacity style={accountStyle.navigationList}>
-            <AntDesign name='bars' size={28}/>
-            <Text style={accountStyle.navigationText}>E'lonlarim</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={accountStyle.navigationList}>
-            <Feather name='bookmark' size={28}/>
-            <Text style={accountStyle.navigationText}>Belgilangan e'lonlar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={accountStyle.navigationList}>
-            <AntDesign name='like2' size={28}/>
-            <Text style={accountStyle.navigationText}>Kuzatilayotkanlar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={accountStyle.navigationList}>
-            <AntDesign name='staro' size={28}/>
-            <Text style={accountStyle.navigationText}>Reyting</Text>
-          </TouchableOpacity>
-        </View>
+        <DetailView {...this.props}/>
       </View>
     )
   }
@@ -87,26 +74,33 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.detail.posts,
-    saved: state.detail.savedPosts,
-    following: state.detail.following
+
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchUserPosts: (id, type, page) => {
-      dispatch(fetchUserPosts(id, type, page))
-    },
-    fetchUserSavedPosts: (type, page) => {
-      dispatch(fetchUserSavedPosts(type, page))
-    },
-    fetchFollowingUsers: (type, page) => {
-      dispatch(fetchFollowingUsers(type, page))
-    },
     updateAccountImage: (obj, nav) => {
       dispatch(updateAccount(obj, nav))
     },
+    fetchUserPosts: (id, page, cb) => {
+      dispatch(fetchUserPosts(id, page, cb))
+    },
+    fetchUserSavedPosts: (page, cb) => {
+      dispatch(fetchUserSavedPosts(page, cb))
+    },
+    fetchFollowingUsers: (page, cb) => {
+      dispatch(fetchFollowingUsers(page, cb))
+    },
+    fetchSpecificAccount: (id, cb) => {
+      dispatch(fetchSpecificAccount(id, cb))
+    },
+    fetchPost: (id, cb) => {
+      dispatch(fetchPost(id, cb))
+    },
+    followAccount: (id, cb) => {
+      dispatch(followAccount(id, cb))
+    }
   }
 }
 

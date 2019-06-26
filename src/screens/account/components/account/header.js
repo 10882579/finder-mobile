@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Animated, StatusBar } from 'react-native';
+import { View, TouchableOpacity, StatusBar } from 'react-native';
 
 import { Ionicons }     from '@expo/vector-icons';
 import { defaultStyle } from '@src/static/index';
@@ -7,7 +7,7 @@ import { defaultStyle } from '@src/static/index';
 export default (props) => {
 	const { navigation } = props;
 	return (
-	  <Animated.View style={[defaultStyle.customHeaderContainer, props.style]}>
+	  <View style={defaultStyle.customHeaderContainer}>
 			<StatusBar barStyle='light-content'/>
 			<TouchableOpacity
 				style={defaultStyle.headerIconContainer}
@@ -20,6 +20,6 @@ export default (props) => {
 				/>
 			</TouchableOpacity>
 			<View style={defaultStyle.headerBodyContainer}/>
-	  </Animated.View>
+	  </View>
 	)
 }

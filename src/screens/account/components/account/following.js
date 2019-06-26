@@ -2,33 +2,42 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-import { fetchSpecificAccount } from '@src/requests';
 import { defaultStyle, accountStyle } from '@src/static/index';
 
 export default class App extends Component{
 
   state = {
     page: 1,
+    data: [],
   }
 
   componentDidMount(){
     const { fetchFollowingUsers } = this.props;
-    fetchFollowingUsers('OVERRIDE_FOLLOWING_USERS', this.state.page)
+    fetchFollowingUsers(this.state.page, (data) => {
+      this.setState( (prev) => ({
+        ...prev,
+        data: data
+      }))
+    })
   }
 
   navigateToAccount = (id) => {
-    const { navigation, account, mode } = this.props;
-    fetchSpecificAccount({
-      mode: mode.server,
-      token: account.token,
-      id: id
-    }).then( (data) => {
+    const { navigation, fetchSpecificAccount } = this.props;
+    fetchSpecificAccount(id, (data) => {
       navigation.navigate('User', {...data})
     })
   }
 
+  followAccount = (id) => {
+    const { followAccount } = this.props;
+    followAccount(id, () => {
+
+    })
+  }
+
   render(){
-    const { following, followAccount } = this.props;
+
+    const { data } = this.state;
 
     return (
       <ScrollView
@@ -38,7 +47,7 @@ export default class App extends Component{
       >
         <View style={accountStyle.followScrollviewContainer}>
           {
-            following.map( (item) => (
+            data.map( (item) => (
               <TouchableOpacity
                 key={item.id}
                 activeOpacity={0.9}
@@ -50,9 +59,9 @@ export default class App extends Component{
                 </View>
                 <View style={accountStyle.followingUserNameContainer}>
                   <Text style={accountStyle.followingUserName} numberOfLines={1}>
-                    {item.first_name} {item.last_name}
+                    { item.first_name } { item.last_name }
                   </Text>
-                  <TouchableOpacity style={accountStyle.likeButtonContainer} onPress={ () => followAccount(item.id) }>
+                  <TouchableOpacity style={accountStyle.likeButtonContainer} onPress={ () => this.followAccount(item.id) }>
                     <AntDesign name={item.following ? 'like1' : 'like2'} style={accountStyle.likeIcon}/>
                   </TouchableOpacity>
                 </View>

@@ -17,13 +17,13 @@ export default (props) => {
       }
       <View style={accountStyle.ratingStarContainer}>
         {
-          ratings.map( () => (
-            <FontAwesome name='star' color='gold' style={accountStyle.ratingStar}/>
+          ratings.map( (v, i) => (
+            <FontAwesome name='star' key={i} color='gold' style={accountStyle.ratingStar}/>
           ))
         }
         {
-          Array.from({length: 5 - Math.round(props.rating)}).map( () => (
-            <FontAwesome name='star' color='lightgrey' style={accountStyle.ratingStar}/>
+          Array.from({length: 5 - Math.round(props.rating)}).map( (v, i) => (
+            <FontAwesome name='star' color='lightgrey' key={i} style={accountStyle.ratingStar}/>
           ))
         }
       </View>

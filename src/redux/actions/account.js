@@ -47,7 +47,32 @@ const fetchAccount = (nav, token) => {
   }
 }
 
-const fetchUserPosts = (id, type, page) => {
+const fetchSpecificAccount = (id, callback) => {
+  return (dispatch, getState) => {
+    const { account, mode } = getState();
+    const url = mode.server == 'production' ? (
+      `https://finder-uz.herokuapp.com/account/${id}/`
+    ) : (
+      `http://localhost:8000/account/${id}/`
+    )
+    axios({
+      method: 'POST',
+      url: url,
+      headers: {
+        'Accept': 'application/json',
+        'X-auth-token': account.token
+      },
+    })
+    .then( ({status, data}) => {
+      callback(data)
+    })
+    .catch((err) => {
+
+    })
+  }
+}
+
+const fetchUserPosts = (id, page, callback) => {
   return (dispatch, getState) => {
     const { mode, account } = getState();
     const url = mode.server == 'production' ? (
@@ -63,11 +88,8 @@ const fetchUserPosts = (id, type, page) => {
       },
       url: url,
     })
-    .then((res) => {
-      dispatch({
-        type: type,
-        payload: res.data
-      })
+    .then(({data}) => {
+      callback(data);
     })
     .catch((err) => {
 
@@ -75,7 +97,7 @@ const fetchUserPosts = (id, type, page) => {
   }
 }
 
-const fetchUserSavedPosts = (type, page) => {
+const fetchUserSavedPosts = (page, callback) => {
   return (dispatch, getState) => {
     const { account, mode } = getState();
     if(account.accountFetched){
@@ -92,11 +114,8 @@ const fetchUserSavedPosts = (type, page) => {
         },
         url: url,
       })
-      .then((res) => {
-        dispatch({
-          type: type,
-          payload: res.data
-        })
+      .then( ({ data }) => {
+        callback(data);
       })
       .catch((err) => {
 
@@ -105,7 +124,7 @@ const fetchUserSavedPosts = (type, page) => {
   }
 }
 
-const fetchFollowingUsers = (type, page) => {
+const fetchFollowingUsers = (page, callback) => {
   return (dispatch, getState) => {
     const { account, mode } = getState();
     const url = mode.server == 'production' ? (
@@ -123,10 +142,7 @@ const fetchFollowingUsers = (type, page) => {
         url: url,
       })
       .then(({data, status}) => {
-        dispatch({
-          type: type,
-          payload: data
-        })
+        callback(data);
       })
       .catch((err) => {
 
@@ -204,7 +220,7 @@ const updateAccount = (obj, nav) => {
   }
 }
 
-const followAccount = (id) => {
+const followAccount = (id, callback) => {
   return (dispatch, getState) => {
     const { account, mode } = getState();
     if(account.accountFetched){
@@ -222,10 +238,9 @@ const followAccount = (id) => {
         },
       })
       .then(({data, status}) => {
-        dispatch({
-          type: 'FOLLOW_USER',
-          id: id,
-        })
+        if(status == 200){
+          callback()
+        }
       })
       .catch((err) => {
 
@@ -237,6 +252,7 @@ const followAccount = (id) => {
 
 export {
   fetchAccount,
+  fetchSpecificAccount,
   fetchUserPosts,
   fetchUserSavedPosts,
   fetchFollowingUsers,

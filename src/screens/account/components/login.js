@@ -15,7 +15,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { loginStyle } from '@src/static/index';
 import { loginToAccount } from '@src/requests';
 import { fetchAccount } from '@redux/actions/account';
-import { Header, Register, Alert } from './index';
+import { Register, Alert } from './index';
+
+import Header from './account/header';
 
 import LogoAnimation from '../animations/logo';
 import Animation from '../animations/login';

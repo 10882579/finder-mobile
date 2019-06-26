@@ -5,7 +5,6 @@ import home     from './reducers/home';
 import mode     from './reducers/mode';
 import create   from './reducers/create';
 import account  from './reducers/account';
-import detail   from './reducers/detail';
 import login    from './reducers/login';
 import register from './reducers/register';
 
@@ -15,7 +14,6 @@ const reducer = combineReducers(
     create,
     home,
     mode,
-    detail,
     login,
     register
   }
