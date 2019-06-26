@@ -11,6 +11,7 @@ import {
   DeletePost
 } from './components/index';
 import { fetchMessages } from '@redux/actions/notification';
+import { fetchSpecificAccount } from '@redux/actions/account';
 import { savePost, setPostSold, deletePost } from '@src/requests';
 import { handleGoBack } from '@redux/actions/handleGoBack';
 import { defaultStyle } from '@src/static/index';
@@ -127,6 +128,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchSpecificAccount: (id, cb) => {
+      dispatch(fetchSpecificAccount(id, cb))
+    },
     fetchMessages: (id, cb) => {
       dispatch(fetchMessages(id, cb))
     },

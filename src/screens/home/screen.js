@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   ScrollView,
   RefreshControl,
   AsyncStorage
@@ -10,7 +9,7 @@ import { connect } from 'react-redux';
 
 import { Header, List, ProgressBar } from './components/index';
 import { defaultStyle } from '@src/static/index';
-import { fetchAllPosts } from '@redux/actions/home';
+import { fetchAllPosts, fetchPost } from '@redux/actions/home';
 import { fetchAccount } from '@redux/actions/account';
 
 class App extends Component {
@@ -78,6 +77,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     fetchAccount: (nav, token) => {
       dispatch(fetchAccount(nav, token))
+    },
+    fetchPost: (id, cb) => {
+      dispatch(fetchPost(id, cb))
     },
   }
 }

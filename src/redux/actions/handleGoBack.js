@@ -1,4 +1,4 @@
-import { fetchPost } from '@src/requests';
+import { fetchPost } from '@redux/actions/home';
 
 const handleGoBack = (nav) => {
   return (dispatch, getState) => {
@@ -7,15 +7,10 @@ const handleGoBack = (nav) => {
 
     if(screen.length > 0){
       if (screen[screen.length - 1].direction == 'Post'){
-        fetchPost({
-          mode: mode.server,
-          token: account.token,
-          id: screen[screen.length - 1].id
-        })
-        .then( (data) => {
-          dispatch({type: 'ERASE_CREATE_DATA_STATE'})
+        dispatch(fetchPost(screen[screen.length - 1].id, (data) => {
           nav.navigate('Post', {...data})
-        })
+        }))
+        dispatch({type: 'ERASE_CREATE_DATA_STATE'})
       }
       else{
         nav.navigate(screen[screen.length - 1].direction, {page: 1})

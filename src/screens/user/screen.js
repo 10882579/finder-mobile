@@ -8,6 +8,7 @@ import { fetchMessages } from '@redux/actions/notification';
 import { followAccount } from '@redux/actions/account';
 import { defaultStyle, accountStyle } from '@src/static/index';
 import { DetailView, Contact, Rating, LikeAccount } from './components/index';
+import { fetchPost } from '@redux/actions/home';
 
 
 class App extends Component {
@@ -103,7 +104,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     followAccount: (id, cb) => {
       dispatch(followAccount(id, cb))
-    }
+    },
+    fetchPost: (id, cb) => {
+      dispatch(fetchPost(id, cb))
+    },
   }
 }
 

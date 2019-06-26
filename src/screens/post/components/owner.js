@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import { fetchSpecificAccount } from '@src/requests';
 import { postStyle, defaultStyle } from '@src/static/index';
 
 export default (props) => {
 
-  const { post, navigation, account, mode } = props;
+  const { post, navigation, account, fetchSpecificAccount } = props;
 
   const navigateToAccount = (id) => {
     if(account.account_id == id){
       navigation.navigate('Account')
     }
     else{
-      fetchSpecificAccount({
-        mode: mode.server,
-        token: account.token,
-        id: id
-      }).then( (data) => {
-        navigation.navigate('User', {id, ...data})
+      fetchSpecificAccount(id, (data) => {
+        navigation.navigate('User', {...data})
       })
     }
   }

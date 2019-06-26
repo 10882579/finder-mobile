@@ -6,14 +6,10 @@ import { homeStyle, defaultStyle } from '@src/static/index';
 
 const Post = (props) => {
 
-  const { navigation, item, mode, account } = props;
+  const { navigation, item, fetchPost } = props;
 
   handleFetchPost = (id) => {
-    fetchPost({
-      mode: mode.server,
-      token: account.token,
-      id: id
-    }).then( (data) => {
+    fetchPost(id, (data) => {
       navigation.navigate('Post', {...data})
     })
   }

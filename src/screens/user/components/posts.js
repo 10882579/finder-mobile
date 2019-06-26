@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { defaultStyle, accountStyle } from '@src/static/index';
-import { fetchPost } from '@src/requests';
 
 import axios from 'axios';
 
@@ -38,12 +37,8 @@ export default class App extends Component{
   }
 
   handleFetchPost = (id) => {
-    const { navigation, mode, account } = this.props;
-    fetchPost({
-      mode: mode.server,
-      token: account.token,
-      id: id
-    }).then( (data) => {
+    const { navigation, fetchPost } = this.props;
+    fetchPost(id, (data) => {
       navigation.navigate('Post', {...data})
     })
   }
@@ -63,7 +58,7 @@ export default class App extends Component{
                 key={index}
                 activeOpacity={0.9}
                 style={[accountStyle.listItem, defaultStyle.shadow]}
-                onPress={ () => handleFetchPost(item.id) }
+                onPress={ () => this.handleFetchPost(item.id) }
               >
                 <View style={[defaultStyle.flex, {borderRadius: 4, overflow: 'hidden'}]}>
                   <Image source={{uri: item.images[0].uri}} style={defaultStyle.image}/>
