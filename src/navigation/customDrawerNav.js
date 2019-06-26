@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, View, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { 
+	AsyncStorage, 
+	StyleSheet, 
+	View, 
+	Image, 
+	Text, 
+	TouchableOpacity, 
+	Dimensions, 
+	Platform
+} from 'react-native';
+import { Constants } from 'expo';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux';
@@ -70,7 +80,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#021825',
-		overflow: 'hidden'
+		overflow: 'hidden',
+		...Platform.select({
+      android: {
+        paddingTop: Constants.statusBarHeight
+      },
+    })
 	},
 	topContainer: {
 		width: '100%',
