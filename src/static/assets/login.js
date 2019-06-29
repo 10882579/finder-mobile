@@ -1,18 +1,26 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { Constants } from 'expo';
 const { width, height } = Dimensions.get('window');
-const radius = Math.round(width + height) / 2
 
 module.exports = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#16222A',
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   header: {
     position: 'absolute',
     top: 0
+  },
+  logoViewContainer: {
+    width: width,
+    height: height*3/5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...Platform.select({
+      android:{
+        paddingTop: Constants.statusBarHeight,
+      }
+    })
   },
   logoContainer: {
     justifyContent: 'center',
@@ -30,6 +38,29 @@ module.exports = StyleSheet.create({
     height: 140,
     resizeMode: 'contain'
   },
+  loginInputContainer: {
+    justifyContent: "flex-start",
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: width,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    position: "absolute",
+    bottom: 0,
+  },
+  closeLoginContainer:{
+    width: width,
+    height: 50,
+    overflow: 'hidden',
+  },
+  closeLoginButton:{
+    width: 50,
+    height: 50,
+    bottom: 0,
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: 'center',
+  },
   inputContainer: {
     width: width - 80,
     height: 50,
@@ -37,12 +68,12 @@ module.exports = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
     paddingHorizontal: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    borderBottomColor: 'lightgrey',
+    borderBottomWidth: 1,
   },
   loginInput: {
     flex:1,
     height: '100%',
-    color: 'white',
     fontSize: 17,
     fontFamily: 'Default',
     marginLeft: 10,
@@ -53,11 +84,22 @@ module.exports = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1aa3ff'
+    backgroundColor: '#095D00'
   },
   submitText: {
     color: 'white',
     fontFamily: 'Default',
     fontSize: 20,
+  },
+  registerContainer: {
+    height: 45,
+    width: width - 80,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  registerText: {
+    fontFamily: 'Default',
+    fontSize: 17,
   }
 })

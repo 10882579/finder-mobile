@@ -1,5 +1,5 @@
 import Account        from './account/index';
-import Login          from './login';
+import Login          from './login/index';
 import Register       from './register';
 import Alert          from './alert';
 

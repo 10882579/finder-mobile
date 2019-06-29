@@ -3,24 +3,24 @@ import {
   View,
   Text,
   TextInput,
-  KeyboardAvoidingView,
   TouchableOpacity,
   AsyncStorage,
   Animated,
+  Dimensions,
+  Image,
   Keyboard,
-  Platform,
+  Platform
 } from 'react-native';
+import { Constants } from 'expo';
 import { connect } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { loginStyle } from '@src/static/index';
 import { loginToAccount } from '@src/requests';
 import { fetchAccount } from '@redux/actions/account';
-import { Register, Alert } from './index';
 
-import Header from './account/header';
+import Header from './header';
 
-import LogoAnimation from '../animations/logo';
-import Animation from '../animations/login';
+const { height } = Dimensions.get('window');
 
 class App extends Component {
 
@@ -30,36 +30,35 @@ class App extends Component {
   }
 
   componentWillMount(){
-    this.keyboardHeight = new Animated.Value(0)
-    this.loginScreen    = new Animated.Value(0)
-
-    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow',  this.keyboardWillShow)
-    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide',  this.keyboardWillHide)
-    this.keyboardDidShowListener  = Keyboard.addListener('keyboardDidShow',   this.keyboardWillShow)
-    this.keyboardDidHideListener  = Keyboard.addListener('keyboardDidHide',   this.keyboardWillHide)
+    this.registerScreen = new Animated.Value(height *2/5);
+    this.closeHeight = new Animated.Value(0);
   }
 
-  componentDidMount(){
-    Animated.timing(this.loginScreen, {
-      duration: 1500,
-      toValue: 500,
-    }).start()
+  renderRegisterScreen = () => {
+    Animated.parallel([
+      Animated.timing(this.registerScreen, {
+        toValue: height,
+        duration: 500,
+      }).start(),
+      Animated.timing(this.closeHeight, {
+        toValue: Platform.OS == "ios" ? 50 + Constants.statusBarHeight : 50,
+        duration: 500,
+      }).start()
+    ])
   }
 
-  keyboardWillShow = (e) => {
-    const duration = Platform.OS == 'android' ? 100 : e.duration
-    Animated.timing(this.keyboardHeight, {
-      duration: duration + 100,
-      toValue: e.endCoordinates.height
-    }).start()
-  }
-
-  keyboardWillHide = (e) => {
-    const duration = Platform.OS == 'android' ? 100 : e.duration
-    Animated.timing(this.keyboardHeight, {
-      duration: duration + 100,
-      toValue: 0
-    }).start()
+  closeRegisterScreen = () => {
+    Animated.parallel([
+      Animated.timing(this.registerScreen, {
+        toValue: height *2/5,
+        duration: 500,
+      }).start(),
+      Animated.timing(this.closeHeight, {
+        toValue: 0,
+        duration: 500,
+      }).start(),
+      Keyboard.dismiss()
+    ])
   }
 
   toggleAlert = (errors) => {
@@ -78,13 +77,11 @@ class App extends Component {
     }).then( ({status, data}) => {
       if(status == 200){
         AsyncStorage.setItem('token', data.token);
-        fetchAccount(navigation, data.token)
-        eraseLoginState()
+        fetchAccount(navigation, data.token);
+        eraseLoginState();
       }
     }).catch( ({status, errors}) => {
-      if (status == 400){
-        this.toggleAlert(errors);
-      }
+      alert('SERVER ERROR: ' + status);
     })
   }
 
@@ -92,34 +89,32 @@ class App extends Component {
   render() {
 
     const { login, updateLoginState } = this.props;
-    const { width, height, logoSize, opacity } = LogoAnimation(this.keyboardHeight)
-    const { logoFadeIn, logoPosition, loginFadeIn, loginPosition } = Animation(this.loginScreen)
-
-    const style = {
-      width: width,
-      height: height,
-      opacity: logoFadeIn,
-      marginBottom: logoPosition
-    }
-
 
     return (
-      <KeyboardAvoidingView style={loginStyle.container} behavior="padding">
-        <Header {...this.props} style={loginStyle.header} opacity={opacity}/>
-        <Animated.View style={[loginStyle.logoContainer, style]}>
-          <Animated.Image
-            source={require('@src/static/imgs/logo-grey.png')}
-            style={[loginStyle.logo, {width: logoSize, height: logoSize}]}
-          />
-        </Animated.View>
-        <Animated.View style={{opacity: loginFadeIn, paddingBottom: loginPosition}}>
+      <View style={loginStyle.container}>
+        <View style={loginStyle.logoViewContainer}>
+          <Header {...this.props} />
+          <View style={[loginStyle.logoContainer]}>
+            <Image
+              source={require('@src/static/imgs/logo-grey.png')}
+              style={loginStyle.logo}
+            />
+          </View>
+        </View>
+        <Animated.View style={[loginStyle.loginInputContainer, {height: this.registerScreen}]}>
+          <Animated.View style={[loginStyle.closeLoginContainer, {height: this.closeHeight}]}>
+            <TouchableOpacity style={loginStyle.closeLoginButton} onPress={ this.closeRegisterScreen }>
+              <AntDesign name="close" size={24}/>
+            </TouchableOpacity>
+          </Animated.View>
           <View style={loginStyle.inputContainer}>
-            <AntDesign name='user' color='white' size={28}/>
+            <AntDesign name='user' color='#16222A' size={28}/>
             <TextInput
+              onFocus={ this.renderRegisterScreen }
               autoCorrect={false}
               autoCapitalize='none'
               placeholder='Telefon raqam | Email'
-              placeholderTextColor='#b5e8ff'
+              placeholderTextColor='#16222A'
               underlineColorAndroid="transparent"
               style={loginStyle.loginInput}
               value={login.entry}
@@ -127,13 +122,14 @@ class App extends Component {
             />
           </View>
           <View style={loginStyle.inputContainer}>
-            <AntDesign name='lock' color='white' size={28}/>
+            <AntDesign name='lock' color='#16222A' size={28}/>
             <TextInput
+              onFocus={ this.renderRegisterScreen }
               autoCorrect={false}
               autoCapitalize='none'
               secureTextEntry={true}
               placeholder='Yashirin kod'
-              placeholderTextColor='#b5e8ff'
+              placeholderTextColor='#16222A'
               underlineColorAndroid="transparent"
               style={loginStyle.loginInput}
               value={login.password}
@@ -143,10 +139,16 @@ class App extends Component {
           <TouchableOpacity style={loginStyle.submitBtn} onPress={ this.login }>
             <Text style={loginStyle.submitText}>LOG IN</Text>
           </TouchableOpacity>
+          <View style={loginStyle.registerContainer}>
+            <Text style={loginStyle.registerText}>Profil mavjud emas?  </Text>
+            <TouchableOpacity>
+              <Text style={[loginStyle.registerText, {color: '#1993e5'}]}>
+                Registratsiya
+              </Text>
+            </TouchableOpacity>
+          </View>
         </Animated.View>
-        <Register {...this.props}/>
-        <Alert {...this.state} toggleAlert={this.toggleAlert} />
-      </KeyboardAvoidingView>
+      </View>
     )
   }
 }

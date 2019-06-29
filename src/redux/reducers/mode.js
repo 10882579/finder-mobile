@@ -1,5 +1,5 @@
 const initialState  = {
-  server: 'production',
+  server: '',
   screen: []
 }
 
