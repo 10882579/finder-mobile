@@ -15,7 +15,8 @@ import {
   fetchUserSavedPosts, 
   fetchFollowingUsers, 
   fetchSpecificAccount,
-  followAccount
+  followAccount,
+  updateAccount
 } from '@redux/actions/account';
 
 class App extends Component {
@@ -100,6 +101,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     followAccount: (id, cb) => {
       dispatch(followAccount(id, cb))
+    },
+    updateAccount: (obj, nav) => {
+      dispatch(updateAccount(obj, nav))
     }
   }
 }
