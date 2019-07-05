@@ -19,24 +19,25 @@ import { loginToAccount } from '@src/requests';
 import { fetchAccount } from '@redux/actions/account';
 
 import Header from './header';
+import Register from '../register/index'
 
 const { height } = Dimensions.get('window');
 
 class App extends Component {
 
   state = {
-    showModal: false,
+    screen: 'login',
     errors: []
   }
 
   componentWillMount(){
-    this.registerScreen = new Animated.Value(height *2/5);
+    this.loginHeight = new Animated.Value(height *2/5);
     this.closeHeight = new Animated.Value(0);
   }
 
-  renderRegisterScreen = () => {
+  renderLogin = () => {
     Animated.parallel([
-      Animated.timing(this.registerScreen, {
+      Animated.timing(this.loginHeight, {
         toValue: height,
         duration: 500,
       }).start(),
@@ -47,9 +48,9 @@ class App extends Component {
     ])
   }
 
-  closeRegisterScreen = () => {
+  closeLogin = () => {
     Animated.parallel([
-      Animated.timing(this.registerScreen, {
+      Animated.timing(this.loginHeight, {
         toValue: height *2/5,
         duration: 500,
       }).start(),
@@ -57,15 +58,11 @@ class App extends Component {
         toValue: 0,
         duration: 500,
       }).start(),
-      Keyboard.dismiss()
+      Keyboard.dismiss(),
+      this.setState( (prev) => {
+        return {...prev, screen: "login"}
+      })
     ])
-  }
-
-  toggleAlert = (errors) => {
-    this.setState( (prev) => ({
-      showModal: !prev.showModal,
-      errors: errors,
-    }))
   }
 
   login = () => {
@@ -85,10 +82,17 @@ class App extends Component {
     })
   }
 
+  toggleScreen = (screen) => {
+    this.renderLogin()
+    this.setState( (prev) => {
+      return {...prev, screen: screen}
+    })
+  }
 
   render() {
 
     const { login, updateLoginState } = this.props;
+    const { screen } = this.state;
 
     return (
       <View style={loginStyle.container}>
@@ -101,52 +105,58 @@ class App extends Component {
             />
           </View>
         </View>
-        <Animated.View style={[loginStyle.loginInputContainer, {height: this.registerScreen}]}>
+        <Animated.View style={[loginStyle.loginInputContainer, {height: this.loginHeight}]}>
           <Animated.View style={[loginStyle.closeLoginContainer, {height: this.closeHeight}]}>
-            <TouchableOpacity style={loginStyle.closeLoginButton} onPress={ this.closeRegisterScreen }>
+            <TouchableOpacity style={loginStyle.closeLoginButton} onPress={ this.closeLogin }>
               <AntDesign name="close" size={24}/>
             </TouchableOpacity>
           </Animated.View>
-          <View style={loginStyle.inputContainer}>
-            <AntDesign name='user' color='#16222A' size={28}/>
-            <TextInput
-              onFocus={ this.renderRegisterScreen }
-              autoCorrect={false}
-              autoCapitalize='none'
-              placeholder='Telefon raqam | Email'
-              placeholderTextColor='#16222A'
-              underlineColorAndroid="transparent"
-              style={loginStyle.loginInput}
-              value={login.entry}
-              onChangeText={ (v) => updateLoginState({entry: v}) }
-            />
-          </View>
-          <View style={loginStyle.inputContainer}>
-            <AntDesign name='lock' color='#16222A' size={28}/>
-            <TextInput
-              onFocus={ this.renderRegisterScreen }
-              autoCorrect={false}
-              autoCapitalize='none'
-              secureTextEntry={true}
-              placeholder='Yashirin kod'
-              placeholderTextColor='#16222A'
-              underlineColorAndroid="transparent"
-              style={loginStyle.loginInput}
-              value={login.password}
-              onChangeText={ (v) => updateLoginState({password: v}) }
-            />
-          </View>
-          <TouchableOpacity style={loginStyle.submitBtn} onPress={ this.login }>
-            <Text style={loginStyle.submitText}>LOG IN</Text>
-          </TouchableOpacity>
-          <View style={loginStyle.registerContainer}>
-            <Text style={loginStyle.registerText}>Profil mavjud emas?  </Text>
-            <TouchableOpacity>
-              <Text style={[loginStyle.registerText, {color: '#1993e5'}]}>
-                Registratsiya
-              </Text>
-            </TouchableOpacity>
-          </View>
+          {
+            screen == 'login' ? (
+              <View>
+                <View style={loginStyle.inputContainer}>
+                  <AntDesign name='user' color='#16222A' size={28}/>
+                  <TextInput
+                    onFocus={ this.renderLogin }
+                    autoCorrect={false}
+                    autoCapitalize='none'
+                    placeholder='Telefon raqam | Email'
+                    placeholderTextColor='#16222A'
+                    underlineColorAndroid="transparent"
+                    style={loginStyle.loginInput}
+                    value={login.entry}
+                    onChangeText={ (v) => updateLoginState({entry: v}) }
+                  />
+                </View>
+                <View style={loginStyle.inputContainer}>
+                  <AntDesign name='lock' color='#16222A' size={28}/>
+                  <TextInput
+                    onFocus={ this.renderLogin }
+                    autoCorrect={false}
+                    autoCapitalize='none'
+                    secureTextEntry={true}
+                    placeholder='Yashirin kod'
+                    placeholderTextColor='#16222A'
+                    underlineColorAndroid="transparent"
+                    style={loginStyle.loginInput}
+                    value={login.password}
+                    onChangeText={ (v) => updateLoginState({password: v}) }
+                  />
+                </View>
+                <TouchableOpacity style={loginStyle.submitBtn} onPress={ this.login }>
+                  <Text style={loginStyle.submitText}>LOG IN</Text>
+                </TouchableOpacity>
+                <View style={loginStyle.registerContainer}>
+                  <Text style={loginStyle.registerText}>Profil mavjud emas?  </Text>
+                  <TouchableOpacity onPress={ () => this.toggleScreen('register') }>
+                    <Text style={[loginStyle.registerText, {color: '#1993e5'}]}>
+                      Registratsiya
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : <Register {...this.props} toggleScreen={this.toggleScreen}/>
+          }
         </Animated.View>
       </View>
     )

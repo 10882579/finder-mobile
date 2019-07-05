@@ -1,11 +1,9 @@
 import Account        from './account/index';
 import Login          from './login/index';
-import Register       from './register';
-import Alert          from './alert';
+import Register       from './register/index';
 
 export {
   Account,
-  Alert,
   Login,
   Register,
 }
