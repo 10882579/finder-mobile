@@ -11,13 +11,16 @@ import Rating from './rating';
 import DetailView from './detailview';
 
 import { 
-  fetchUserPosts, 
-  fetchUserSavedPosts, 
   fetchFollowingUsers, 
   fetchSpecificAccount,
   followAccount,
   updateAccount
 } from '@redux/actions/account';
+
+import {
+  fetchUserPosts, 
+  fetchUserSavedPosts
+} from '@redux/actions/post';
 
 class App extends Component {
 

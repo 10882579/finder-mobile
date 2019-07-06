@@ -112,7 +112,61 @@ const saveEditedPost = (nav, id) => {
   }
 }
 
+const fetchUserPosts = (id, page, callback) => {
+  return (dispatch, getState) => {
+    const { mode, account } = getState();
+    const url = mode.server == 'production' ? (
+      `https://finder-uz.herokuapp.com/account/${id}/posts/page=${page}`
+    ) : (
+      `http://localhost:8000/account/${id}/posts/page=${page}`
+    )
+    axios({
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'X-Auth-Token': account.token
+      },
+      url: url,
+    })
+    .then(({data}) => {
+      callback(data);
+    })
+    .catch((err) => {
+
+    })
+  }
+}
+
+const fetchUserSavedPosts = (page, callback) => {
+  return (dispatch, getState) => {
+    const { account, mode } = getState();
+    if(account.accountFetched){
+      const url = mode.server == 'production' ? (
+        `https://finder-uz.herokuapp.com/account/posts/page=${page}`
+      ) : (
+        `http://localhost:8000/account/posts/page=${page}`
+      )
+      axios({
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'X-Auth-Token': account.token
+        },
+        url: url,
+      })
+      .then( ({ data }) => {
+        callback(data);
+      })
+      .catch((err) => {
+
+      })
+    }
+  }
+}
+
 export {
   publishPost,
-  saveEditedPost
+  saveEditedPost,
+  fetchUserPosts,
+  fetchUserSavedPosts,
 }

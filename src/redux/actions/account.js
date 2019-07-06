@@ -1,9 +1,37 @@
 import axios from 'axios';
 
+const loginToAccount = (callback) => {
+  return (dispatch, getState) => {
+    const { mode, login } = getState();
+    const url = mode == 'production' ? (
+      `https://finder-uz.herokuapp.com/account/login/`
+    ) : (
+      `http://localhost:8000/account/login/`
+    )
+    axios({
+      method: 'POST',
+      url: url,
+      headers: {
+        'Accept': 'application/json',
+      },
+      data: login
+    })
+    .then( ({data, status}) => {
+      callback(status, data)
+    })
+    .catch( ({response}) => {
+      if(response.status == 400){
+        const status = response.status;
+        const errors = response.data;
+        callback(status, errors)
+      }
+    })
+  }
+}
+
 const fetchAccount = (nav, token) => {
   return (dispatch, getState) => {
     const { mode } = getState();
-    const screen = mode.screen;
     const url = mode.server == 'production' ? (
       `https://finder-uz.herokuapp.com/account/`
     ) : (
@@ -69,58 +97,6 @@ const fetchSpecificAccount = (id, callback) => {
     .catch((err) => {
 
     })
-  }
-}
-
-const fetchUserPosts = (id, page, callback) => {
-  return (dispatch, getState) => {
-    const { mode, account } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/${id}/posts/page=${page}`
-    ) : (
-      `http://localhost:8000/account/${id}/posts/page=${page}`
-    )
-    axios({
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'X-Auth-Token': account.token
-      },
-      url: url,
-    })
-    .then(({data}) => {
-      callback(data);
-    })
-    .catch((err) => {
-
-    })
-  }
-}
-
-const fetchUserSavedPosts = (page, callback) => {
-  return (dispatch, getState) => {
-    const { account, mode } = getState();
-    if(account.accountFetched){
-      const url = mode.server == 'production' ? (
-        `https://finder-uz.herokuapp.com/account/posts/page=${page}`
-      ) : (
-        `http://localhost:8000/account/posts/page=${page}`
-      )
-      axios({
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'X-Auth-Token': account.token
-        },
-        url: url,
-      })
-      .then( ({ data }) => {
-        callback(data);
-      })
-      .catch((err) => {
-
-      })
-    }
   }
 }
 
@@ -251,10 +227,9 @@ const followAccount = (id, callback) => {
 
 
 export {
+  loginToAccount,
   fetchAccount,
   fetchSpecificAccount,
-  fetchUserPosts,
-  fetchUserSavedPosts,
   fetchFollowingUsers,
   updateAccount,
   followAccount

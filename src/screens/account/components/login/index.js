@@ -15,8 +15,7 @@ import { Constants } from 'expo';
 import { connect } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { loginStyle } from '@src/static/index';
-import { loginToAccount } from '@src/requests';
-import { fetchAccount } from '@redux/actions/account';
+import { fetchAccount, loginToAccount } from '@redux/actions/account';
 
 import Header from './header';
 import Register from '../register/index'
@@ -66,19 +65,17 @@ class App extends Component {
   }
 
   login = () => {
-    const { mode, login, fetchAccount, navigation, eraseLoginState } = this.props;
+    const { loginToAccount, fetchAccount, navigation, eraseLoginState } = this.props;
 
-    loginToAccount({
-      mode: mode.server,
-      data: login
-    }).then( ({status, data}) => {
+    loginToAccount( (status, data) => {
       if(status == 200){
-        AsyncStorage.setItem('token', data.token);
-        fetchAccount(navigation, data.token);
-        eraseLoginState();
+        // AsyncStorage.setItem('token', data.token);
+        // fetchAccount(navigation, data.token);
+        // eraseLoginState();
       }
-    }).catch( ({status, errors}) => {
-      alert('SERVER ERROR: ' + status);
+      else if(status == 400){
+        alert(data);
+      }
     })
   }
 
@@ -171,6 +168,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    loginToAccount: (cb) => {
+      dispatch(loginToAccount(cb))
+    },
     fetchAccount: (nav, token) => {
       dispatch(fetchAccount(nav, token))
     },

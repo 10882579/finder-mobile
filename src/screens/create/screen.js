@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Permissions } from 'expo';
 import { defaultStyle, createStyle } from '@src/static/index';
 import { handleGoBack } from '@redux/actions/handleGoBack';
-import { publishPost, saveEditedPost } from '@redux/actions/create';
+import { publishPost, saveEditedPost } from '@redux/actions/post';
 import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Header, UploadedImages, ImmediateInfo, Description } from './components/index';
 
