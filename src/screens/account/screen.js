@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { handleGoBack } from '@redux/actions/handleGoBack';
+import { fetchAccount } from '@redux/actions/account';
 import { Account, Login } from './components/index';
 import { defaultStyle } from '@src/static/index';
 
@@ -26,12 +27,14 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.account,
-    mode: state.mode
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchAccount: (nav, token) => {
+      dispatch(fetchAccount(nav, token))
+    },
     handleGoBack: (nav) => {
       dispatch(handleGoBack(nav))
     },

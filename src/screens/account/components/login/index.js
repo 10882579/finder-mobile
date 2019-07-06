@@ -15,7 +15,7 @@ import { Constants } from 'expo';
 import { connect } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { loginStyle } from '@src/static/index';
-import { fetchAccount, loginToAccount } from '@redux/actions/account';
+import { loginToAccount } from '@redux/actions/account';
 
 import Header from './header';
 import Register from '../register/index'
@@ -26,7 +26,6 @@ class App extends Component {
 
   state = {
     screen: 'login',
-    errors: []
   }
 
   componentWillMount(){
@@ -69,9 +68,9 @@ class App extends Component {
 
     loginToAccount( (status, data) => {
       if(status == 200){
-        // AsyncStorage.setItem('token', data.token);
-        // fetchAccount(navigation, data.token);
-        // eraseLoginState();
+        AsyncStorage.setItem('token', data.token);
+        fetchAccount(navigation, data.token);
+        eraseLoginState();
       }
       else if(status == 400){
         alert(data);
@@ -170,9 +169,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loginToAccount: (cb) => {
       dispatch(loginToAccount(cb))
-    },
-    fetchAccount: (nav, token) => {
-      dispatch(fetchAccount(nav, token))
     },
     updateLoginState: (obj) => {
       dispatch({

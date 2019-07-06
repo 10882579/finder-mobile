@@ -3,7 +3,7 @@ import axios from 'axios';
 const loginToAccount = (callback) => {
   return (dispatch, getState) => {
     const { mode, login } = getState();
-    const url = mode == 'production' ? (
+    const url = mode.server == 'production' ? (
       `https://finder-uz.herokuapp.com/account/login/`
     ) : (
       `http://localhost:8000/account/login/`
@@ -25,6 +25,33 @@ const loginToAccount = (callback) => {
         const errors = response.data;
         callback(status, errors)
       }
+    })
+  }
+}
+
+const registerAccount = (callback) => {
+  return (dispatch, getState) => {
+    const { mode, register } = getState();
+    const url = mode.server == 'production' ? (
+      `https://finder-uz.herokuapp.com/account/register/`
+    ) : (
+      `http://localhost:8000/account/register/`
+    )
+    axios({
+      method: 'POST',
+      url: url,
+      headers: {
+        'Accept': 'application/json',
+      },
+      data: register
+    })
+    .then( ({data, status}) => {
+      callback(status, data);
+    })
+    .catch( ({response}) => {
+      const status = response.status;
+      const errors = response.data
+      callback(status, errors);
     })
   }
 }
@@ -228,6 +255,7 @@ const followAccount = (id, callback) => {
 
 export {
   loginToAccount,
+  registerAccount,
   fetchAccount,
   fetchSpecificAccount,
   fetchFollowingUsers,

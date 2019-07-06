@@ -72,38 +72,7 @@ const deletePost = (obj) => {
   })
 }
 
-const registerAccount = (obj) => {
-  return new Promise( (resolve, reject) => {
-    const url = obj.mode == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/register/`
-    ) : (
-      `http://localhost:8000/account/register/`
-    )
-    axios({
-      method: 'POST',
-      url: url,
-      headers: {
-        'Accept': 'application/json',
-      },
-      data: obj.data
-    })
-    .then( ({data, status}) => {
-      if (status == 200){
-        resolve(data)
-      }
-    })
-    .catch( ({response}) => {
-      if(response.status == 400){
-        const status = response.status;
-        const errors   = response.data
-        reject({status, errors})
-      }
-    })
-  })
-}
-
 export {
-  registerAccount,
   savePost,
   setPostSold,
   deletePost,

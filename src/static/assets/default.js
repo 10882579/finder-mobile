@@ -87,40 +87,47 @@ module.exports = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
-  alert:{
-    flex: 1,
+  errorScreenContainer: {
+    top: 0,
+    position: "absolute",
+    width: width,
+    bottom: 70 + Constants.statusBarHeight,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 0,
   },
-  alertContainer: {
-    backgroundColor:'white',
+  errorContainer:{
     width: width - 40,
+    height: 200,
+    backgroundColor: '#F44336',
     borderRadius: 5,
-    overflow: 'hidden'
-  },
-  errorLogoContainer:{
-    width: '100%',
-    height: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
+    overflow: 'hidden',
   },
   errorListContainer: {
+    flex: 1,
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 15,
-    paddingBottom: 15,
-    width: '100%',
+  },
+  errorListItems:{
+    flex: 1,
     justifyContent: 'center',
+    marginLeft: 20,
+    height: 150,
   },
   errorText: {
     fontFamily: 'Default',
-    marginBottom: 10,
+    color: 'white',
+    fontSize: 16,
+    marginTop: 3,
   },
   dismissBtn: {
-    width: '100%',
-    height: 60,
+    height: 50,
+    width: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f3575a',
+    alignSelf: "flex-end",
   },
   dismissBtnText: {
     color:'white',

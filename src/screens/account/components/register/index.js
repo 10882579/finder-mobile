@@ -10,28 +10,55 @@ import {
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { AntDesign, Feather } from '@expo/vector-icons';
-import { registerStyle, loginStyle } from '@src/static/index';
-import { registerAccount } from '@src/requests';
-import { fetchAccount } from '@redux/actions/account';
+import { registerStyle, loginStyle, defaultStyle } from '@src/static/index';
+import { registerAccount } from '@redux/actions/account';
+
+const AlertComponent = (props) => {
+  return (
+    <Animatable.View style={defaultStyle.errorScreenContainer} animation="shake" delay={500}>
+      <View style={defaultStyle.errorContainer}>
+        <View style={defaultStyle.errorListContainer}>
+          <Feather name='alert-triangle' color='white' size={60}/>
+          <View style={defaultStyle.errorListItems}>
+            {
+              props.errors.map( (v, i) => (
+                <Text key={i} style={defaultStyle.errorText}>{v}</Text>
+              ))
+            }
+          </View>
+        </View>
+        <TouchableOpacity style={defaultStyle.dismissBtn} activeOpacity={0.8} onPress={ () => props.toggleAlert(false) }>
+          <Text style={defaultStyle.dismissBtnText}>Ok</Text>
+        </TouchableOpacity>
+      </View>
+    </Animatable.View>
+  )
+}
 
 class App extends Component {
 
   state = {
-    showModal: false,
+    showAlert: false,
     errors: []
   }
 
   register = () => {
-    const { mode, register, navigation, fetchAccount, eraseRegisterState } = this.props;
-    registerAccount({
-      mode: mode.server,
-      data: register
-    }).then( (data) => {
-      AsyncStorage.setItem('token', data.token);
-      fetchAccount(navigation, data.token)
-      eraseRegisterState()
-    }).catch( ({status, errors}) => {
-      
+    const { registerAccount, navigation, fetchAccount, eraseRegisterState } = this.props;
+    registerAccount( (status, data) => {
+      if(status == 200){
+        AsyncStorage.setItem('token', data.token);
+        fetchAccount(navigation, data.token)
+        eraseRegisterState()
+      }
+      else if(status == 400){
+        this.toggleAlert(true, data)
+      }
+    })
+  }
+
+  toggleAlert = (bool, data) => {
+    this.setState( (prev) => {
+      return {...prev, showAlert: bool, errors: data}
     })
   }
 
@@ -126,6 +153,9 @@ class App extends Component {
               </Text>
             </TouchableOpacity>
           </View>
+          { this.state.showAlert ? (
+            <AlertComponent errors={this.state.errors} {...this.props} toggleAlert={this.toggleAlert} />
+          ) : null}
         </Animatable.View>
     )
   }
@@ -139,6 +169,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    registerAccount: (cb) => {
+      dispatch(registerAccount(cb))
+    },
     updateRegisterState: (obj) => {
       dispatch({
         type: 'UPDATE_REGISTER_STATE',
@@ -147,9 +180,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     eraseRegisterState: () => {
       dispatch({type: 'ERASE_REGISTER_STATE'})
-    },
-    fetchAccount: (nav, token) => {
-      dispatch(fetchAccount(nav, token))
     },
   }
 }
