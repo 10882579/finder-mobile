@@ -3,13 +3,12 @@ import { View, TouchableOpacity, Text, StatusBar, Image } from 'react-native';
 
 import { connect }  from 'react-redux';
 import { handleGoBack } from '@redux/actions/handleGoBack';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { fetchMessages } from '@redux/actions/notification';
 import { followAccount } from '@redux/actions/account';
 import { defaultStyle, accountStyle } from '@src/static/index';
-import { DetailView, Contact, Rating, LikeAccount } from './components/index';
-import { fetchPost } from '@redux/actions/home';
-
+import { Contact, Rating, LikeAccount } from './components/index';
+import { fetchUserPosts } from '@redux/actions/post';
 
 class App extends Component {
 
@@ -34,6 +33,15 @@ class App extends Component {
       }))
     })
     
+  }
+
+  navigateToDetail = (screen) => {
+    const { fetchUserPosts, navigation } = this.props;
+    const { params } = navigation.state;
+    if(screen == "E'lonlar")
+      fetchUserPosts(params.account.account_id, 1, (data) => {
+        navigation.navigate("Detail", {data, screen: screen});
+      })
   }
 
   render() {
@@ -81,7 +89,16 @@ class App extends Component {
             </View>
           </View>
         </View>
-        <DetailView {...this.props}/>
+        <View style={accountStyle.navigationContainer}>
+          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("E'lonlar") }>
+            <AntDesign name='bars' size={28}/>
+            <Text style={accountStyle.navigationText}>E'lonlar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("Reyting") }>
+            <AntDesign name='staro' size={28}/>
+            <Text style={accountStyle.navigationText}>Reyting</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -105,8 +122,8 @@ const mapDispatchToProps = (dispatch) => {
     followAccount: (id, cb) => {
       dispatch(followAccount(id, cb))
     },
-    fetchPost: (id, cb) => {
-      dispatch(fetchPost(id, cb))
+    fetchUserPosts: (id, page, cb) => {
+      dispatch(fetchUserPosts(id, page, cb))
     },
   }
 }
