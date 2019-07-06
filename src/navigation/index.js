@@ -11,6 +11,7 @@ import User from '@screens/user/screen';
 import Chat from '@screens/chat/screen';
 import Conversations from '@screens/conversation/screen';
 import Notifications from '@screens/notification/screen';
+import Detail from '@screens/detail/screen';
 
 import CustomDrawer from './customDrawerNav';
 
@@ -91,6 +92,9 @@ export default createStackNavigator({
   },
   Chat: {
     screen: Chat
+  },
+  Detail: {
+    screen: Detail
   }
 }, {
   headerMode: 'none',

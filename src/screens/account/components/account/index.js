@@ -1,26 +1,15 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Image, Text } from 'react-native';
 import { defaultStyle, accountStyle } from '@src/static/index';
-import { EvilIcons } from '@expo/vector-icons';
+import { EvilIcons, AntDesign, Feather } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
 import { connect } from 'react-redux';
-import { fetchPost } from '@redux/actions/home';
 
 import Header from "./header";
 import Rating from './rating';
-import DetailView from './detailview';
 
-import { 
-  fetchFollowingUsers, 
-  fetchSpecificAccount,
-  followAccount,
-  updateAccount
-} from '@redux/actions/account';
-
-import {
-  fetchUserPosts, 
-  fetchUserSavedPosts
-} from '@redux/actions/post';
+import { fetchFollowingUsers, updateAccount } from '@redux/actions/account';
+import { fetchUserPosts, fetchUserSavedPosts } from '@redux/actions/post';
 
 class App extends Component {
 
@@ -37,6 +26,23 @@ class App extends Component {
       updateAccountImage({image: result.uri}, navigation)
     }
   }
+
+  navigateToDetail = (screen) => {
+    const { fetchUserPosts, fetchUserSavedPosts, account, navigation, fetchFollowingUsers } = this.props;
+    if(screen == "E'lonlarim")
+      fetchUserPosts(account.account_id, 1, (data) => {
+        navigation.navigate("Detail", {data, screen: screen});
+      })
+    else if(screen == "Belgilangan e'lonlar")
+      fetchUserSavedPosts(1, (data) => {
+        navigation.navigate("Detail", {data, screen: screen});
+      })
+    else if(screen == "Kuzatilayotkanlar")
+      fetchFollowingUsers(1, (data) => {
+        navigation.navigate("Detail", {data, screen: screen});
+      })
+  }
+
 
   render() {
 
@@ -70,7 +76,24 @@ class App extends Component {
             </View>
           </View>
         </View>
-        <DetailView {...this.props}/>
+        <View style={accountStyle.navigationContainer}>
+          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("E'lonlarim") }>
+            <AntDesign name='bars' size={28}/>
+            <Text style={accountStyle.navigationText}>E'lonlarim</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("Belgilangan e'lonlar") }>
+            <Feather name='bookmark' size={28}/>
+            <Text style={accountStyle.navigationText}>Belgilangan e'lonlar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("Kuzatilayotkanlar") }>
+            <AntDesign name='like2' size={28}/>
+            <Text style={accountStyle.navigationText}>Kuzatilayotkanlar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("Reyting") }>
+            <AntDesign name='staro' size={28}/>
+            <Text style={accountStyle.navigationText}>Reyting</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -96,18 +119,6 @@ const mapDispatchToProps = (dispatch) => {
     fetchFollowingUsers: (page, cb) => {
       dispatch(fetchFollowingUsers(page, cb))
     },
-    fetchSpecificAccount: (id, cb) => {
-      dispatch(fetchSpecificAccount(id, cb))
-    },
-    fetchPost: (id, cb) => {
-      dispatch(fetchPost(id, cb))
-    },
-    followAccount: (id, cb) => {
-      dispatch(followAccount(id, cb))
-    },
-    updateAccount: (obj, nav) => {
-      dispatch(updateAccount(obj, nav))
-    }
   }
 }
 
