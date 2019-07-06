@@ -108,7 +108,7 @@ class App extends Component {
       <View style={defaultStyle.flex}>
         <Header {...this.props} screen={screen}/>
         <View style={defaultStyle.flex}>
-          { screen == "E'lonlarim" || "E'lonlar" ? <Posts {...this.props} data={data}/> : null }
+          { screen == "E'lonlarim" || screen == "E'lonlar" ? <Posts {...this.props} data={data}/> : null }
           { screen == "Belgilangan e'lonlar" ? <Posts {...this.props} data={data} /> : null }
           { screen == "Kuzatilayotkanlar" ? <Accounts {...this.props} data={data}/> : null }
         </View>
