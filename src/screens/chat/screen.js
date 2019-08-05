@@ -3,36 +3,32 @@ import { View, TextInput, KeyboardAvoidingView, TouchableOpacity, SafeAreaView }
 import { MaterialIcons } from '@expo/vector-icons';
 import { Header, Messages } from './components/index';
 import { handleGoBack } from '@redux/actions/handleGoBack';
+import { fetchMessages } from '@redux/actions/notification';
 import { chatStyle } from '@src/static/index';
 import { connect } from 'react-redux';
+
+import localconfig from '@src/localconfig';
 
 class App extends Component {
 
   state = {
 		text: '',
-    messages: [],
   }
 
   componentWillMount = () => {
-    const { navigation } = this.props;
+    const { navigation, fetchMessages } = this.props;
     const { params } = navigation.state;
-    this.setState( (prev) => ({
-      ...prev,
-      messages: params.messages
-    }))
+    fetchMessages(params.account_id);
   }
 
   componentDidMount = () => {
-
-    const { account, mode, navigation } = this.props;
+    const { account, navigation } = this.props;
     const { params } = navigation.state;
 
+    const SERVER = localconfig ? localconfig.SERVER : "https://finder-uz.herokuapp.com";
+
     if(account.accountFetched){
-      const url = mode.server == 'production' ? (
-        `wss://finder-uz.herokuapp.com/${account.token}/${params.account_id}/`
-      ) : (
-        `ws://localhost:8000/${account.token}/${params.account_id}/`
-      )
+      const url = `${SERVER}/${account.token}/${params.account_id}/`
       this.socket = new WebSocket(url);
       this.socket.onopen = () => {
 				console.log('Connected');
@@ -40,10 +36,7 @@ class App extends Component {
       this.socket.onmessage = (e) => {
         const data = JSON.parse(e.data)
 				if(data.message){
-					this.setState( (prev) => ({
-            ...prev,
-            messages: [...prev.messages, data]
-          }))
+					this.props.addMessage(data);
         }
       }
       this.socket.onerror = (err) => {
@@ -62,19 +55,20 @@ class App extends Component {
   sendMessage = async () => {
     if(this.state.text.length > 0){
       await this.socket.send(JSON.stringify(
-        {
-          message: this.state.text,
-        }
-			))
+        { message: this.state.text }
+      ))
+      this.setState({text: ''});      
 		}
-		this.setState({...this.state, text: ''})
 	}
 
 	render() {
+
+    const { messages } = this.props;
+
     return (
       <KeyboardAvoidingView style={chatStyle.chatContainer} behavior='padding'>
         <SafeAreaView style={chatStyle.safeAreaViewContainer}>
-          <Messages {...this.props} data={this.state.messages}/>
+          <Messages {...this.props} messages={messages}/>
           <View style={chatStyle.messageCreateContainer}>
             <View style={chatStyle.messageInputContainer}>
               <TextInput 
@@ -85,7 +79,7 @@ class App extends Component {
                 maxLength = {250}
                 value={this.state.text}
                 style={chatStyle.messageInput}
-                onChangeText={ (v) => this.setState((prev) => ({ ...prev, text: v}) )}
+                onChangeText={ (v) => this.setState((prev) => ({text: v}) )}
               />
             </View>
             <TouchableOpacity style={chatStyle.sendButton} onPress={ this.sendMessage }>
@@ -104,15 +98,24 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.account,
-    mode: state.mode
+    messages: state.notification.messages,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     handleGoBack: (nav) => {
-      dispatch(handleGoBack(nav));
-    }
+      dispatch(handleGoBack(nav))
+    },
+    fetchMessages: (id) => {
+      dispatch(fetchMessages(id))
+    },
+    addMessage: (obj) => {
+      dispatch({
+        type: "ADD_MESSAGE",
+        payload: obj
+      })
+    },
   }
 }
 

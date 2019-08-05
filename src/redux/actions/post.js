@@ -1,15 +1,11 @@
-import { AsyncStorage } from 'react-native'
-import { fetchAllPosts } from './home';
 import axios from 'axios';
+import localconfig from '@src/localconfig';
+
+const SERVER = localconfig ? localconfig.SERVER : "https://finder-uz.herokuapp.com";
 
 const publishPost = (nav) => {
   return (dispatch, getState) => {
-    const { create, account, mode } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/post/create/`
-    ) : (
-      `http://localhost:8000/post/create/`
-    )
+    const { create, account } = getState();
     const formData = new FormData()
 
     for (const key in create.data){
@@ -30,7 +26,7 @@ const publishPost = (nav) => {
     if (account.accountFetched && account.token){
       axios({
         method: 'POST',
-        url: url,
+        url: `${SERVER}/post/create/`,
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data',
@@ -48,12 +44,10 @@ const publishPost = (nav) => {
         dispatch({
           type: 'ERASE_CREATE_DATA_STATE'
         })
-        dispatch(fetchAllPosts())
       })
       .catch( (err) => {
 
       })
-      nav.navigate('Home')
     }
   }
 }
@@ -114,19 +108,14 @@ const saveEditedPost = (nav, id) => {
 
 const fetchUserPosts = (id, page, callback) => {
   return (dispatch, getState) => {
-    const { mode, account } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/${id}/posts/page=${page}`
-    ) : (
-      `http://localhost:8000/account/${id}/posts/page=${page}`
-    )
+    const { account } = getState();
     axios({
       method: 'POST',
+      url: `${SERVER}/account/${id}/posts/page=${page}`,
       headers: {
         'Accept': 'application/json',
         'X-Auth-Token': account.token
       },
-      url: url,
     })
     .then(({data}) => {
       callback(data);
@@ -139,20 +128,15 @@ const fetchUserPosts = (id, page, callback) => {
 
 const fetchUserSavedPosts = (page, callback) => {
   return (dispatch, getState) => {
-    const { account, mode } = getState();
+    const { account } = getState();
     if(account.accountFetched){
-      const url = mode.server == 'production' ? (
-        `https://finder-uz.herokuapp.com/account/posts/page=${page}`
-      ) : (
-        `http://localhost:8000/account/posts/page=${page}`
-      )
       axios({
         method: 'POST',
+        url: `${SERVER}/account/posts/page=${page}`,
         headers: {
           'Accept': 'application/json',
           'X-Auth-Token': account.token
         },
-        url: url,
       })
       .then( ({ data }) => {
         callback(data);
@@ -164,9 +148,33 @@ const fetchUserSavedPosts = (page, callback) => {
   }
 }
 
+const savePost = (id) => {
+  return (dispatch, getState) => {
+
+    const { account } = getState();
+    axios({
+      method: 'POST',
+      url: `${SERVER}/post/${id}/save/`,
+      headers: {
+        'Accept': 'application/json',
+        'X-auth-token': account.token
+      },
+    })
+    .then(({data, status}) => {
+      if(status == 200){
+        dispatch({type: 'TOGGLE_SAVE_POST'})
+      }
+    })
+    .catch((err) => {
+
+    })    
+  }
+}
+
 export {
   publishPost,
   saveEditedPost,
   fetchUserPosts,
   fetchUserSavedPosts,
+  savePost,
 }

@@ -43,12 +43,10 @@ class App extends Component {
   }
 
   register = () => {
-    const { registerAccount, navigation, fetchAccount, eraseRegisterState } = this.props;
+    const { registerAccount } = this.props;
     registerAccount( (status, data) => {
       if(status == 200){
         AsyncStorage.setItem('token', data.token);
-        fetchAccount(navigation, data.token)
-        eraseRegisterState()
       }
       else if(status == 400){
         this.toggleAlert(true, data)
@@ -177,9 +175,6 @@ const mapDispatchToProps = (dispatch) => {
         type: 'UPDATE_REGISTER_STATE',
         payload: obj
       })
-    },
-    eraseRegisterState: () => {
-      dispatch({type: 'ERASE_REGISTER_STATE'})
     },
   }
 }

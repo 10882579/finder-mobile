@@ -8,8 +8,7 @@ import { connect } from 'react-redux';
 import Header from "./header";
 import Rating from './rating';
 
-import { fetchFollowingUsers, updateAccount } from '@redux/actions/account';
-import { fetchUserPosts, fetchUserSavedPosts } from '@redux/actions/post';
+import { updateAccount } from '@redux/actions/account';
 
 class App extends Component {
 
@@ -28,19 +27,7 @@ class App extends Component {
   }
 
   navigateToDetail = (screen) => {
-    const { fetchUserPosts, fetchUserSavedPosts, account, navigation, fetchFollowingUsers } = this.props;
-    if(screen == "E'lonlarim")
-      fetchUserPosts(account.account_id, 1, (data) => {
-        navigation.navigate("Detail", {data, screen: screen});
-      })
-    else if(screen == "Belgilangan e'lonlar")
-      fetchUserSavedPosts(1, (data) => {
-        navigation.navigate("Detail", {data, screen: screen});
-      })
-    else if(screen == "Kuzatilayotkanlar")
-      fetchFollowingUsers(1, (data) => {
-        navigation.navigate("Detail", {data, screen: screen});
-      })
+    this.props.navigation.navigate("Detail", {screen: screen});
   }
 
 
@@ -77,19 +64,19 @@ class App extends Component {
           </View>
         </View>
         <View style={accountStyle.navigationContainer}>
-          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("E'lonlarim") }>
+          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("myposts") }>
             <AntDesign name='bars' size={28}/>
             <Text style={accountStyle.navigationText}>E'lonlarim</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("Belgilangan e'lonlar") }>
+          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("savedposts") }>
             <Feather name='bookmark' size={28}/>
             <Text style={accountStyle.navigationText}>Belgilangan e'lonlar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("Kuzatilayotkanlar") }>
+          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("following") }>
             <AntDesign name='like2' size={28}/>
             <Text style={accountStyle.navigationText}>Kuzatilayotkanlar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("Reyting") }>
+          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("rating") }>
             <AntDesign name='staro' size={28}/>
             <Text style={accountStyle.navigationText}>Reyting</Text>
           </TouchableOpacity>
@@ -109,15 +96,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateAccountImage: (obj, nav) => {
       dispatch(updateAccount(obj, nav))
-    },
-    fetchUserPosts: (id, page, cb) => {
-      dispatch(fetchUserPosts(id, page, cb))
-    },
-    fetchUserSavedPosts: (page, cb) => {
-      dispatch(fetchUserSavedPosts(page, cb))
-    },
-    fetchFollowingUsers: (page, cb) => {
-      dispatch(fetchFollowingUsers(page, cb))
     },
   }
 }

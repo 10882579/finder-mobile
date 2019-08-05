@@ -1,16 +1,13 @@
 import axios from 'axios';
+import localconfig from '@src/localconfig';
+
+const SERVER = localconfig ? localconfig.SERVER : "https://finder-uz.herokuapp.com";
 
 const fetchAllPosts = () => {
   return (dispatch, getState) => {
-    const { mode } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/post/list/`
-    ) : (
-      `http://localhost:8000/post/list/`
-    )
     axios({
       method: 'POST',
-      url: url,
+      url: `${SERVER}/post/list/`,
       headers: {
         'Accept': 'application/json',
       },
@@ -108,15 +105,10 @@ const fetchAllPosts = () => {
 
 const fetchPost = (id, cb) => {
   return (dispatch, getState) => {
-    const { account, mode } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/post/${id}/`
-    ) : (
-      `http://localhost:8000/post/${id}/`
-    )
+    const { account } = getState();
     axios({
       method: 'POST',
-      url: url,
+      url: `${SERVER}/post/${id}/`,
       headers: {
         'Accept': 'application/json',
         'X-Auth-Token': account.token

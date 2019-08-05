@@ -1,16 +1,23 @@
 import React from 'react';
-import { View, Image, StatusBar } from 'react-native';
+import { View, Image, StatusBar, AsyncStorage } from 'react-native';
 import * as Animate from 'react-native-animatable';
 import { Provider } from 'react-redux';
 import { Font } from 'expo';
+
+import { fetchAccount } from '@redux/actions/account';
 import { splashStyle } from '@src/static/index';
-import store from '@src/redux/store';
 import Navigation from '@src/navigation/index';
+import store from '@src/redux/store';
 
 export default class App extends React.Component {
 
   state = {
     isReady: false
+  }
+  
+  async componentWillMount(){
+    const token = await AsyncStorage.getItem('token');
+    store.dispatch(fetchAccount(token));
   }
 
   async componentDidMount() {

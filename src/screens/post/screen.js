@@ -1,154 +1,141 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { Animated, View, ScrollView, ActivityIndicator, Text, Dimensions } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import { Constants } from 'expo';
 
-import {
-  Header,
-  Owner,
-  ImmediateInfo,
-  PostImages,
-  Description,
-  DeletePost
-} from './components/index';
-import { fetchMessages } from '@redux/actions/notification';
-import { fetchSpecificAccount } from '@redux/actions/account';
-import { savePost, setPostSold, deletePost } from '@src/requests';
-import { handleGoBack } from '@redux/actions/handleGoBack';
-import { defaultStyle } from '@src/static/index';
+import { defaultStyle, postStyle } from '@src/static/index';
+import { fetchPost } from "@redux/actions/home";
+import { savePost } from "@redux/actions/post";
+
+import User from './components/user';
+import Header from './components/header';
+import Images from './components/images';
+import Condition from './components/condition';
+import ActionButton from './components/actionbutton';
+ 
+const { width } = Dimensions.get('window');
+const MAX_HEIGHT = width + Constants.statusBarHeight + 60;
+const MIN_HEIGHT = Constants.statusBarHeight + 60;
+const SCROLL_HEIGHT = MAX_HEIGHT - MIN_HEIGHT;
 
 class App extends Component {
 
   state = {
-    showModal: false,
+    loading: true
   }
 
   componentWillMount() {
-    const { params } = this.props.navigation.state;
-    this.setState( (prev) => ({
-      ...prev,
-      ...params,
-    }))
-  }
+    const { fetchPost, navigation, setPostState } = this.props
+    const { params } = navigation.state;
+    const from  = params.from || "Home";
 
-  toggleSavePost = () => {
-    const { account, mode, navigation } = this.props;
-    if (account.accountFetched){
-      savePost({
-        mode: mode.server,
-        id: this.state.id,
-        token: account.token
-      }).then( (status) => {
-        this.setState( (prev) => ({...prev, saved: !prev.saved}))
+    console.log(params);
+    
+
+    this.imageHeight = new Animated.Value(0);
+    
+    if(params.id){
+      fetchPost(params.id, (data) => {
+        if(data){
+          setPostState(data);
+          setInterval( () => this.setState( () => ({loading: false})), 500)
+        }
+        else{
+          navigation.navigate(from);
+        }
       })
     }
     else{
-      navigation.navigate('Account')
+      navigation.navigate(from);
     }
   }
 
-  setPostSold = () => {
-    const { account, mode, navigation } = this.props;
-    if (account.accountFetched){
-      setPostSold({
-        mode: mode.server,
-        id: this.state.id,
-        token: account.token
-      }).then( (status) => {
-        this.setState( (prev) => ({...prev, sold: true, showModal: false}))
-      })
+  toggleSavePost = () => {
+    const { savePost, account, navigation, post } = this.props;
+    if(account.accountFetched){
+      savePost(post.id);
     }
-  }
-
-  deletePost = () => {
-    const { account, mode, navigation, handleGoBack } = this.props;
-    if (account.accountFetched){
-      deletePost({
-        mode: mode.server,
-        id: this.state.id,
-        token: account.token
-      }).then( (status) => {
-        handleGoBack(navigation)
-      })
+    else{
+      navigation.navigate('Account');
     }
-  }
-
-
-  toggleModal = (bool) => {
-    this.setState( (prev) => ({
-      ...prev,
-      showModal: bool
-    }))
   }
 
   render() {
 
-    const post_account = this.state.account;
-    const { account } = this.props;
+    const { loading } = this.state;
+    const { post } = this.props;
 
-    return (
-      <View style={defaultStyle.container}>
-        <View style={defaultStyle.flex}>
-          <Header
-            {...this.props}
-            post={this.state}
-            toggleSavePost={ this.toggleSavePost }
-            toggleModal={ (bool) => this.toggleModal(bool) }
-          />
-          <ScrollView style={defaultStyle.flex} bounces={false} scrollEventThrottle={16}>
-            <PostImages     {...this.props} post={this.state}/>
-            <ImmediateInfo  {...this.props} post={this.state}/>
-            <Owner          {...this.props} post={this.state}/>
-            <Description    {...this.props} post={this.state}/>
-          </ScrollView>
-          {
-            post_account.account_id == account.account_id ? (
-              <DeletePost
-                {...this.props}
-                post={this.state}
-                setPostSold={this.setPostSold}
-                deletePost={this.deletePost}
-                showModal={this.state.showModal}
-                toggleModal={ (bool) => this.toggleModal(bool) }
-              />
-            ) : null
-          }
+    const height = this.imageHeight.interpolate({
+      inputRange: [0, SCROLL_HEIGHT],
+      outputRange: [MAX_HEIGHT, MIN_HEIGHT],
+      extrapolate: 'clamp',
+    })
+
+    if(loading){
+      return (
+        <View style={defaultStyle.loadingContainer}>
+          <ActivityIndicator size="large" color="white" />
+          <Text style={defaultStyle.loadingText}>Loading...</Text>
         </View>
-      </View>
-    )
-
+      )
+    }
+    else if(!loading){
+      return (
+        <View style={defaultStyle.container}>
+          <Images {...this.props} height={height}/>
+          <ScrollView 
+            style={defaultStyle.flex} 
+            bounces={false} scrollEventThrottle={8} 
+            showsVerticalScrollIndicator={false}
+            onScroll={Animated.event(
+              [{nativeEvent: {contentOffset: {y: this.imageHeight}}}]
+            )}
+          >
+            <View style={postStyle.container}>
+              <View style={postStyle.titleContainer}>
+                <Text style={postStyle.title} numberOfLines={2}>{post.title}</Text>
+              </View>
+              <View style={postStyle.locationContainer}>
+                <Entypo name='location-pin' style={[postStyle.location, postStyle.locationIcon]}/>
+                <Text style={postStyle.location}>{post.city_town}, {post.state}</Text>
+              </View>
+              <User {...this.props}/>
+              <Condition {...this.props}/>
+              <View style={postStyle.descriptionContainer}>
+                <Text style={postStyle.description}>{post.description}</Text>
+              </View>
+              <ActionButton {...this.props}/>
+            </View>
+          </ScrollView>
+          <Header {...this.props} toggleSavePost={this.toggleSavePost}/>
+        </View>
+      )
+    }
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     account: state.account,
-    mode: state.mode
+    post: state.post,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchSpecificAccount: (id, cb) => {
-      dispatch(fetchSpecificAccount(id, cb))
-    },
-    fetchMessages: (id, cb) => {
-      dispatch(fetchMessages(id, cb))
-    },
-    updateNavState: (obj) => {
+    setPostState: (data) => {
       dispatch({
-        type: 'UPDATE_NAV_STATE',
-        payload: obj
+        type: 'SET_POST_STATE',
+        payload: data
       })
     },
-    updateCreateDataState: (value) => {
-      dispatch({
-        type: 'UPDATE_CREATE_DATA_STATE',
-        payload: value
-      })
+    fetchPost: (id, cb) => {
+      dispatch(fetchPost(id, cb))
     },
-    handleGoBack: (nav) => {
-      dispatch(handleGoBack(nav))
-    }
+    savePost: (id) => {
+      dispatch(savePost(id))
+    },
   }
 }
 

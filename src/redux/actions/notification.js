@@ -1,52 +1,59 @@
 import axios from 'axios';
+import localconfig from '@src/localconfig';
 
-const fetchConversations = (callback) => {
+const SERVER = localconfig ? localconfig.SERVER : "https://finder-uz.herokuapp.com";
+
+const fetchConversations = () => {
   return (dispatch, getState) => {
-    const { account, mode } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/chat/conversations/`
-    ) : (
-      `http://localhost:8000/chat/conversations/`
-    )
-    axios({
-      method: 'POST',
-      url: url,
-      headers: {
-        'Accept': 'application/json',
-        'X-auth-token': account.token
-      },
-    })
-    .then( ({data}) => {
-      callback(data, 200)
-    })
-    .catch( ({response}) => {
-      callback(null, 401)
-    })
+    const { account } = getState();
+    if(account.accountFetched){
+      axios({
+        method: 'POST',
+        url: `${SERVER}/chat/conversations/`,
+        headers: {
+          'Accept': 'application/json',
+          'X-auth-token': account.token
+        },
+      })
+      .then( ({data, status}) => {
+        if(status == 200){
+          dispatch({
+            type: "SET_CONVERSATION_STATE",
+            payload: data
+          })
+        }
+      })
+      .catch( ({response}) => {
+        
+      })
+    }
   }
 }
 
-const fetchMessages = (id, callback) => {
+const fetchMessages = (id) => {
   return (dispatch, getState) => {
-    const { account, mode } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/chat/messages/${id}/`
-    ) : (
-      `http://localhost:8000/chat/messages/${id}/`
-    )
-    axios({
-      method: 'POST',
-      url: url,
-      headers: {
-        'Accept': 'application/json',
-        'X-auth-token': account.token
-      },
-    })
-    .then( ({data}) => {
-      callback(data, 200)
-    })
-    .catch( ({response}) => {
-      callback(null, 401)
-    })
+    const { account } = getState();
+    if(account.accountFetched){
+      axios({
+        method: 'POST',
+        url: `${SERVER}/chat/messages/${id}/`,
+        headers: {
+          'Accept': 'application/json',
+          'X-auth-token': account.token
+        },
+      })
+      .then( ({data, status}) => {
+        if(status == 200){
+          dispatch({
+            type: "SET_MESSAGE_STATE",
+            payload: data
+          })
+        }
+      })
+      .catch( ({response}) => {
+  
+      })
+    }
   }
 }
 

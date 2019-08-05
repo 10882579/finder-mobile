@@ -1,17 +1,15 @@
 import React from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
+
 import { homeStyle, defaultStyle } from '@src/static/index';
 
 const Post = (props) => {
 
-  const { navigation, item, fetchPost } = props;
+  const { navigation, item } = props;
 
   handleFetchPost = (id) => {
-    fetchPost(id, (data) => {
-      navigation.navigate('Post', {...data})
-    })
+    navigation.navigate('Post', {id: id})
   }
 
   return (

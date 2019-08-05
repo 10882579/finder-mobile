@@ -1,23 +1,28 @@
 import axios from 'axios';
+import localconfig from '@src/localconfig';
+
+const SERVER = localconfig ? localconfig.SERVER : "https://finder-uz.herokuapp.com";
 
 const loginToAccount = (callback) => {
   return (dispatch, getState) => {
-    const { mode, login } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/login/`
-    ) : (
-      `http://localhost:8000/account/login/`
-    )
+    const { login } = getState();
     axios({
       method: 'POST',
-      url: url,
+      url: `${SERVER}/account/login/`,
       headers: {
         'Accept': 'application/json',
       },
       data: login
     })
     .then( ({data, status}) => {
-      callback(status, data)
+      if(status == 200){
+        dispatch({
+          type: "UPDATE_ACCOUNT_STATE",
+          payload: {...data, accountFetched: true}
+        });
+        dispatch({type: "ERASE_LOGIN_STATE"});
+        callback(status, data);
+      }
     })
     .catch( ({response}) => {
       if(response.status == 400){
@@ -31,22 +36,24 @@ const loginToAccount = (callback) => {
 
 const registerAccount = (callback) => {
   return (dispatch, getState) => {
-    const { mode, register } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/register/`
-    ) : (
-      `http://localhost:8000/account/register/`
-    )
+    const { register } = getState();
     axios({
       method: 'POST',
-      url: url,
+      url: `${SERVER}/account/register/`,
       headers: {
         'Accept': 'application/json',
       },
       data: register
     })
     .then( ({data, status}) => {
-      callback(status, data);
+      if(status == 200){
+        dispatch({
+          type: "UPDATE_ACCOUNT_STATE",
+          payload: {...data, accountFetched: true}
+        });
+        dispatch({type: "ERASE_REGISTER_STATE"});
+        callback(status, data);
+      }
     })
     .catch( ({response}) => {
       const status = response.status;
@@ -56,18 +63,12 @@ const registerAccount = (callback) => {
   }
 }
 
-const fetchAccount = (nav, token) => {
+const fetchAccount = (token) => {
   return (dispatch, getState) => {
-    const { mode } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/`
-    ) : (
-      `http://localhost:8000/account/`
-    )
     if(token !== null){
       axios({
         method: 'POST',
-        url: url,
+        url: `${SERVER}/account/`,
         headers: {
           'Accept': 'application/json',
           'x-auth-token': token
@@ -79,20 +80,6 @@ const fetchAccount = (nav, token) => {
             type: 'UPDATE_ACCOUNT_STATE',
             payload: {...res.data, token: token, accountFetched: true}
           })
-          // if(screen.length > 0){
-          //   if(screen[screen.length - 1].direction == 'Post'){
-          //     nav.navigate('Post', {id: screen[screen.length - 1].id})
-          //   }
-          //   if(screen[screen.length - 1].direction == 'Account'){
-          //     if (res.data.account_id !== screen[screen.length - 1].id){
-          //       nav.navigate('Account', {id: screen[screen.length - 1].id})
-          //     }
-          //   }
-          //   else{
-          //     nav.navigate(screen[screen.length - 1].direction)
-          //   }
-          //   dispatch({type: 'POP_LAST_SCREEN'})
-          // }
         }
       })
       .catch((err) => {
@@ -104,22 +91,19 @@ const fetchAccount = (nav, token) => {
 
 const fetchSpecificAccount = (id, callback) => {
   return (dispatch, getState) => {
-    const { account, mode } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/${id}/`
-    ) : (
-      `http://localhost:8000/account/${id}/`
-    )
+    const { account } = getState();
     axios({
       method: 'POST',
-      url: url,
+      url: `${SERVER}/account/${id}/`,
       headers: {
         'Accept': 'application/json',
         'X-auth-token': account.token
       },
     })
     .then( ({status, data}) => {
-      callback(data)
+      if(status == 200){
+        callback(data)
+      }
     })
     .catch((err) => {
 
@@ -129,20 +113,15 @@ const fetchSpecificAccount = (id, callback) => {
 
 const fetchFollowingUsers = (page, callback) => {
   return (dispatch, getState) => {
-    const { account, mode } = getState();
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/following/page=${page}`
-    ) : (
-      `http://localhost:8000/account/following/page=${page}`
-    )
+    const { account } = getState();
     if(account.accountFetched){
       axios({
         method: 'POST',
+        url: `${SERVER}/account/following/page=${page}`,
         headers: {
           'Accept': 'application/json',
           'X-Auth-Token': account.token
         },
-        url: url,
       })
       .then(({data, status}) => {
         callback(data);
@@ -156,12 +135,7 @@ const fetchFollowingUsers = (page, callback) => {
 
 const updateAccount = (obj, nav) => {
   return (dispatch, getState) => {
-    const { account, mode } = getState()
-    const url = mode.server == 'production' ? (
-      `https://finder-uz.herokuapp.com/account/update/`
-    ) : (
-      `http://localhost:8000/account/update/`
-    )
+    const { account } = getState()
     const formData = new FormData()
     for (const key in obj){
       if (key != 'image' && obj[key].length > 0){
@@ -177,7 +151,7 @@ const updateAccount = (obj, nav) => {
     }
     axios({
       method: 'POST',
-      url: url,
+      url: `${SERVER}/account/update/`,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'multipart/form-data',
@@ -225,16 +199,11 @@ const updateAccount = (obj, nav) => {
 
 const followAccount = (id, callback) => {
   return (dispatch, getState) => {
-    const { account, mode } = getState();
+    const { account } = getState();
     if(account.accountFetched){
-      const url = mode.server == 'production' ? (
-        `https://finder-uz.herokuapp.com/account/${id}/follow/`
-      ) : (
-        `http://localhost:8000/account/${id}/follow/`
-      )
       axios({
         method: 'POST',
-        url: url,
+        url: `${SERVER}/account/${id}/follow/`,
         headers: {
           'Accept': 'application/json',
           'X-auth-token': account.token

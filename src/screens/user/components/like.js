@@ -6,14 +6,14 @@ import { accountStyle } from '@src/static/index';
 
 export default (props) => {
 
-  const { params } = props.navigation.state;
+  const { state } = props;
 
   return (
     <TouchableOpacity
       style={accountStyle.likeContainer}
-      onPress={ () => props.follow(params.account.account_id) }
+      onPress={ () => props.follow(state.account.account_id) }
     >
-      <AntDesign name={props.following ? 'like1' : 'like2'} color="#1aa3ff" size={28}/>
+      <AntDesign name={state.following ? 'like1' : 'like2'} color="#1aa3ff" size={28}/>
     </TouchableOpacity>
   )
 }

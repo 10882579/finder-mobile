@@ -64,13 +64,11 @@ class App extends Component {
   }
 
   login = () => {
-    const { loginToAccount, fetchAccount, navigation, eraseLoginState } = this.props;
+    const { loginToAccount } = this.props;
 
     loginToAccount( (status, data) => {
       if(status == 200){
         AsyncStorage.setItem('token', data.token);
-        fetchAccount(navigation, data.token);
-        eraseLoginState();
       }
       else if(status == 400){
         alert(data);
@@ -176,9 +174,6 @@ const mapDispatchToProps = (dispatch) => {
         payload: obj
       })
     },
-    eraseLoginState: () => {
-      dispatch({type: 'ERASE_LOGIN_STATE'})
-    }
   }
 }
 

@@ -7,11 +7,11 @@ module.exports = StyleSheet.create({
   container: { backgroundColor: '#f2f2f2', flex: 1},
   customHeaderContainer: {
     width: width,
-    borderBottomWidth: 0,
     padding: 0,
     paddingHorizontal: 5,
     borderWidth: 0,
-    height: 50 + Constants.statusBarHeight,
+    borderBottomWidth: 0,
+    height: 60 + Constants.statusBarHeight,
     paddingTop: Constants.statusBarHeight,
     flexDirection: 'row',
     backgroundColor: '#16222A',
@@ -121,6 +121,18 @@ module.exports = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     marginTop: 3,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: 'center',
+    backgroundColor: "#16222A",
+  },
+  loadingText: {
+    fontFamily: 'Default',
+    color: 'white',
+    fontSize: 20,
+    marginTop: 10,
   },
   dismissBtn: {
     height: 50,

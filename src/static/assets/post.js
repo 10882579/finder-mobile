@@ -1,44 +1,42 @@
-import { StyleSheet, StatusBar, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Constants } from 'expo';
 
 const { width, height } = Dimensions.get('window');
-const hyp = Math.sqrt((width * width + height * height))
 const radius = Math.round(width + height) / 2
 
 module.exports = StyleSheet.create({
-  container: {
-    flex: 1, backgroundColor: '#16222A',
-    justifyContent: 'center',
+  header: {
+    position: "absolute",
+    top: Constants.statusBarHeight,
+    justifyContent: 'space-between',
+    flexDirection: "row",
+    left: 0,
+    right: 0,
+    height: 60,
+  },
+  headerButton : {
+    width: 60, 
+    height: 60,
+    justifyContent: "center",
     alignItems: 'center',
-    padding: 30,
   },
   imageContainer: {
+    position: "absolute",
     width: width,
-    height: width + Constants.statusBarHeight + 50,
+    height: width + Constants.statusBarHeight + 60,
     backgroundColor: 'rgba(22, 34, 42, 0.9)',
     overflow: 'hidden'
   },
-  soldLabelContainer:{
-    position: 'absolute',
-    top: 0,left: 0,
-    width: '100%',
-    height: '100%',
+  imagePagination: {
+    width: 100,
+    height: 35,
+    bottom: 10,
+    left: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  soldLabel:{
-    height: 50,
-    width: hyp,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'darkred',
-    transform: [{ rotate: '-45deg'}]
-  },
-  soldLabelText:{
-    color: 'white',
-    fontFamily: 'Default',
-    fontSize: 18
+    borderRadius: 4
   },
   priceContainer:{
     position: 'absolute',
@@ -57,32 +55,20 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     fontSize: 20,
   },
-  imagePagination: {
-    width: 100,
-    height: 35,
-    bottom: 10,
-    left: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    paddingVertical: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4
+  container: {
+    marginTop: width + Constants.statusBarHeight + 60,
   },
-  itemInfoContainer: {
-    backgroundColor: '#16222A',
-    flexDirection: 'row'
-  },
-  titleContainer:{
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+  titleContainer: {
+    width: width,
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
   title: {
-    color: 'white',
-    fontSize: 18,
-    fontFamily: 'Default',
+    fontFamily: "Default",
+    fontSize: 20,
   },
   locationContainer: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     height: 45,
     alignItems: 'center',
     flexDirection: 'row',
@@ -97,159 +83,92 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     fontSize: 15,
   },
-  editBtnContainer: {
-    width: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  contactContainer: {
+  userContainer:{
+    width: width,
     height: 60,
-    width: 60,
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    alignItems: "center"
+  },
+  userImageContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: radius,
+    overflow: 'hidden',
+  },
+  userNameContainer: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  userName: {
+    fontFamily: 'Default',
+    fontSize: 18,
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+  },
+  conditionContainer: {
+    width: width,
+    paddingHorizontal: 20,
+  },
+  conditionText: {
+    fontFamily: "Default",
+    fontSize: 18,
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  conditionListContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: "center",
+  },
+  conditionButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#007acc',
-    zIndex: 99,
-    borderRadius: radius,
-    overflow: 'hidden'
+    height: 35,
+    flex: 1,
+  },
+  conditionName: {
+    fontFamily: 'Default',
+    fontSize: 14,
+    color: 'white'
+  },
+  selectedCondition: {
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: '#003d66',
+    backgroundColor: '#003d66',
+  },
+  descriptionContainer: {
+    padding: 20,
+  },
+  description: {
+    fontFamily: "Default",
+    fontSize: 15,
+    textAlign: "justify",
+  },
+  contactButtonContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 30,
+  },
+  contactButton: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 50,
+    backgroundColor: '#003d66',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
   },
   contactIcon: {
     fontSize: 32,
     color: 'white',
+    position: 'absolute',
+    left: 20,
   },
-  userInfoContainer:{
-    backgroundColor: '#16222A',
-    paddingHorizontal: 20,
-    height: 70,
-  },
-  userContainer:{
-    borderTopWidth: 1,
-    borderTopColor: 'grey',
-    height: '100%',
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  userImageContainer:{
-    width: 40,
-    height: 40,
-    borderRadius: radius,
-    overflow: 'hidden'
-  },
-  userDetailIcon: {
-    fontSize: 25,
-    color: 'white',
-  },
-  userName: {
-    color: 'white',
-    fontFamily: 'Default',
-    fontSize: 17,
-    marginHorizontal: 20,
-  },
-  itemDescriptionContainer:{
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    height: 60,
-  },
-  descriptionBlock: {
-    flex: 1,
-    flexDirection: 'row',
-    paddingHorizontal: 10,
-  },
-  blockIconContainer: {
-    height: '100%',
-    width: 'auto',
-    justifyContent: 'center',
-    marginRight: 10,
-  },
-  blockIcon: {
-    fontSize: 35,
-    color: '#003d66',
-  },
-  blockContextContainer: {
-    justifyContent: 'center',
-  },
-  descriptionName: {
-    fontSize: 12,
-    fontFamily: 'Default',
-  },
-  descriptionValue: {
-    fontSize: 16,
-    fontFamily: 'Default',
-    color: '#007acc',
-  },
-  descriptionDetail: {
-    marginVertical: 10,
-    padding: 20,
-    backgroundColor: 'white'
-  },
-  descriptionDetailValue: {
-    width: '100%',
-    fontSize: 16,
-    fontFamily: 'Default',
-    textAlign: 'justify'
-  },
-  negotiationContainer:{
-    backgroundColor: 'white',
-    height: 60,
-    paddingHorizontal: 15,
-    justifyContent: 'center',
-  },
-  negotiationInnerContainer:{
-    flexDirection: 'row',
-  },
-  negotiationContainerIcon:{
-    fontSize: 22,
-    marginRight: 10,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    margin: 0,
-  },
-  modalInnerContainer:{
-    backgroundColor: 'white',
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-  },
-  modalBottomContainer:{
-    height: 'auto',
-    width: 'auto',
-    margin: 20,
-  },
-  confirmationContainer:{
-    height: 50,
-    width: '100%',
-    marginBottom: 10,
-    backgroundColor: '#F44236',
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  confirmationText: {
-    color: 'white',
+  contactText: {
     fontSize: 18,
-    fontFamily: 'Default',
+    color: 'white',
+    fontFamily: 'Default'
   },
-  warningContainer: {
-    width: width,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10,
-    backgroundColor: '#ffc107',
-    padding: 20,
-    flexDirection: 'row',
-  },
-  warningIconContainer: {
-    width: 50,
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  warningTextContainer:{
-    flex: 1,
-  },
-  warningText: {
-    fontFamily: 'Default',
-  }
 })

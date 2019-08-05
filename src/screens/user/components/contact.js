@@ -7,19 +7,14 @@ import { accountStyle } from '@src/static/index';
 export default (props) => {
 
 	navigateToChat = () => {
-	  const { navigation, fetchMessages, account } = props;
-	  const { params } = navigation.state;
-	  
-	  if(account.accountFetched){
-			fetchMessages(params.account.account_id, (messages, status) => {
-				if (status == 200){
-					navigation.navigate('Chat', {...params.account, messages: messages})
-				}
-			})
-	  }
-	  else{
+		const { navigation, state, account } = props;
+		
+		if(account.accountFetched){
+			navigation.navigate('Chat', {...state.account})
+		}
+		else{
 			navigation.navigate('Account');
-	  }
+		}
 	}
   
 	return (

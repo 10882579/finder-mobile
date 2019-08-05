@@ -7,12 +7,10 @@ import { homeStyle, defaultStyle } from '@src/static/index';
 
 export default (props) => {
 
-  const { navigation, item, fetchPost } = props;
+  const { navigation, item } = props;
 
   handleFetchPost = (id) => {
-    fetchPost(id, (data) => {
-      navigation.navigate('Post', {...data})
-    })
+    navigation.navigate('Post', {id: id})
   }
 
   return (

@@ -1,27 +1,31 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text, StatusBar, Image } from 'react-native';
+import { View, TouchableOpacity, Text, StatusBar, Image, ActivityIndicator } from 'react-native';
 
 import { connect }  from 'react-redux';
-import { handleGoBack } from '@redux/actions/handleGoBack';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
-import { fetchMessages } from '@redux/actions/notification';
-import { followAccount } from '@redux/actions/account';
+import { handleGoBack } from '@redux/actions/handleGoBack';
+import { followAccount, fetchSpecificAccount } from '@redux/actions/account';
 import { defaultStyle, accountStyle } from '@src/static/index';
 import { Contact, Rating, LikeAccount } from './components/index';
-import { fetchUserPosts } from '@redux/actions/post';
 
 class App extends Component {
 
   state = {
-    screen: 'posts'
+    loading: true,
   }
 
   componentWillMount() {
-    const { params } = this.props.navigation.state;
-    this.setState( (prev) => ({
-      ...prev,
-      ...params,
-    }))
+    const { navigation, fetchSpecificAccount } = this.props;
+    const { params } = navigation.state;
+    fetchSpecificAccount(params.id, (data) => {
+      this.updateState(data);
+    })
+  }
+
+  updateState = (data) => {
+    this.setState( (prev) => ({...prev, ...data}), () => {
+      setTimeout(() => this.setState({...this.state, loading: false}), 500)
+    })
   }
 
   followAccount = (id) => {
@@ -32,82 +36,86 @@ class App extends Component {
         following: !prev.following
       }))
     })
-    
   }
 
   navigateToDetail = (screen) => {
-    const { fetchUserPosts, navigation } = this.props;
-    const { params } = navigation.state;
-    if(screen == "E'lonlar")
-      fetchUserPosts(params.account.account_id, 1, (data) => {
-        navigation.navigate("Detail", {data, screen: screen});
-      })
+    const  { account } = this.state;
+    this.props.navigation.navigate("Detail", {screen: screen, id: account.account_id});
   }
 
   render() {
 
     const { navigation } = this.props;
-    const { account } = this.state;
+    const { loading, account } = this.state;
 
-    return (
-      <View style={defaultStyle.container}>
-        <View style={[accountStyle.mainContainer, defaultStyle.shadow]}>
-          <View style={accountStyle.topContainer}>
-            <View style={defaultStyle.customHeaderContainer}>
-              <StatusBar barStyle='light-content'/>
-              <TouchableOpacity
-                style={defaultStyle.headerIconContainer}
-                activeOpacity={0.8}
-                onPress={ () => navigation.goBack() }
-              >
-                <Ionicons
-                  name='md-arrow-round-back'
-                  style={defaultStyle.headerIcon}
-                />
-              </TouchableOpacity>
-              <View style={defaultStyle.headerBodyContainer}/>
+    if (loading){
+      return (
+        <View style={defaultStyle.loadingContainer}>
+          <ActivityIndicator size="large" color="white" />
+          <Text style={defaultStyle.loadingText}>Loading...</Text>
+        </View>
+      )
+    }
+    else if(!loading){
+      return (
+        <View style={defaultStyle.container}>
+          <View style={[accountStyle.mainContainer, defaultStyle.shadow]}>
+            <View style={accountStyle.topContainer}>
+              <View style={defaultStyle.customHeaderContainer}>
+                <StatusBar barStyle='light-content'/>
+                <TouchableOpacity
+                  style={defaultStyle.headerIconContainer}
+                  activeOpacity={0.8}
+                  onPress={ () => navigation.goBack() }
+                >
+                  <Ionicons
+                    name='md-arrow-round-back'
+                    style={defaultStyle.headerIcon}
+                  />
+                </TouchableOpacity>
+                <View style={defaultStyle.headerBodyContainer}/>
+              </View>
+              <Contact {...this.props} state={this.state}/>
+              <LikeAccount {...this.props}
+                state={this.state}
+                follow={this.followAccount}
+              />
             </View>
-            <Contact {...this.props}/>
-            <LikeAccount {...this.props}
-              following={ this.state.following }
-              follow={ this.followAccount }
-            />
-          </View>
-          <View style={defaultStyle.flex}>
-            <View style={accountStyle.nameContainer}>
-              <Text style={accountStyle.name} numberOfLines={1}>
-                {account.first_name} {account.last_name}
-              </Text>
+            <View style={defaultStyle.flex}>
+              <View style={accountStyle.nameContainer}>
+                <Text style={accountStyle.name} numberOfLines={1}>
+                  {account.first_name} {account.last_name}
+                </Text>
+              </View>
+              <Rating rating={account.rating} />
             </View>
-            <Rating rating={account.rating} />
-          </View>
-          <View style={accountStyle.accountContainer}>
-            <View style={accountStyle.accountImageContainer}>
-              <View style={accountStyle.accountImage}>
-                <Image source={{uri: account.image}} style={defaultStyle.image}/>
+            <View style={accountStyle.accountContainer}>
+              <View style={accountStyle.accountImageContainer}>
+                <View style={accountStyle.accountImage}>
+                  <Image source={{uri: account.image}} style={defaultStyle.image}/>
+                </View>
               </View>
             </View>
           </View>
+          <View style={accountStyle.navigationContainer}>
+            <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("userposts") }>
+              <AntDesign name='bars' size={28}/>
+              <Text style={accountStyle.navigationText}>E'lonlar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("rating") }>
+              <AntDesign name='staro' size={28}/>
+              <Text style={accountStyle.navigationText}>Reyting</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={accountStyle.navigationContainer}>
-          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("E'lonlar") }>
-            <AntDesign name='bars' size={28}/>
-            <Text style={accountStyle.navigationText}>E'lonlar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={accountStyle.navigationList} onPress={ () => this.navigateToDetail("Reyting") }>
-            <AntDesign name='staro' size={28}/>
-            <Text style={accountStyle.navigationText}>Reyting</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    )
+      )
+    }
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     account: state.account,
-    mode: state.mode
   }
 }
 
@@ -116,14 +124,11 @@ const mapDispatchToProps = (dispatch) => {
     handleGoBack: (nav) => {
       dispatch(handleGoBack(nav))
     },
-    fetchMessages: (id, cb) => {
-      dispatch(fetchMessages(id, cb))
+    fetchSpecificAccount: (id, cb) => {
+      dispatch(fetchSpecificAccount(id, cb))
     },
     followAccount: (id, cb) => {
       dispatch(followAccount(id, cb))
-    },
-    fetchUserPosts: (id, page, cb) => {
-      dispatch(fetchUserPosts(id, page, cb))
     },
   }
 }

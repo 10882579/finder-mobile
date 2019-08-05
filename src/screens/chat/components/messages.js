@@ -10,7 +10,7 @@ export default class App extends React.Component {
   }
  
   render(){
-    const { data, account } = this.props;
+    const { messages, account } = this.props;
     return (
       <ScrollView 
         bounces={false}
@@ -27,7 +27,7 @@ export default class App extends React.Component {
       >
         <View style={chatStyle.messagesContainer}>
           {
-            data.map( (item, i) => (
+            messages.map( (item, i) => (
               <View 
                 style={[
                   chatStyle.messageListItem, 

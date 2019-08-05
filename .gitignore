@@ -6,3 +6,4 @@ npm-debug.*
 *.key
 *.mobileprovision
 src/functions.js
+src/localconfig.js
