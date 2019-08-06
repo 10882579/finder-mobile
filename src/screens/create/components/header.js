@@ -1,46 +1,21 @@
-import React, { Component } from 'react';
-import {
-  View,
-  TouchableOpacity,
-  StatusBar
-} from 'react-native';
+import React from 'react';
+import { Animated, TouchableOpacity, StatusBar } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
-import { Ionicons, Feather }  from '@expo/vector-icons';
-import { defaultStyle }       from '@src/static/index'
-
-const HeaderButton = (props) => {
-  return (
-    <TouchableOpacity
-      style={defaultStyle.headerIconContainer}
-      activeOpacity={0.8}
-      onPress={ props.action }
-    >
-      <Feather
-        name={props.name}
-        style={defaultStyle.headerIcon}
-      />
-    </TouchableOpacity>
-  )
-}
+import { defaultStyle, createStyle } from '@src/static/index'
 
 export default (props) => {
 
   return (
-    <View style={defaultStyle.transparentHeaderContainer}>
+    <Animated.View style={[defaultStyle.customHeaderContainer, createStyle.header, {backgroundColor: props.color}]}>
       <StatusBar barStyle='light-content'/>
-      <TouchableOpacity
+      <TouchableOpacity 
         style={defaultStyle.headerIconContainer}
+        onPress={ () => props.navigation.toggleDrawer() }
         activeOpacity={0.8}
-        onPress={ () => props.handleGoBack(props.navigation) }
-      >
-        <Ionicons
-          name='md-arrow-round-back'
-          style={defaultStyle.headerIcon}
-        />
+        >
+        <Feather name='menu' size={25} color='white'/>
       </TouchableOpacity>
-      <View style={defaultStyle.headerBodyContainer} />
-      <HeaderButton name='trash' action={ props.eraseCreateDataState }/>
-      <HeaderButton name='share-2'/>
-    </View>
+    </Animated.View>
   )
 }

@@ -1,85 +1,108 @@
-import React, { Component } from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Image,
-  Text
-} from 'react-native';
+import React from 'react';
+import { View, Image, TouchableOpacity } from 'react-native';
+import { FontAwesome, AntDesign } from '@expo/vector-icons';
 
-import { ImagePicker } from 'expo';
-import { Ionicons, Feather } from '@expo/vector-icons';
 import { defaultStyle, createStyle } from '@src/static/index';
 
-export default class App extends Component {
+export default class App extends React.Component{
 
   state = {
-    selected: null
+    selected: null,
   }
 
-  selectImage = async () => {
-    const { data, uploadImage } = this.props;
-    if (data.selectedImages.length !== 4){
-      let result = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        mediaTypes: 'Images',
-        aspect: [1, 1],
-      });
-      if (!result.cancelled){
-        await uploadImage(result)
-      }
-    }
-  }
-
-  deleteImage = () => {
-    const { data, deleteImage } = this.props;
-    const i = this.state.selected ?
-              this.state.selected :
-              data.selectedImages[data.selectedImages.length-1].uri
-    deleteImage(i)
-    this.setState({selected: null})
+  deleteImage = (url) => {
+    this.props.deleteImage(url);
+    this.setState({selected: null});
   }
 
   render(){
 
-    const { selectedImages } = this.props.data;
+    const { data } = this.props;
+    const { selected } = this.state;
 
     return (
-      <View style={createStyle.imageUploadContainer}>
-        <View style={createStyle.singleImageContainer}>
+      <View style={defaultStyle.flex}>
+        <View style={createStyle.largeImageContainer}>
           {
-            selectedImages.length > 0 ? (
-              <View style={createStyle.singleImage}>
-                <Image
-                  source={{uri: this.state.selected ?
-                                this.state.selected :
-                                selectedImages[selectedImages.length-1].uri
-                          }}
-                  style={defaultStyle.image}
-                />
+            selected ? (
+              <View style={defaultStyle.image}>
+                <Image source={{uri: selected}} style={defaultStyle.image}/>
                 <TouchableOpacity
-                  style={createStyle.deleteImageBtn}
-                  onPress={ this.deleteImage }
+                  style={createStyle.deleteImageButton}
+                  onPress={ () => this.deleteImage(selected) }
                 >
-                  <Feather name='trash-2' color='white' size={24}/>
+                  <FontAwesome name='trash-o' color='white' size={24}/>
+                </TouchableOpacity>
+              </View>
+            ) : data.selectedImages[0] ? (
+              <View style={defaultStyle.image}>
+                <Image source={{uri: data.selectedImages[0].uri}} style={defaultStyle.image}/>
+                <TouchableOpacity
+                  style={createStyle.deleteImageButton}
+                  onPress={ () => this.deleteImage(data.selectedImages[0].uri) }
+                >
+                  <FontAwesome name='trash-o' color='white' size={24}/>
                 </TouchableOpacity>
               </View>
             ) : (
-              <Ionicons name='md-images' style={createStyle.imageUploadContainerIcon} />
+              <FontAwesome name='image' size={30} color='white'/>
             )
           }
         </View>
-        <View style={createStyle.uploadedImageContainer}>
-          {
-            selectedImages.map( (image, i) => (
-              <TouchableOpacity key={i} style={createStyle.imageContainer} onPress={ () => this.setState({selected: image.uri})}>
-                <Image source={{uri: image.uri}} style={defaultStyle.image}/>
-              </TouchableOpacity>
-            ))
-          }
+        <View style={createStyle.smallImageContainer}>
+          <View style={createStyle.smallImage}>
+            {
+              data.selectedImages[0] ? (
+                <TouchableOpacity style={defaultStyle.image} activeOpacity={1} 
+                  onPress={ () => this.setState({selected: data.selectedImages[0].uri})}
+                >
+                  <Image source={{uri: data.selectedImages[0].uri}} style={defaultStyle.image}/>
+                </TouchableOpacity>
+              ) : (
+                <AntDesign name='plus' size={30} color='darkgrey'/>
+              )
+            }
+          </View>
+          <View style={createStyle.smallImage}>
+            {
+              data.selectedImages[1] ? (
+                <TouchableOpacity style={defaultStyle.image} activeOpacity={1} 
+                  onPress={ () => this.setState({selected: data.selectedImages[1].uri})}
+                >
+                  <Image source={{uri: data.selectedImages[1].uri}} style={defaultStyle.image}/>
+                </TouchableOpacity>
+              ) : (
+                <AntDesign name='plus' size={30} color='darkgrey'/>
+              )
+            }
+          </View>
+          <View style={createStyle.smallImage}>
+            {
+              data.selectedImages[2] ? (
+                <TouchableOpacity style={defaultStyle.image} activeOpacity={1} 
+                  onPress={ () => this.setState({selected: data.selectedImages[2].uri})}
+                >
+                  <Image source={{uri: data.selectedImages[2].uri}} style={defaultStyle.image}/>
+                </TouchableOpacity>
+              ) : (
+                <AntDesign name='plus' size={30} color='darkgrey'/>
+              )
+            }
+          </View>
+          <View style={createStyle.smallImage}>
+            {
+              data.selectedImages[3] ? (
+                <TouchableOpacity style={defaultStyle.image} activeOpacity={1} 
+                  onPress={ () => this.setState({selected: data.selectedImages[3].uri})}
+                >
+                  <Image source={{uri: data.selectedImages[3].uri}} style={defaultStyle.image}/>
+                </TouchableOpacity>
+              ) : (
+                <AntDesign name='plus' size={30} color='darkgrey'/>
+              )
+            }
+          </View>
         </View>
-        <TouchableOpacity style={createStyle.imageUploadBtn} onPress={ this.selectImage }>
-          <Ionicons name='md-add' style={createStyle.imageUploadIcon} />
-        </TouchableOpacity>
       </View>
     )
   }

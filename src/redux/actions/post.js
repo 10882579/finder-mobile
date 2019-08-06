@@ -3,22 +3,24 @@ import localconfig from '@src/localconfig';
 
 const SERVER = localconfig ? localconfig.SERVER : "https://finder-uz.herokuapp.com";
 
-const publishPost = (nav) => {
+const publishPost = (callback) => {
   return (dispatch, getState) => {
     const { create, account } = getState();
     const formData = new FormData()
 
-    for (const key in create.data){
+    for (const key in create){
       if (key != 'selectedImages'){
-        formData.append(key, create.data[key])
+        formData.append(key, create[key])
       }
       else{
-        for (var i = 0; i < create.data.selectedImages.length; i++) {
-          formData.append('image', {
-            uri: create.data.selectedImages[i].uri,
-            type: 'image/jpg',
-            name: 'image.jpg',
-          })
+        for (var i = 0; i < create.selectedImages.length; i++) {
+          if(create.selectedImages[i] !== undefined){
+            formData.append('image', {
+              uri: create.selectedImages[i].uri,
+              type: 'image/jpg',
+              name: 'image.jpg',
+            })
+          }
         }
       }
     }
@@ -33,17 +35,18 @@ const publishPost = (nav) => {
           'X-Auth-Token': account.token
         },
         data: formData,
-        onUploadProgress: (progressEvent) => {
-          dispatch({
-            type: 'UPDATE_CREATE_STATE',
-            payload: {progress: Math.round(progressEvent.loaded / progressEvent.total * 100)}
-          })
-        }
+        // onUploadProgress: (progressEvent) => {
+        //   dispatch({
+        //     type: 'UPDATE_CREATE_STATE',
+        //     payload: {progress: Math.round(progressEvent.loaded / progressEvent.total * 100)}
+        //   })
+        // }
       })
-      .then((res) => {
-        dispatch({
-          type: 'ERASE_CREATE_DATA_STATE'
-        })
+      .then( (res) => {
+        if(res.status == 200){
+          dispatch({type: 'ERASE_CREATE_STATE'});
+          callback();
+        }
       })
       .catch( (err) => {
 

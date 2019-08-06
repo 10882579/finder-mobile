@@ -1,33 +1,59 @@
-import { StyleSheet, Platform, StatusBar, Dimensions } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
 import { Constants } from 'expo';
 
 const { width, height } = Dimensions.get('window');
-const radius = Math.round(width + height) / 2
 
 module.exports = StyleSheet.create({
-
-  stepContainer: {
-    width: width,
-    height: 'auto',
-  },
-  imageUploadContainer: {
-    width: width,
-    height: width + 75,
-  },
-  singleImageContainer: {
+  screenContainer: {
     flex: 1,
-    backgroundColor: '#142530',
+    backgroundColor: '#16222A',
+    ...Platform.select({
+      android : {
+        paddingTop: Constants.statusBarHeight
+      }
+    })
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  header: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    top: 0,
+  },
+  division: {
+    width: width,
+    height: height,
+    ...Platform.select({
+      ios: {
+        paddingBottom: 30
+      }
+    })
+  },
+  divisionContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    ...Platform.select({
+      ios: {
+        marginTop: Constants.statusBarHeight + 80,
+      },
+      android: {
+        marginTop: 80
+      }
+    })
+  },
+  largeImageContainer:{
+    flex: 1,
+    width: width,
+    backgroundColor: '#16222A',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
-  singleImage: {
-    width: '100%',
-    height: '100%',
-  },
-  deleteImageBtn: {
+  deleteImageButton: {
     position: 'absolute',
     bottom: 10,
-    left: 10,
+    right: 10,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     width: 50,
     height: 50,
@@ -36,240 +62,163 @@ module.exports = StyleSheet.create({
     borderRadius: 4,
     zIndex: 99
   },
-  imageUploadContainerIcon:{
-    fontSize: 40,
-    color: 'white'
+  smallImageContainer: {
+    width: width,
+    height: width/4 + 10,
+    paddingHorizontal: 5,
+    flexDirection: "row",
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
-  uploadedImageContainer: {
-    width: 40,
-    height: 'auto',
-    position: 'absolute',
-    top: Constants.statusBarHeight + 80,
-    right: 10,
+  smallImage: {
+    width: width/4 -10,
+    height: width/4 -10,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  imageContainer: {
-    backgroundColor: 'lightgrey',
-    width: 40,
-    height: 40,
-    marginBottom: 7,
-    borderRadius: 3,
-    overflow: 'hidden',
+  actionContainer: {
+    width: width,
+    height: 80,
+    justifyContent: 'space-around',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    flexDirection: 'row',
   },
-  imageUploadBtn:{
+  actionButton: {
+    width: width - 120,
+    backgroundColor: '#003d66',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+  actionButtonText: {
+    fontFamily: 'Default-Bold',
+    fontSize: 20,
+    color: 'white',
+  },
+  nextButton: {
     width: 60,
     height: 60,
+    backgroundColor: '#003d66',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: radius,
-    overflow: 'hidden',
-    position: 'absolute',
-    right: 20,
-    bottom: 20,
-    zIndex: 9999,
-    backgroundColor: '#1aa3ff',
+    borderRadius: 5,
   },
-  imageUploadIcon: {
-    fontSize: 35,
-    color: 'white',
-    ...Platform.select({
-      ios: {
-        marginTop: 2,
-        marginLeft: 1,
-      }
-    })
+  categoryContainer: {
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  titleAddressContainer: {
-    height: 'auto',
-    backgroundColor: '#16222A',
-    padding: 10,
-    paddingBottom: 0,
+  categorySelectText: {
+    color: 'darkgrey',
+    fontFamily: 'Default',
+    fontSize: 18,
   },
   titleInputContainer: {
-    flex: 1,
     height: 50,
-    borderRadius: 4,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    paddingLeft: 10,
-  },
-  titleInput: {
-    flex: 1,
-    fontSize: 16,
-    fontFamily: 'Default',
-    color: 'white',
-  },
-  addressContaner: {
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  addressIcon:{
-    fontSize: 20,
-    color: '#1aa3ff',
-    marginLeft: 5,
-    marginRight: 10,
-  },
-  cityNameContainer: {
-    height: 40,
-    width: width /2-15,
-    paddingLeft: 10,
-    borderRadius: 4,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    marginRight: 10,
-  },
-  addressInput: {
-    flex: 1,
-    fontSize: 14,
-    fontFamily: 'Default',
-    color: 'white',
-  },
-  stateNameContainer: {
-    height: 40,
-    width: width /2 - 50,
-    paddingLeft: 10,
-    borderRadius: 4,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    justifyContent: 'center'
-  },
-  postStateAddressText: {
-    fontSize: 14,
-    fontFamily: 'Default',
-    color: 'white',
-  },
-  postDescriptionContainer: {
-    backgroundColor: 'white'
-  },
-  descriptionBlock: {
-    width: width,
-    height: 80,
-    flexDirection: 'row',
-    paddingHorizontal: 20,
-  },
-  descriptionBlockLeft: {
-    width: 'auto',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  descriptionBlockIcon: {
-    fontSize: 28,
-    color: '#003d66',
-  },
-  descriptionNameContainer: {
-    height: '100%',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  descriptionName: {
-    fontSize: 18,
-    fontFamily: 'Default',
-  },
-  categoryModalContainer: {
-    height: 'auto',
-    width: 'auto',
-    justifyContent: 'flex-end',
-  },
-  categoryListContainer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    borderRadius: 6,
-  },
-  categoryList: {
-    backgroundColor: 'rgba(0,0,0, 0.7)',
-    height: 200,
-    borderRadius: 6,
-  },
-  categoryListItem: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: 50,
-  },
-  cancelBtn: {
-    marginTop: 15,
-    backgroundColor: 'rgba(0,0,0, 0.7)',
-    borderRadius: 6,
-  },
-  categoryText: {
-    color: 'white',
-    fontSize: 18,
-    fontFamily: 'Default',
-  },
-  descriptionValueContainer: {
-    width: 'auto',
-    height: '100%',
-    flexDirection: 'row'
-  },
-  descriptionValueContainerItem: {
-    height: '100%',
-    justifyContent: 'center',
-  },
-  descriptionArrowDownIcon: {
-    marginLeft: 10,
-    marginTop: 3,
-    color: '#007acc',
-    fontSize: 25,
-  },
-  descriptionValue: {
-    fontSize: 18,
-    fontFamily: 'Default',
-    color: '#007acc',
-  },
-  descriptionDetail: {
     marginVertical: 10,
-    padding: 20,
-    backgroundColor: 'white'
+    borderBottomColor: 'darkgrey',
+    borderBottomWidth: 1,
   },
-  descriptionDetailValue: {
+  input: {
+    flex: 1,
     fontSize: 16,
-    fontFamily: 'Default',
-    textAlign: 'justify'
+    fontFamily: 'Default'
   },
-  conditionSelectContainer: {
-    width: '100%',
-    paddingHorizontal: 30,
-    height: 50,
-    justifyContent: 'center',
-  },
-  priceBlock: {
-    width: width,
-    height: 80,
+  addressContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
+  },
+  addressIntputContainer: {
+    flex: 1,
+    height: 50,
+    borderBottomColor: 'darkgrey',
+    borderBottomWidth: 1,
+  },
+  conditionContainer: {
+    paddingVertical: 20,
+  },
+  conditionText: {
+    fontFamily: "Default-Bold",
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  conditionListContainer: {
+    flexDirection: 'row',
+    alignItems: "center",
+  },
+  conditionButton: {
     justifyContent: 'center',
+    alignItems: 'center',
+    height: 35,
+    flex: 1,
+  },
+  conditionName: {
+    fontFamily: 'Default',
+    fontSize: 14,
+    color: 'white'
+  },
+  selectedCondition: {
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: '#003d66',
+    backgroundColor: '#003d66',
   },
   priceInputContainer: {
-    marginVertical: 20,
-    width: width /3,
-    height: 40,
-    paddingLeft: 10,
-    borderRadius: 4,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center'
+    flex: 1,
+    height: 50,
+    marginVertical: 10,
+    borderBottomColor: 'darkgrey',
+    borderBottomWidth: 1,
   },
-  checkBoxContainer: {
-    height: '100%',
-    position: 'absolute',
-    right: 5,
+  negotiationContainer: {
+    height: 70,
+    width: 70,
+    marginLeft: 20,
+    alignItems: 'center',
     justifyContent: 'center',
   },
-  checkBoxStyle:{
-    width: 50,
-    margin: 0,
-    padding: 0,
-    borderWidth: 0,
-    backgroundColor: 'white'
+  negotiationText: {
+    fontFamily: 'Default',
+    fontSize: 12,
   },
-  additionalDescriptionContainer: {
+  categoryModalContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    zIndex: 99999,
+  },
+  categoryListContainer: {
+    backgroundColor:'white',
     width: width,
-    height: 220,
+    height: height*3/5,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  categoryTitleText: {
+    fontFamily: 'Default-Bold',
+    alignSelf: 'center',
+    fontSize: 20,
     padding: 20,
   },
-  additionalDescriptionText: {
+  categoryListItem: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  categoryNameText: {
+    fontFamily: 'Default',
     fontSize: 18,
-    marginBottom: 10,
-    fontFamily: 'Default'
+  },
+  descriptionText: {
+    fontSize: 18,
+    marginBottom: 15,
+    fontFamily: 'Default-Bold'
   },
   descriptionInput: {
     backgroundColor: 'white',
@@ -278,27 +227,9 @@ module.exports = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#16222A',
     padding: 10,
-    height: 150,
+    height: 170,
     fontFamily: 'Default',
     textAlignVertical: "top",
     marginBottom: 20,
-  },
-  publishPostContainer: {
-    paddingHorizontal: 20,
-    marginBottom: 30,
-  },
-  publishBtn: {
-    marginTop: 20,
-    backgroundColor: '#003d66',
-    height: 50,
-    justifyContent: 'center',
-    width: '100%',
-    alignItems: 'center',
-    borderRadius: 4,
-  },
-  publishBtnText: {
-    fontSize: 18,
-    color: 'white',
-    fontFamily: 'Default'
   },
 })

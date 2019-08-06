@@ -24,7 +24,7 @@ export default (props) => {
         }
       </Swiper>
       <View style={postStyle.priceContainer}>
-        <Text style={postStyle.price}>{post.price} so'm</Text>
+        <Text style={postStyle.price}>{post.price}</Text>
       </View>
     </Animated.View>
   )

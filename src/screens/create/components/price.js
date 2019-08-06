@@ -1,57 +1,60 @@
-import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity
-} from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, TextInput, Text } from 'react-native';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 
-import { CheckBox }     from 'react-native-elements';
-import { createStyle }  from '@src/static/index'
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
-
+import { defaultStyle, createStyle } from '@src/static/index';
 
 export default (props) => {
+  
+  const { handleAutoScroll, updateCreateState, data } = props;
 
-  const { data, updateCreateDataState, scrollToInput } = props;
+  handleScroll = (i) => {
+    if(i == 1){
+      handleAutoScroll(i);
+    }
+    else{
+      if(data.price.length > 0){
+        handleAutoScroll(i);
+      }
+    }
+  }
+
+  handleNegotiation = () => {
+    updateCreateState({negotiable: !data.negotiable})
+  }
 
   return (
-    <View>
-      <View style={createStyle.descriptionBlock}>
-        <View style={createStyle.descriptionBlockLeft}>
-          <MaterialIcons name='attach-money' style={createStyle.descriptionBlockIcon} />
-        </View>
-        <View style={createStyle.descriptionNameContainer}>
-          <Text style={createStyle.descriptionName}>Narx</Text>
-        </View>
-        <View style={createStyle.priceInputContainer}>
-          <TextInput
-            placeholder=""
-            placeholderTextColor='white'
-            underlineColorAndroid="transparent"
-            style={[createStyle.addressInput, {fontSize: 18}]}
-            value={data.price}
-            onFocus={ (event) => scrollToInput(event) }
-            onChangeText={ (value) => updateCreateDataState({price: value}) }
-            autoCorrect={false}
-          />
+    <View style={createStyle.division}>
+      <View style={createStyle.divisionContainer}>
+        <View style={defaultStyle.displayInLine}>
+          <View style={createStyle.priceInputContainer}>
+            <TextInput
+              onChangeText={ (v) => updateCreateState({price: v}) }
+              placeholder="Qiymat | Narx"
+              placeholderTextColor='darkgrey'
+              underlineColorAndroid="transparent"
+              style={createStyle.input}
+              autoCorrect={false}
+              value={data.price}
+              returnKeyType='next'
+            />
+          </View>
+          <TouchableOpacity style={[createStyle.negotiationContainer]} onPress={ handleNegotiation }>
+            <FontAwesome name='handshake-o' size={24} color={data.negotiable ? '#009CFD' : '#666666'}/>
+            <Text style={[
+              createStyle.negotiationText, 
+              {color: data.negotiable ? '#009CFD' : '#666666'}
+            ]}>Kelishamiz</Text>
+          </TouchableOpacity>
         </View>
       </View>
-      <View style={createStyle.descriptionBlock}>
-        <View style={createStyle.descriptionBlockLeft}>
-          <FontAwesome name='handshake-o' style={[createStyle.descriptionBlockIcon, {fontSize: 22}]} />
-        </View>
-        <View style={createStyle.descriptionNameContainer}>
-          <Text style={createStyle.descriptionName}>Kelishish mumkin</Text>
-        </View>
-        <View style={createStyle.checkBoxContainer}>
-          <CheckBox
-            iconRight
-            containerStyle={createStyle.checkBoxStyle}
-            checked={data.negotiable}
-            onPress={ () => updateCreateDataState({negotiable: !data.negotiable}) }
-          />
-        </View>
+      <View style={createStyle.actionContainer}>
+        <TouchableOpacity style={[createStyle.nextButton, defaultStyle.shadow]} onPress={ () => handleScroll(1) }> 
+          <Feather name='chevron-left' color='white' size={30}/>
+        </TouchableOpacity>
+        <TouchableOpacity style={[createStyle.nextButton, defaultStyle.shadow]} onPress={ () => handleScroll(3) }> 
+          <Feather name='chevron-right' color='white' size={30}/>
+        </TouchableOpacity> 
       </View>
     </View>
   )

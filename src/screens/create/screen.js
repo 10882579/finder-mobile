@@ -1,42 +1,85 @@
 import React, { Component } from 'react';
-import {
-  View,
-} from 'react-native';
+import { View, ScrollView, Animated, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
-import { Permissions } from 'expo';
-import { defaultStyle, createStyle } from '@src/static/index';
-import { handleGoBack } from '@redux/actions/handleGoBack';
-import { publishPost, saveEditedPost } from '@redux/actions/post';
-import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Header, UploadedImages, ImmediateInfo, Description } from './components/index';
+
+import { publishPost } from '@redux/actions/post';
+import { createStyle } from '@src/static/index';
+
+import Header from './components/header';
+import Title from './components/title';
+import Price from './components/price';
+import Category from './components/category';
+import ImageUpload from './components/imageupload';
+import Description from './components/description';
+
+const { height } = Dimensions.get('window');
 
 class App extends Component {
 
-  componentWillMount = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    this.props.updateCreateState({permissionsCameraRollGranted: status === 'granted'})
+  state = {
+    showCategory: false,
+    categories: [
+      {id: 1, value: 'Avtomobil', name: 'vehicle'},
+      {id: 2, value: "Ko'chmas mulk", name: 'house-land'},
+      {id: 3, value: 'Uy jihozlari', name: 'house-equipment'},
+      {id: 4, value: 'Telefonlar', name: 'phone'},
+      {id: 5, value: 'Kompyuterlar', name: 'computer'},
+      {id: 7, value: 'Kiyim-kechak', name: 'clothing'},
+    ]
   }
 
-  scrollToInput = (event) => {
-    this.scrollView.props.scrollToFocusedInput(event.nativeEvent.target)
+  componentWillMount(){
+    this.colorOpacity = new Animated.Value(0);
+  }
+
+  handleAutoScroll = (t) => {
+    this.scrollview.scrollTo({
+      y: height * t, 
+      animated: true, 
+      duration: 500
+    })
+  }
+
+  toggleCategoryModal = () => {
+    this.setState( (prev) => ({...prev, showCategory: !prev.showCategory}))
   }
 
   render() {
+
+    const color = this.colorOpacity.interpolate({
+      inputRange: [0, height/2, height],
+      outputRange: ['rgba(0,0,0,0.6)', 'rgba(0,0,0,1)', '#16222A'],
+      extrapolate: 'clamp',
+    })
+
     return (
-        <View style={defaultStyle.flex}>
-          <ScrollView style={defaultStyle.flex}
-            bounces={false}
-            innerRef={ref => this.scrollView = ref}
-            scrollEventThrottle={1}
-          >
-            <View style={createStyle.stepContainer}>
-              <UploadedImages {...this.props}/>
-              <ImmediateInfo {...this.props} scrollToInput={ this.scrollToInput }/>
-            </View>
-            <Description {...this.props} scrollToInput={ this.scrollToInput }/>
-          </ScrollView>
-          <Header {...this.props}/>
-        </View>
+      <View style={createStyle.screenContainer}>
+        <ScrollView 
+          style={createStyle.container}
+          scrollEventThrottle={16} 
+          bounces={false} scrollEnabled={false}
+          showsVerticalScrollIndicator={false}
+          ref={ (ref) => this.scrollview = ref }
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {y: this.colorOpacity}}}]
+          )}
+        >
+          <ImageUpload {...this.props} handleAutoScroll={this.handleAutoScroll}/>
+          <Title {...this.props} 
+            toggle={this.toggleCategoryModal}
+            handleAutoScroll={this.handleAutoScroll} 
+            categories={this.state.categories}
+          />
+          <Price {...this.props} handleAutoScroll={this.handleAutoScroll}/>
+          <Description {...this.props} handleAutoScroll={this.handleAutoScroll}/>
+        </ScrollView>
+        <Header {...this.props} color={color}/>
+        <Category {...this.props} 
+          show={this.state.showCategory} 
+          categories={this.state.categories} 
+          toggleCategoryModal={this.toggleCategoryModal}
+        />
+      </View>
     )
   }
 }
@@ -44,7 +87,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     account: state.account,
-    data: state.create.data,
+    data: state.create,
   }
 }
 
@@ -56,10 +99,10 @@ const mapDispatchToProps = (dispatch) => {
         payload: obj
       })
     },
-    uploadImage: (photo) => {
+    uploadImage: (image) => {
       dispatch({
         type: 'UPLOAD_IMAGE',
-        payload: photo,
+        payload: image,
       })
     },
     deleteImage: (i) => {
@@ -68,32 +111,9 @@ const mapDispatchToProps = (dispatch) => {
         payload: i
       })
     },
-    updateCreateDataState: (value) => {
-      dispatch({
-        type: 'UPDATE_CREATE_DATA_STATE',
-        payload: value
-      })
+    publishPost: (cb) => {
+      dispatch(publishPost(cb))
     },
-    eraseCreateDataState: () => {
-      dispatch({
-        type: 'ERASE_CREATE_DATA_STATE',
-      })
-    },
-    updateNavState: (obj) => {
-      dispatch({
-        type: 'UPDATE_NAV_STATE',
-        payload: obj
-      })
-    },
-    publishPost: (nav) => {
-      dispatch(publishPost(nav))
-    },
-    saveEditedPost: (nav, id) => {
-      dispatch(saveEditedPost(nav, id))
-    },
-    handleGoBack: (nav) => {
-      dispatch(handleGoBack(nav))
-    }
   }
 }
 

@@ -1,86 +1,39 @@
-import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity
-} from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, TextInput, Text } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
-import { createStyle }    from '@src/static/index'
-import Categories         from './categories';
-import Conditions         from './conditions';
-import Price              from './price';
-
+import { defaultStyle, createStyle } from '@src/static/index';
 
 export default (props) => {
 
-  state = {
-    selected: null,
-  }
+  const { data, updateCreateState, handleAutoScroll, publishPost, navigation } = props;
 
-  const {
-    data,
-    account,
-    navigation,
-    publishPost,
-    saveEditedPost,
-    updateCreateDataState,
-  } = props;
-
-  handlePublish = async () => {
-
-    const value = Object.values(data)
-    let valid = true;
-
-    for (var i = 0; i < value.length; i++) {
-      if(value[i].length == 0){
-        valid = false
-      }
-    }
-    if(valid){
-      if (account.accountFetched){
-        if(data.editing){
-          saveEditedPost(navigation, data.id)
-        }
-        else{
-          publishPost(navigation);
-        }
-      }
-      else{
-        updateNavState({direction: 'Post'})
-        navigation.navigate('Account')
-      }
-    }
-    else{
-      alert("Barcha ma'lumotlarni kiriting!")
-    }
+  handlePublishPost = () => {
+    publishPost(() => {
+      navigation.navigate('Home');
+    })
   }
 
   return (
-    <View style={createStyle.postDescriptionContainer}>
-
-      <Categories {...props}/>
-      <Conditions {...props}/>
-      <Price      {...props}/>
-
-      <View style={createStyle.additionalDescriptionContainer}>
-        <Text style={createStyle.additionalDescriptionText}>Qo'shimcha ma'lumot</Text>
+    <View style={createStyle.division}>
+      <View style={createStyle.divisionContainer}>
+        <Text style={createStyle.descriptionText}>Qo'shimcha ma'lumot</Text>
         <TextInput
-          multiline = {true}
+          multiline={true}
+          maxLength = {250}
+          autoCorrect = {false}
           value={data.description}
           underlineColorAndroid='transparent'
           style={createStyle.descriptionInput}
-          autoCorrect = {false}
-          maxLength = {250}
-          onChangeText={ (value) => updateCreateDataState({description: value}) }
+          onChangeText={ (v) => updateCreateState({description: v}) }
         />
       </View>
-      <View style={createStyle.publishPostContainer}>
-        <TouchableOpacity
-          style={createStyle.publishBtn}
-          onPress={ this.handlePublish }
-        >
-          <Text style={createStyle.publishBtnText}>Chop etish</Text>
+      <View style={createStyle.actionContainer}>
+        <TouchableOpacity style={[createStyle.nextButton, defaultStyle.shadow]} onPress={ () => handleAutoScroll(2) }> 
+          <Feather name='chevron-left' color='white' size={30}/>
+        </TouchableOpacity> 
+        <TouchableOpacity style={[createStyle.actionButton, defaultStyle.shadow]} onPress={ handlePublishPost }>
+          <Text style={createStyle.actionButtonText}>Chop etmoq</Text>
         </TouchableOpacity>
       </View>
     </View>

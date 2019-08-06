@@ -30,9 +30,6 @@ class App extends Component {
     const { params } = navigation.state;
     const from  = params.from || "Home";
 
-    console.log(params);
-    
-
     this.imageHeight = new Animated.Value(0);
     
     if(params.id){
