@@ -48,7 +48,6 @@ module.exports = StyleSheet.create({
   header: {
     position: 'absolute',
     backgroundColor: 'white',
-    height: 55 + Constants.statusBarHeight,
     top: 0,
   },
   headerIcon: {

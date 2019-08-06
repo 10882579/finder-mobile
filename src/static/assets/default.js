@@ -16,20 +16,6 @@ module.exports = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#16222A',
   },
-  transparentHeaderContainer:{
-    position: 'absolute',
-    flexDirection: 'row',
-    padding: 0,
-    backgroundColor: '#16222A',
-    top: Constants.statusBarHeight + 10,
-    marginHorizontal: 10,
-    height: 50,
-    width: width - 20,
-    borderBottomWidth: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    borderRadius: 4,
-    zIndex: 999
-  },
   shadow: {
     ...Platform.select({
       android: {
@@ -76,51 +62,10 @@ module.exports = StyleSheet.create({
   flex: {
     flex: 1
   },
-  alignCenterHorizontal: {
-    alignItems: 'center',
-  },
-  alignCenterVertical: {
-    justifyContent: 'center',
-  },
   displayInLine: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center'
-  },
-  errorScreenContainer: {
-    top: 0,
-    position: "absolute",
-    width: width,
-    bottom: 70 + Constants.statusBarHeight,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorContainer:{
-    width: width - 40,
-    height: 200,
-    backgroundColor: '#F44336',
-    borderRadius: 5,
-    overflow: 'hidden',
-  },
-  errorListContainer: {
-    flex: 1,
-    height: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-  },
-  errorListItems:{
-    flex: 1,
-    justifyContent: 'center',
-    marginLeft: 20,
-    height: 150,
-  },
-  errorText: {
-    fontFamily: 'Default',
-    color: 'white',
-    fontSize: 16,
-    marginTop: 3,
   },
   loadingContainer: {
     flex: 1,
@@ -134,17 +79,4 @@ module.exports = StyleSheet.create({
     fontSize: 20,
     marginTop: 10,
   },
-  dismissBtn: {
-    height: 50,
-    width: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: "flex-end",
-  },
-  dismissBtnText: {
-    color:'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-    fontFamily: 'Default'
-  }
 })

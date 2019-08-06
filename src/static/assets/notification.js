@@ -4,7 +4,6 @@ const { width, height } = Dimensions.get('window');
 
 module.exports = StyleSheet.create({
   headerContainer: {
-    height: 60 + Constants.statusBarHeight,
     backgroundColor: 'white',
   },
   headerButton: {
