@@ -68,10 +68,10 @@ const Accounts = (props) => {
         {
           data.map( (item) => (
             <TouchableOpacity
-              key={item.id}
+              key={item.account_id}
               activeOpacity={0.9}
               style={[accountStyle.followingUserContainer, defaultStyle.shadow]}
-              onPress={ () => navigateToAccount(item.id) }
+              onPress={ () => navigateToAccount(item.account_id) }
             >
               <View style={accountStyle.followingUserImage}>
                 <Image source={{uri: item.image}} style={defaultStyle.image}/>
@@ -80,7 +80,7 @@ const Accounts = (props) => {
                 <Text style={accountStyle.followingUserName} numberOfLines={1}>
                   { item.first_name } { item.last_name }
                 </Text>
-                <TouchableOpacity style={accountStyle.likeButtonContainer} onPress={ () => followThisAccount(item.id) }>
+                <TouchableOpacity style={accountStyle.likeButtonContainer} onPress={ () => followThisAccount(item.account_id) }>
                   <AntDesign name={item.following ? 'like1' : 'like2'} style={accountStyle.likeIcon}/>
                 </TouchableOpacity>
               </View>
@@ -111,6 +111,9 @@ class App extends Component {
       fetchFollowingUsers 
     } = this.props;
     const { params } = navigation.state;
+
+    console.log(params);
+    
     
     if(params.screen == 'myposts'){
       fetchUserPosts(account.account_id, 1, (data) => {

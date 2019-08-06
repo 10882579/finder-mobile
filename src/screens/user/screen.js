@@ -40,7 +40,7 @@ class App extends Component {
 
   navigateToDetail = (screen) => {
     const  { account } = this.state;
-    this.props.navigation.navigate("Detail", {screen: screen, id: account.account_id});
+    this.props.navigation.push("Detail", {screen: screen, id: account.account_id});
   }
 
   render() {

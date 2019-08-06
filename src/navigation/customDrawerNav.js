@@ -44,7 +44,7 @@ class CustomDrawerContentComponent extends Component{
 					<View style={styles.nameContainer}>
 						{
 							account.accountFetched ? (
-								<View style={defaultStyle.alignCenterHorizontal}>
+								<View style={styles.alignHorizontal}>
 									<Text numberOfLines={1} style={styles.name}>
 										{account.first_name} {account.last_name}
 									</Text>
@@ -107,6 +107,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	alignHorizontal: {
+		alignItems: 'center',
+	},
 	name: {
 		color: 'white', 
 		fontSize: 20, 
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
 	email: {
 		color: '#859398', 
 		fontSize: 15, 
-		fontFamily: 'Default' 
+		fontFamily: 'Default'
 	},
 	logoutContainer: {
 		flexDirection: 'row',
