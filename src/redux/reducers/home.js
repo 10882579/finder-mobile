@@ -20,7 +20,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         uploadProgress: action.payload
       }
-
       break;
   }
   return state

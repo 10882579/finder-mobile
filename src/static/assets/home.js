@@ -35,7 +35,7 @@ module.exports = StyleSheet.create({
     flex: 1,
     height: 30,
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#DADADA',
     borderRadius: 50,
     borderColor: 'darkgrey',
     borderWidth: 0.5,

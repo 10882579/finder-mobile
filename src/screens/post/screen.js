@@ -80,7 +80,6 @@ class App extends Component {
     else if(!loading){
       return (
         <View style={defaultStyle.container}>
-          <Images {...this.props} height={height}/>
           <ScrollView 
             style={defaultStyle.flex} 
             bounces={false} scrollEventThrottle={8} 
@@ -105,6 +104,7 @@ class App extends Component {
               <ActionButton {...this.props}/>
             </View>
           </ScrollView>
+          <Images {...this.props} height={height}/>
           <Header {...this.props} toggleSavePost={this.toggleSavePost}/>
         </View>
       )

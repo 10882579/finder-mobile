@@ -49,7 +49,10 @@ const reducer = (state = initialState, action) => {
       }
       break;
     case 'ERASE_CREATE_STATE':
-      state = initialState;
+      state = {
+        ...initialState,
+        selectedImages: new Array(4)
+      };
       break;
   }
   return state

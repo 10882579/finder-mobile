@@ -6,7 +6,7 @@ import { homeStyle } from '@src/static/index';
 export default (props) => {
   const { uploadProgress } = props;
 
-  if(uploadProgress.progress > 0 || uploadProgress.progress == 100){
+  if(uploadProgress.progress > 0 && uploadProgress.progress !== 100){
     return (
       <View style={homeStyle.progressBarContainer}>
         <View style={homeStyle.progressContainer}>
