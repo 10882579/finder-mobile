@@ -1,20 +1,21 @@
 import React from 'react';
-import {  Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { homeStyle } from '@src/static/index';
 
 export default (props) => {
-  const { create } = props;
+  const { uploadProgress } = props;
 
-  if(create.progress > 0){
+  if(uploadProgress.progress > 0 || uploadProgress.progress == 100){
     return (
-      <View style={homeStyle.progressBar}>
+      <View style={homeStyle.progressBarContainer}>
         <View style={homeStyle.progressContainer}>
-          <View style={[homeStyle.progress, { width: `${create.progress}%`}]}>
-
-          </View>
+          <View style={[homeStyle.progress, { width: `${uploadProgress.progress}%`}]} />
+          <Text numberOfLines={1} style={[homeStyle.progressText, {marginHorizontal: 15}]}>{uploadProgress.title}</Text>
         </View>
-        <Text style={{alignSelf: 'center'}}>{create.progress}%</Text>
+        <View style={homeStyle.percentContainer}>
+          <Text style={homeStyle.progressText}>{uploadProgress.progress}%</Text>
+        </View>
       </View>
     )
   }

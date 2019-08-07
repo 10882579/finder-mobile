@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -26,24 +26,36 @@ module.exports = StyleSheet.create({
     color: 'white',
     marginBottom: 5
   },
-  progressBar: {
-    width: '100%',
-    marginVertical: 5,
-    padding: 5,
-    height: 'auto',
+  progressBarContainer: {
+    width: width,
+    padding: 10,
+    flexDirection: 'row',
   },
   progressContainer:{
+    flex: 1,
+    height: 30,
+    justifyContent: 'center',
     backgroundColor: 'white',
-    height: 5,
-    margin: 5,
-    borderRadius: 5,
-    borderWidth: 0.2,
-    borderColor: 'lightgreen'
+    borderRadius: 50,
+    borderColor: 'darkgrey',
+    borderWidth: 0.5,
+    overflow: 'hidden',
   },
   progress: {
-    height: '100%',
-    backgroundColor: 'green',
-    borderRadius: 4
+    height: 30,
+    position: 'absolute',
+    borderRadius: 50,
+    backgroundColor: 'rgb(0,128,0)',
+  },
+  percentContainer:{
+    width: 45,
+    height: 30,
+    justifyContent:'center',
+    alignItems:'flex-end',
+  },
+  progressText: {
+    fontSize: 16,
+    fontFamily: 'Default',
   },
   listImageGrid: {
     flexDirection: 'row',
@@ -78,5 +90,4 @@ module.exports = StyleSheet.create({
     fontSize: 32,
     color: 'white'
   },
-
 })

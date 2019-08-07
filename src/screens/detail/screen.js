@@ -133,8 +133,6 @@ class App extends Component {
     }
     else if(params.screen == 'following'){
       fetchFollowingUsers(1, (data) => {
-        console.log(data);
-        
         this.updateState("Kuzatilayotkanlar", data);
       })
     }

@@ -3,7 +3,7 @@ import localconfig from '@src/localconfig';
 
 const SERVER = localconfig ? localconfig.SERVER : "https://finder-uz.herokuapp.com";
 
-const publishPost = (callback) => {
+const publishPost = () => {
   return (dispatch, getState) => {
     const { create, account } = getState();
     const formData = new FormData()
@@ -35,17 +35,19 @@ const publishPost = (callback) => {
           'X-Auth-Token': account.token
         },
         data: formData,
-        // onUploadProgress: (progressEvent) => {
-        //   dispatch({
-        //     type: 'UPDATE_CREATE_STATE',
-        //     payload: {progress: Math.round(progressEvent.loaded / progressEvent.total * 100)}
-        //   })
-        // }
+        onUploadProgress: (progressEvent) => {
+          dispatch({
+            type: 'PROGRESS_STATUS',
+            payload: {
+              progress: Math.round(progressEvent.loaded / progressEvent.total * 100),
+              title: create.title
+            }
+          })
+        }
       })
       .then( (res) => {
         if(res.status == 200){
           dispatch({type: 'ERASE_CREATE_STATE'});
-          callback();
         }
       })
       .catch( (err) => {

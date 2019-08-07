@@ -3,7 +3,7 @@ import Header       from './header';
 import ProgressBar  from './progressBar';
 
 export {
-  Header,
   List,
+  Header,
   ProgressBar
 }

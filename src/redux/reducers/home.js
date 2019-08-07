@@ -1,5 +1,9 @@
 const initialState  = {
   allPosts: [],
+  uploadProgress: {
+    progress: 0,
+    title: ''
+  }
 }
 
 
@@ -10,6 +14,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         allPosts: action.payload
       }
+      break;
+    case 'PROGRESS_STATUS':
+      state = {
+        ...state,
+        uploadProgress: action.payload
+      }
+
       break;
   }
   return state

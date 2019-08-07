@@ -9,9 +9,8 @@ export default (props) => {
   const { data, updateCreateState, handleAutoScroll, publishPost, navigation } = props;
 
   handlePublishPost = () => {
-    publishPost(() => {
-      navigation.navigate('Home');
-    })
+    publishPost();
+    navigation.navigate('Home');
   }
 
   return (
