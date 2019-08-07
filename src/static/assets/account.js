@@ -167,21 +167,24 @@ module.exports = StyleSheet.create({
     borderColor: '#16222A',
     overflow: 'hidden',
   },
-  followingUserNameContainer: {
+  followingUsernameContainer: {
+    flex: 1,
     padding: 10,
-    width: width - 100,
-    height: '50%',
+  },
+  usernameContainer: {
+    width: '100%',
+    marginBottom: 10,
     alignItems: 'center',
     flexDirection: 'row'
   },
   followingUserName: {
     fontFamily: 'Default',
-    fontSize: 18,
-    width: width - 140,
+    fontSize: 20,
+    flex: 1,
   },
   likeButtonContainer: {
-    position: 'absolute',
-    right: 10,
+    width: 30,
+    alignItems: 'center',
   },
   likeIcon: {
     fontSize: 22,

@@ -4,7 +4,8 @@ import { fetchConversations } from '@redux/actions/notification';
 import { defaultStyle, chatStyle } from '@src/static/index';
 import { connect } from 'react-redux';
 
-import { Header } from './components/index'; 
+import Header from './components/header'; 
+import Rating from './components/rating'; 
 
 class App extends Component {
 
@@ -39,11 +40,9 @@ class App extends Component {
                 <View style={chatStyle.imageContainer}>
                   <Image source={{uri: item.image}} style={defaultStyle.image}/>
                 </View>
-                <View style={defaultStyle.flex}>
-                  <View style={chatStyle.usernameContainer}>
-                    <Text style={chatStyle.username}>{item.first_name} {item.last_name}</Text>
-                  </View>
-                  <View style={defaultStyle.flex} />
+                <View style={chatStyle.usernameContainer}>
+                  <Text style={chatStyle.username} numberOfLines={1}>{item.first_name} {item.last_name}</Text>
+                  <Rating rating={item.rating}/>
                 </View>
               </TouchableOpacity>
             ))

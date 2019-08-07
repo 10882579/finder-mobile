@@ -29,12 +29,19 @@ module.exports = StyleSheet.create({
   },
   usernameContainer: {
     flex: 1,
-    paddingHorizontal: 10,
-    justifyContent: 'center',
+    padding: 10,
+    justifyContent: 'space-around',
   },
   username: {
     fontFamily: 'Default',
-    fontSize: 16
+    fontSize: 20,
+  },
+  ratingStarContainer: {
+    flexDirection: 'row',
+    marginBottom: 5,
+  },
+  ratingStar: {
+    fontSize: 18,
   },
   // Chat Screen style 
   chatContainer: {

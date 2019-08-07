@@ -9,6 +9,7 @@ import { fetchFollowingUsers, followAccount } from '@redux/actions/account';
 import { fetchUserPosts, fetchUserSavedPosts } from '@redux/actions/post';
 
 import Header from './components/header';
+import Rating from './components/rating';
 
 const Posts = (props) => {
 
@@ -76,13 +77,16 @@ const Accounts = (props) => {
               <View style={accountStyle.followingUserImage}>
                 <Image source={{uri: item.image}} style={defaultStyle.image}/>
               </View>
-              <View style={accountStyle.followingUserNameContainer}>
-                <Text style={accountStyle.followingUserName} numberOfLines={1}>
-                  { item.first_name } { item.last_name }
-                </Text>
-                <TouchableOpacity style={accountStyle.likeButtonContainer} onPress={ () => followThisAccount(item.account_id) }>
-                  <AntDesign name={item.following ? 'like1' : 'like2'} style={accountStyle.likeIcon}/>
-                </TouchableOpacity>
+              <View style={accountStyle.followingUsernameContainer}>
+                <View style={accountStyle.usernameContainer}>
+                  <Text style={accountStyle.followingUserName} numberOfLines={1}>
+                    { item.first_name } { item.last_name }
+                  </Text>
+                  <TouchableOpacity style={accountStyle.likeButtonContainer} onPress={ () => followThisAccount(item.account_id) }>
+                    <AntDesign name={item.following ? 'like1' : 'like2'} style={accountStyle.likeIcon}/>
+                  </TouchableOpacity>
+                </View>
+                <Rating rating={item.rating}/>
               </View>
             </TouchableOpacity>
           ))
@@ -111,9 +115,6 @@ class App extends Component {
       fetchFollowingUsers 
     } = this.props;
     const { params } = navigation.state;
-
-    console.log(params);
-    
     
     if(params.screen == 'myposts'){
       fetchUserPosts(account.account_id, 1, (data) => {
@@ -132,6 +133,8 @@ class App extends Component {
     }
     else if(params.screen == 'following'){
       fetchFollowingUsers(1, (data) => {
+        console.log(data);
+        
         this.updateState("Kuzatilayotkanlar", data);
       })
     }
@@ -148,7 +151,7 @@ class App extends Component {
     const data = [];
 
     this.state.data.forEach( (account) => {
-      if(id == account.id){
+      if(id == account.account_id){
         item = {
           ...account,
           following: !account.following
@@ -156,7 +159,7 @@ class App extends Component {
         data.push(item);
       }
       else{
-        data.push(item);
+        data.push(account);
       }
     })
     followAccount(id, () => {
