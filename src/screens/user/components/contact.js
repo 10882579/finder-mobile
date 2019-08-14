@@ -8,12 +8,24 @@ export default (props) => {
 
 	navigateToChat = () => {
 		const { navigation, state, account } = props;
+		const { params } = navigation.state;
 		
 		if(account.accountFetched){
-			navigation.navigate('Chat', {...state.account})
+			navigation.navigate('Chat', {
+				...state.account,
+				from: {
+					screen: 'User',
+					id: params.id
+				} 
+			})
 		}
 		else{
-			navigation.navigate('Account');
+			navigation.navigate('Account', {
+				from: {
+					screen: 'User',
+					id: params.id
+				}
+			});
 		}
 	}
   

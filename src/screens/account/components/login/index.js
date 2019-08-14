@@ -64,10 +64,11 @@ class App extends Component {
   }
 
   login = () => {
-    const { loginToAccount } = this.props;
+    const { loginToAccount, navigation } = this.props;
 
     loginToAccount( (status, data) => {
       if(status == 200){
+        navigation.setParams({from: {screen: 'Home'}});
         AsyncStorage.setItem('token', data.token);
       }
       else if(status == 400){

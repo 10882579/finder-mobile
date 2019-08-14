@@ -30,7 +30,7 @@ const fetchConversations = () => {
   }
 }
 
-const fetchMessages = (id) => {
+const fetchMessages = (id, callback) => {
   return (dispatch, getState) => {
     const { account } = getState();
     if(account.accountFetched){
@@ -48,6 +48,7 @@ const fetchMessages = (id) => {
             type: "SET_MESSAGE_STATE",
             payload: data
           })
+          callback()
         }
       })
       .catch( ({response}) => {

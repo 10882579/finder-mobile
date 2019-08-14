@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, TextInput, KeyboardAvoidingView, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, TouchableOpacity, SafeAreaView, ActivityIndicator, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Header, Messages } from './components/index';
 import { fetchMessages } from '@redux/actions/notification';
-import { chatStyle } from '@src/static/index';
+import { chatStyle, defaultStyle } from '@src/static/index';
 import { connect } from 'react-redux';
 
 import localconfig from '@src/localconfig';
@@ -11,13 +11,16 @@ import localconfig from '@src/localconfig';
 class App extends Component {
 
   state = {
-		text: '',
+    text: '',
+    loading: true,
   }
 
   componentWillMount = () => {
     const { navigation, fetchMessages } = this.props;
     const { params } = navigation.state;
-    fetchMessages(params.account_id);
+    fetchMessages(params.account_id, () => {
+      setInterval( () => this.setState( (prev) => ({...prev, loading: false})), 500);
+    });
   }
 
   componentDidMount = () => {
@@ -56,39 +59,50 @@ class App extends Component {
       await this.socket.send(JSON.stringify(
         { message: this.state.text }
       ))
-      this.setState({text: ''});      
+      this.setState({...this.state, text: ''});      
 		}
 	}
 
 	render() {
 
     const { messages } = this.props;
+    const { loading } = this.state
 
-    return (
-      <KeyboardAvoidingView style={chatStyle.chatContainer} behavior='padding'>
-        <SafeAreaView style={chatStyle.safeAreaViewContainer}>
-          <Messages {...this.props} messages={messages}/>
-          <View style={chatStyle.messageCreateContainer}>
-            <View style={chatStyle.messageInputContainer}>
-              <TextInput 
-                placeholder='Message'
-                underlineColorAndroid='transparent'
-                multiline={true}
-                autoCorrect = {false}
-                maxLength = {250}
-                value={this.state.text}
-                style={chatStyle.messageInput}
-                onChangeText={ (v) => this.setState((prev) => ({text: v}) )}
-              />
+    if(loading){
+      return (
+        <View style={defaultStyle.loadingContainer}>
+          <ActivityIndicator size="large" color="white" />
+          <Text style={defaultStyle.loadingText}>Loading...</Text>
+        </View>
+      )
+    }
+    else if(!loading){
+      return (
+        <KeyboardAvoidingView style={chatStyle.chatContainer} behavior='padding'>
+          <SafeAreaView style={chatStyle.safeAreaViewContainer}>
+            <Messages {...this.props} messages={messages}/>
+            <View style={chatStyle.messageCreateContainer}>
+              <View style={chatStyle.messageInputContainer}>
+                <TextInput 
+                  placeholder='Message'
+                  underlineColorAndroid='transparent'
+                  multiline={true}
+                  autoCorrect = {false}
+                  maxLength = {250}
+                  value={this.state.text}
+                  style={chatStyle.messageInput}
+                  onChangeText={ (v) => this.setState((prev) => ({text: v}) )}
+                />
+              </View>
+              <TouchableOpacity style={chatStyle.sendButton} onPress={ this.sendMessage }>
+                <MaterialIcons name='send' color='#16222A' size={26} />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={chatStyle.sendButton} onPress={ this.sendMessage }>
-              <MaterialIcons name='send' color='#16222A' size={26} />
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-        <Header {...this.props}/>
-      </KeyboardAvoidingView>
-    )
+          </SafeAreaView>
+          <Header {...this.props}/>
+        </KeyboardAvoidingView>
+      )
+    }
   }
 }
 
@@ -103,8 +117,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMessages: (id) => {
-      dispatch(fetchMessages(id))
+    fetchMessages: (id, cb) => {
+      dispatch(fetchMessages(id, cb))
     },
     addMessage: (obj) => {
       dispatch({

@@ -61,12 +61,14 @@ const Posts = (props) => {
 const Accounts = (props) => {
 
   const { navigation, data, followThisAccount } = props;
+  const { params } = navigation.state;
 
   navigateToAccount = (id) => {
     navigation.navigate("User", {
       id: id, 
       from: {
-        screen: 'Account'
+        screen: 'Detail',
+        which: params.screen
       }
     });
   }
@@ -147,6 +149,9 @@ class App extends Component {
       fetchFollowingUsers(1, (data) => {
         this.updateState("Kuzatilayotkanlar", data);
       })
+    }
+    else if(params.screen == 'rating'){
+      this.updateState("Reyting", []);
     }
   }
 
