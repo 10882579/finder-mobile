@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator, createSwitchNavigator } from 'react-navigation';
 import { Entypo, Ionicons } from '@expo/vector-icons';
 
 import Home from '@screens/home/screen';
@@ -82,8 +82,7 @@ const DrawerNavigation = createDrawerNavigator({
   }
 })
 
-export default createStackNavigator({
-  Home: DrawerNavigation,
+const FeedNavigation = createSwitchNavigator({
   Post: {
     screen: Post
   },
@@ -96,6 +95,11 @@ export default createStackNavigator({
   Detail: {
     screen: Detail
   }
+})
+
+export default createStackNavigator({
+  Home: DrawerNavigation,
+  Feed: FeedNavigation
 }, {
   headerMode: 'none',
   transitionConfig : () => ({

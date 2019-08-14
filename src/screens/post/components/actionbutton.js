@@ -7,13 +7,25 @@ import { defaultStyle, postStyle } from '@src/static/index';
 export default (props) => {
 
   const { navigation, account, post } = props;
+  const { params } = navigation.state;
 
   navigateToChat = () => {
 		if(account.accountFetched){
-			navigation.navigate('Chat', {...post.account})
+			navigation.navigate('Chat', {
+        ...post.account,
+        from: {
+          screen: 'Post',
+          id: params.id
+        }
+      })
 		}
 		else{
-			navigation.navigate('Account');
+			navigation.navigate('Account', {
+        from: {
+          screen: 'Post',
+          id:  post.id
+        }
+      });
 		}
   }
 

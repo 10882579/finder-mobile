@@ -14,9 +14,16 @@ import Rating from './components/rating';
 const Posts = (props) => {
 
   const { navigation, data } = props;
+  const { params } = navigation.state;
 
   navigateToPost = (id) => {
-    navigation.navigate("Post", {id: id, from: 'Account'});
+    navigation.navigate("Post", {
+      id: id,
+      from: {
+        screen: 'Detail',
+        which: params.screen
+      }
+    });
   }
 
   return (
@@ -56,7 +63,12 @@ const Accounts = (props) => {
   const { navigation, data, followThisAccount } = props;
 
   navigateToAccount = (id) => {
-    navigation.navigate("User", {id: id, from: 'Account'});
+    navigation.navigate("User", {
+      id: id, 
+      from: {
+        screen: 'Account'
+      }
+    });
   }
 
   return (

@@ -1,11 +1,14 @@
-import { fetchPost } from '@redux/actions/home';
+export default (params, nav) => {
+  const state = params ? params : {};
+  const from = state.from ? state.from : {screen: 'Home'};
 
-const handleGoBack = (nav) => {
-  return (dispatch, getState) => {
-      nav.navigate('Home');
+  if(from.screen == 'Detail'){
+    nav.navigate(from.screen, {screen: from.which});
   }
-}
-
-export {
-  handleGoBack
+  if(from.screen == 'Post' || from.screen == 'User'){
+    nav.navigate(from.screen, {id: from.id});
+  }
+  else{
+    nav.navigate(from.screen);
+  }
 }

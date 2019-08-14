@@ -8,7 +8,13 @@ export default (props) => {
 
   navigateToAccount = () => {
     if(account.account_id !== post.account.account_id){
-      navigation.navigate("User", {id: post.account.account_id});
+      navigation.navigate("User", {
+        id: post.account.account_id,
+        from: {
+          screen: 'Post',
+          id: post.id
+        }
+      });
     }
   }
 

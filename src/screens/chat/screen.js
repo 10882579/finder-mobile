@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, TextInput, KeyboardAvoidingView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Header, Messages } from './components/index';
-import { handleGoBack } from '@redux/actions/handleGoBack';
 import { fetchMessages } from '@redux/actions/notification';
 import { chatStyle } from '@src/static/index';
 import { connect } from 'react-redux';
@@ -104,9 +103,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleGoBack: (nav) => {
-      dispatch(handleGoBack(nav))
-    },
     fetchMessages: (id) => {
       dispatch(fetchMessages(id))
     },

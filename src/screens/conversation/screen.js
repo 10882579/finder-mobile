@@ -17,7 +17,12 @@ class App extends Component {
     const { navigation, account } = this.props;
 
     if(account.accountFetched){
-      navigation.navigate('Chat', {...item})
+      navigation.navigate('Chat', {
+        ...item, 
+        from: {
+          screen: 'Conversations'
+        }
+      })
     }
     else{
       navigation.navigate('Account');

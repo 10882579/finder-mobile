@@ -9,7 +9,12 @@ const Post = (props) => {
   const { navigation, item } = props;
 
   handleFetchPost = (id) => {
-    navigation.navigate('Post', {id: id})
+    navigation.navigate('Post', {
+      id: id, 
+      from: {
+        screen: 'Home'
+      }
+    })
   }
 
   return (

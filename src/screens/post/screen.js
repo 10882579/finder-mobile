@@ -28,7 +28,7 @@ class App extends Component {
   componentWillMount() {
     const { fetchPost, navigation, setPostState } = this.props
     const { params } = navigation.state;
-    const from  = params.from || "Home";
+    const from  = params.from || {screen: 'Home'};
 
     this.imageHeight = new Animated.Value(0);
     
@@ -39,12 +39,12 @@ class App extends Component {
           setInterval( () => this.setState( () => ({loading: false})), 500)
         }
         else{
-          navigation.navigate(from);
+          navigation.navigate(from.screen);
         }
       })
     }
     else{
-      navigation.navigate(from);
+      navigation.navigate(from.screen);
     }
   }
 
@@ -54,7 +54,12 @@ class App extends Component {
       savePost(post.id);
     }
     else{
-      navigation.navigate('Account');
+      navigation.navigate('Account', {
+        from: {
+          screen: 'Post',
+          id:  post.id
+        }
+      });
     }
   }
 

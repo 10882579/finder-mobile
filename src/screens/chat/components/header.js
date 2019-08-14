@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, Image, Text, StatusBar, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { chatStyle, defaultStyle } from '@src/static/index';
+import handleGoBack from '@redux/actions/handleGoBack';
 
 export default (props) => {
 
@@ -13,7 +14,7 @@ export default (props) => {
       <StatusBar barStyle={ Platform.OS == 'ios' ? 'dark-content' : 'light-content'}/>
       <TouchableOpacity style={[defaultStyle.headerIconContainer]} 
         activeOpacity={0.8}
-        onPress={ () => navigation.goBack() }
+        onPress={ () =>  handleGoBack(params, navigation) }
       >
         <Ionicons
           name='md-arrow-round-back'

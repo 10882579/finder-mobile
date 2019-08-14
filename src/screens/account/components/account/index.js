@@ -27,9 +27,13 @@ class App extends Component {
   }
 
   navigateToDetail = (screen) => {
-    this.props.navigation.navigate("Detail", {screen: screen});
+    this.props.navigation.navigate("Detail", {
+      screen: screen,
+      from: {
+        screen: 'Account'
+      }
+    });
   }
-
 
   render() {
 

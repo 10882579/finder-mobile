@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { handleGoBack } from '@redux/actions/handleGoBack';
 import { Account, Login } from './components/index';
 import { defaultStyle } from '@src/static/index';
 
@@ -31,15 +30,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleGoBack: (nav) => {
-      dispatch(handleGoBack(nav))
-    },
-    updateNavState: (obj) => {
-      dispatch({
-        type: 'UPDATE_NAV_STATE',
-        payload: obj
-      })
-    },
+    
   }
 }
 
