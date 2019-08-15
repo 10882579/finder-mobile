@@ -15,6 +15,7 @@ import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 
 import { defaultStyle } from '@src/static/index';
+import app from '../../app.json';
 
 const { width, height } = Dimensions.get('window');
 const radius = Math.round(width + height) / 2
@@ -31,6 +32,9 @@ class CustomDrawerContentComponent extends Component{
 
 		return(
 			<SafeAreaView style={styles.container}>
+				<View style={styles.versionContainer}>
+					<Text style={styles.version}>{app.expo.version}</Text>
+				</View>
 				<View style={styles.topContainer}>
 					<View style={styles.imageContainer}>
 						{
@@ -77,6 +81,15 @@ class CustomDrawerContentComponent extends Component{
 }
 
 const styles = StyleSheet.create({
+	versionContainer: {
+		position: 'absolute',
+		alignSelf: 'center',
+		top: Constants.statusBarHeight,
+	},
+	version: {
+		fontFamily: 'Default',
+		color: '#1c5372'
+	},
 	container: {
 		flex: 1,
 		backgroundColor: '#021825',

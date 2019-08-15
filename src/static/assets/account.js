@@ -133,7 +133,7 @@ module.exports = StyleSheet.create({
   },
   itemTitle:{
     fontFamily: 'Default-Bold',
-    fontSize: 17,
+    fontSize: 14,
   },
   itemPriceContainer:{
     paddingHorizontal: 5,
