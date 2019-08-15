@@ -12,6 +12,7 @@ import * as Animatable from 'react-native-animatable';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { registerStyle, loginStyle, defaultStyle } from '@src/static/index';
 import { registerAccount } from '@redux/actions/account';
+import handleGoBack from '@redux/actions/handleGoBack';
 
 const AlertComponent = (props) => {
   return (
@@ -43,9 +44,11 @@ class App extends Component {
   }
 
   register = () => {
-    const { registerAccount } = this.props;
+    const { registerAccount, navigation } = this.props;
     registerAccount( (status, data) => {
       if(status == 200){
+        handleGoBack(navigation);
+        navigation.setParams({from: {screen: 'Home'}});
         AsyncStorage.setItem('token', data.token);
       }
       else if(status == 400){

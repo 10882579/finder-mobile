@@ -1,4 +1,5 @@
-export default (params, nav) => {
+export default (nav) => {
+  const { params } = nav.state;
   const state = params ? params : {};
   const from = state.from ? state.from : {screen: 'Home'};
 

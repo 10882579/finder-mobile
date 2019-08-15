@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { loginStyle } from '@src/static/index';
 import { loginToAccount } from '@redux/actions/account';
+import handleGoBack from '@redux/actions/handleGoBack';
 
 import Header from './header';
 import Register from '../register/index'
@@ -68,6 +69,7 @@ class App extends Component {
 
     loginToAccount( (status, data) => {
       if(status == 200){
+        handleGoBack(navigation);
         navigation.setParams({from: {screen: 'Home'}});
         AsyncStorage.setItem('token', data.token);
       }

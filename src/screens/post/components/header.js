@@ -7,13 +7,12 @@ import handleGoBack from '@redux/actions/handleGoBack';
 const BackButton = (props) => {
   
   const { navigation } = props;
-  const { params } = navigation.state;
 
   return (
     <TouchableOpacity
       style={postStyle.headerButton}
       activeOpacity={0.8}
-      onPress={ () => handleGoBack(params, navigation) }
+      onPress={ () => handleGoBack(navigation) }
     >
       <Ionicons
         name='md-arrow-round-back'

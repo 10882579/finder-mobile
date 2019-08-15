@@ -6,11 +6,20 @@ import { defaultStyle, createStyle } from '@src/static/index';
 
 export default (props) => {
 
-  const { data, updateCreateState, handleAutoScroll, publishPost, navigation } = props;
+  const { data, updateCreateState, handleAutoScroll, publishPost, navigation, account } = props;
 
   handlePublishPost = () => {
-    publishPost();
-    navigation.navigate('Home');
+    if (account.accountFetched){
+      publishPost();
+      navigation.navigate('Home');
+    }
+    else{
+      navigation.navigate('Account', {
+        from: {
+          screen: 'Create'
+        }
+      });
+    }
   }
 
   return (

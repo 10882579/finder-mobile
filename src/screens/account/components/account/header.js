@@ -8,14 +8,13 @@ import handleGoBack from '@redux/actions/handleGoBack';
 
 export default (props) => {
 	const { navigation } = props;
-	const { params } = navigation.state;
 	return (
 	  <View style={defaultStyle.customHeaderContainer}>
 			<StatusBar barStyle='light-content'/>
 			<TouchableOpacity
 				style={defaultStyle.headerIconContainer}
 				activeOpacity={0.8}
-				onPress={ () => handleGoBack(params, navigation) }
+				onPress={ () => handleGoBack(navigation) }
 			>
 				<Ionicons
 					name='md-arrow-round-back'

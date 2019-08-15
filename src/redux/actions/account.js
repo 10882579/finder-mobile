@@ -133,9 +133,9 @@ const fetchFollowingUsers = (page, callback) => {
   }
 }
 
-const updateAccount = (obj, nav) => {
+const updateAccount = (obj) => {
   return (dispatch, getState) => {
-    const { account } = getState()
+    const { account } = getState();
     const formData = new FormData()
     for (const key in obj){
       if (key != 'image' && obj[key].length > 0){
@@ -158,41 +158,15 @@ const updateAccount = (obj, nav) => {
         'X-auth-token': account.token
       },
       data: formData,
-      // onUploadProgress: (progressEvent) => {
-      //   dispatch({
-      //     type: 'UPDATE_SETTINGS_STATE',
-      //     payload: {loading: Math.round(progressEvent.loaded / progressEvent.total * 100)}
-      //   })
-      // }
     })
     .then((res) => {
-      if(res.status === 200){
-        dispatch(fetchAccount(nav, account.token))
-      }
+      dispatch({
+        type: 'UPDATE_ACCOUNT_STATE',
+        payload: obj
+      })
     })
     .catch((err) => {
-      const { status } = err.response;
-      // if (status === 403){
-      //   alert("Parol noto'g'ri!")
-      //   dispatch({
-      //     type: 'UPDATE_SETTINGS_STATE',
-      //     payload: {loading: 0}
-      //   })
-      // }
-      // else if(status === 401){
-      //   AsyncStorage.removeItem('token')
-      //   dispatch({
-      //     type: 'LOG_OUT'
-      //   })
-      //   navigation.navigate('Login')
-      // }
-      // else{
-      //   alert("Kiritilgan ma'lumot noto'g'ri!")
-      //   dispatch({
-      //     type: 'UPDATE_SETTINGS_STATE',
-      //     payload: {loading: 0}
-      //   })
-      // }
+      
     })
   }
 }

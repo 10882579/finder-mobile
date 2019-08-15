@@ -14,7 +14,7 @@ class App extends Component {
 
   uploadImage = async () => {
 
-    const { updateAccountImage, navigation } = this.props;
+    const { updateAccountImage } = this.props;
 
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -22,7 +22,7 @@ class App extends Component {
       aspect: [1, 1],
     });
     if (!result.cancelled){
-      updateAccountImage({image: result.uri}, navigation)
+      updateAccountImage({image: result.uri})
     }
   }
 
@@ -98,8 +98,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateAccountImage: (obj, nav) => {
-      dispatch(updateAccount(obj, nav))
+    updateAccountImage: (obj) => {
+      dispatch(updateAccount(obj))
     },
   }
 }
