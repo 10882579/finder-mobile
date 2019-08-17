@@ -117,32 +117,12 @@ module.exports = StyleSheet.create({
     height: 10,
     flex: 1,
   },
-  reviewButton: {
-    width: width-30,
-    height: 50,
-    borderRadius: 5,
-    marginVertical: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#095D00'
-  },
-  reviewButtonIcon:{
-    position: 'absolute',
-    left: 15,
-    alignSelf: 'center',
-    fontSize: 20,
-    color: 'white'
-  },
-  reviewButtonText: {
-    color: 'white',
-    fontFamily: 'Default-Bold',
-    fontSize: 20,
-  },
   reviewItemContainer:{
     padding: 10,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#E8E8E8',
+    marginBottom: 10,
   },
   reviewerContainer: {
     flexDirection: 'row',
