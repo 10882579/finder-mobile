@@ -27,8 +27,10 @@ class App extends Component {
   }
 
   navigateToDetail = (screen) => {
-    this.props.navigation.navigate("Detail", {
+    const { navigation, account } = this.props;
+    navigation.navigate("Detail", {
       screen: screen,
+      rating: account.rating,
       from: {
         screen: 'Account'
       }

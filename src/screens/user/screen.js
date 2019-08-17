@@ -42,6 +42,7 @@ class App extends Component {
     this.props.navigation.navigate("Detail", {
       screen: screen,
       id: account.account_id,
+      rating: account.rating,
       from: {
         screen: 'User',
         id: account.account_id

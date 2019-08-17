@@ -1,115 +1,16 @@
 import React, { Component } from 'react';
-import { ScrollView, View, TouchableOpacity, Text, Image, ActivityIndicator } from 'react-native';
-import { defaultStyle, accountStyle } from '@src/static/index';
-import { AntDesign } from '@expo/vector-icons';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { defaultStyle } from '@src/static/index';
 import { connect } from 'react-redux';
-
 
 import { fetchFollowingUsers, followAccount } from '@redux/actions/account';
 import { fetchUserPosts, fetchUserSavedPosts } from '@redux/actions/post';
+import { fetchAccountReviews } from '@redux/actions/review';
 
 import Header from './components/header';
-import Rating from './components/rating';
-
-const Posts = (props) => {
-
-  const { navigation, data } = props;
-  const { params } = navigation.state;
-
-  navigateToPost = (id) => {
-    navigation.navigate("Post", {
-      id: id,
-      from: {
-        screen: 'Detail',
-        which: params.screen
-      }
-    });
-  }
-
-  return (
-    <ScrollView
-      bounces={false}
-      scrollEventThrottle={16}
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={accountStyle.scrollviewContainer}>
-        {
-          data.map( (item) => (
-            <TouchableOpacity
-              key={item.id}
-              activeOpacity={0.9}
-              style={[accountStyle.listItem, defaultStyle.shadow]}
-              onPress={ () => navigateToPost(item.id) }
-            >
-              <View style={[defaultStyle.flex]}>
-                <Image source={{uri: item.images[0].uri}} style={defaultStyle.image}/>
-              </View>
-              <View style={accountStyle.itemTitleContainer}>
-                <Text style={accountStyle.itemTitle} numberOfLines={2}>{item.title}</Text>
-              </View>
-              <View style={accountStyle.itemPriceContainer}>
-                <Text style={accountStyle.itemPrice} numberOfLines={1}>{item.price}</Text>
-              </View>
-            </TouchableOpacity>
-          ))
-        }
-      </View>
-    </ScrollView>
-  )
-}
-
-const Accounts = (props) => {
-
-  const { navigation, data, followThisAccount } = props;
-  const { params } = navigation.state;
-
-  navigateToAccount = (id) => {
-    navigation.navigate("User", {
-      id: id, 
-      from: {
-        screen: 'Detail',
-        which: params.screen
-      }
-    });
-  }
-
-  return (
-    <ScrollView
-      scrollEventThrottle={16}
-      bounces={false}
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={accountStyle.followScrollviewContainer}>
-        {
-          data.map( (item) => (
-            <TouchableOpacity
-              key={item.account_id}
-              activeOpacity={0.9}
-              style={[accountStyle.followingUserContainer, defaultStyle.shadow]}
-              onPress={ () => navigateToAccount(item.account_id) }
-            >
-              <View style={accountStyle.followingUserImage}>
-                <Image source={{uri: item.image}} style={defaultStyle.image}/>
-              </View>
-              <View style={accountStyle.followingUsernameContainer}>
-                <View style={accountStyle.usernameContainer}>
-                  <Text style={accountStyle.followingUserName} numberOfLines={1}>
-                    { item.first_name } { item.last_name }
-                  </Text>
-                  <TouchableOpacity style={accountStyle.likeButtonContainer} onPress={ () => followThisAccount(item.account_id) }>
-                    <AntDesign name={item.following ? 'like1' : 'like2'} style={accountStyle.likeIcon}/>
-                  </TouchableOpacity>
-                </View>
-                <Rating rating={item.rating}/>
-              </View>
-            </TouchableOpacity>
-          ))
-        }
-      </View>
-    </ScrollView>
-  )
-}
-
+import Posts from './components/posts';
+import Accounts from './components/accounts';
+import Reviews from './components/reviews';
 
 class App extends Component {
 
@@ -126,10 +27,11 @@ class App extends Component {
       navigation, 
       fetchUserPosts, 
       fetchUserSavedPosts, 
-      fetchFollowingUsers 
+      fetchFollowingUsers, 
+      fetchAccountReviews
     } = this.props;
     const { params } = navigation.state;
-    
+
     if(params.screen == 'myposts'){
       fetchUserPosts(account.account_id, 1, (data) => {
         this.updateState("E'lonlarim", data);
@@ -151,7 +53,9 @@ class App extends Component {
       })
     }
     else if(params.screen == 'rating'){
-      this.updateState("Reyting", []);
+      fetchAccountReviews(params.id, (data) => {
+        this.updateState("Reyting", data);
+      })
     }
   }
 
@@ -186,7 +90,8 @@ class App extends Component {
   }
 
   render() {
-
+    const { navigation } = this.props;
+    const { params } = navigation.state;
     const { screen, data, loading } = this.state;
 
     if (loading){
@@ -201,10 +106,11 @@ class App extends Component {
       return (
         <View style={defaultStyle.flex}>
           <Header {...this.props} screen={screen}/>
-          <View style={defaultStyle.flex}>
-            { screen == "E'lonlarim" || screen == "E'lonlar" ? <Posts {...this.props} data={data}/> : null }
-            { screen == "Belgilangan e'lonlar" ? <Posts {...this.props} data={data} /> : null }
-            { screen == "Kuzatilayotkanlar" ? <Accounts {...this.props} data={data} followThisAccount={this.followAccount}/> : null }
+          <View style={defaultStyle.flex}>  
+            { params.screen == "savedposts" ? <Posts {...this.props} data={data} /> : null }
+            { params.screen == "rating" ? <Reviews {...this.props} data={data} /> :  null }  
+            { params.screen == "myposts" || params.screen == "userposts" ? <Posts {...this.props} data={data}/> : null }
+            { params.screen == "following" ? <Accounts {...this.props} data={data} followThisAccount={this.followAccount}/> : null }
           </View>
         </View>
       )
@@ -231,6 +137,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     fetchFollowingUsers: (page, cb) => {
       dispatch(fetchFollowingUsers(page, cb))
+    },
+    fetchAccountReviews: (id, cb) => {
+      dispatch(fetchAccountReviews(id, cb))
     },
   }
 }

@@ -79,4 +79,14 @@ module.exports = StyleSheet.create({
     fontSize: 20,
     marginTop: 10,
   },
+  notificationContainer: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 5,
+    height: 80,
+    left: 10,
+    right: 10,
+    top: Constants.statusBarHeight + 10,
+  }
 })
