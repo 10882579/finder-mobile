@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { fetchFollowingUsers, followAccount } from '@redux/actions/account';
 import { fetchUserPosts, fetchUserSavedPosts } from '@redux/actions/post';
-import { fetchAccountReviews } from '@redux/actions/review';
+import { fetchAccountReviews, postAccountReview } from '@redux/actions/review';
 
 import Header from './components/header';
 import Posts from './components/posts';
@@ -16,12 +16,13 @@ class App extends Component {
 
   state = {
     loading: true,
+    showForm: false,
     screen: "",
     data: []
   }
 
   componentWillMount() {
-    
+
     const { 
       account,
       navigation, 
@@ -89,10 +90,17 @@ class App extends Component {
     })
   }
 
+  toggleForm = () => {
+    this.setState( (prev) => ({
+      ...prev,
+      showForm: !prev.showForm
+    }))
+  }
+
   render() {
     const { navigation } = this.props;
     const { params } = navigation.state;
-    const { screen, data, loading } = this.state;
+    const { screen, data, loading, showForm } = this.state;
 
     if (loading){
       return (
@@ -105,12 +113,12 @@ class App extends Component {
     else if(!loading){
       return (
         <View style={defaultStyle.flex}>
-          <Header {...this.props} screen={screen}/>
-          <View style={defaultStyle.flex}>  
-            { params.screen == "savedposts" ? <Posts {...this.props} data={data} /> : null }
-            { params.screen == "rating" ? <Reviews {...this.props} data={data} /> :  null }  
+          <Header {...this.props} screen={screen} toggleForm={this.toggleForm} showForm={showForm}/>
+          <View style={defaultStyle.flex}>
+            { params.screen == "savedposts" ? <Posts {...this.props} data={data} /> : null }  
             { params.screen == "myposts" || params.screen == "userposts" ? <Posts {...this.props} data={data}/> : null }
             { params.screen == "following" ? <Accounts {...this.props} data={data} followThisAccount={this.followAccount}/> : null }
+            { params.screen == "rating" ? <Reviews {...this.props} data={data} showForm={showForm} toggleForm={this.toggleForm}/> :  null }
           </View>
         </View>
       )
@@ -141,6 +149,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchAccountReviews: (id, cb) => {
       dispatch(fetchAccountReviews(id, cb))
     },
+    postAccountReview: (id, data, cb) => {
+      dispatch(postAccountReview(id, data, cb))
+    }
   }
 }
 

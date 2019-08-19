@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, TouchableOpacity, StatusBar, Text } from 'react-native';
 
-import { Ionicons, AntDesign }     from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { defaultStyle } from '@src/static/index';
 
 import handleGoBack from '@redux/actions/handleGoBack';
 
 export default (props) => {
-	const { navigation, screen, account } = props;
+	const { navigation, screen, account, toggleForm, showForm } = props;
 	const { params } = navigation.state;
 	return (
 	  <View style={[defaultStyle.customHeaderContainer, defaultStyle.shadow]}>
@@ -26,8 +26,8 @@ export default (props) => {
         <Text style={defaultStyle.headerBodyText}>{screen}</Text>
       </View>
 			{
-				account.accountFetched && params.id ? (
-					<TouchableOpacity style={defaultStyle.headerIconContainer}>
+				account.accountFetched && params.id && !showForm ? (
+					<TouchableOpacity style={defaultStyle.headerIconContainer} onPress={ toggleForm }>
 						<AntDesign name='plus' style={defaultStyle.headerIcon}/>
 					</TouchableOpacity>
 				) : null

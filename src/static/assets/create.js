@@ -78,7 +78,7 @@ module.exports = StyleSheet.create({
   },
   actionContainer: {
     width: width,
-    height: 80,
+    height: 70,
     justifyContent: 'space-around',
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -92,13 +92,13 @@ module.exports = StyleSheet.create({
     borderRadius: 5,
   },
   actionButtonText: {
-    fontFamily: 'Default-Bold',
+    fontFamily: 'Default',
     fontSize: 20,
     color: 'white',
   },
   nextButton: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     backgroundColor: '#003d66',
     justifyContent: 'center',
     alignItems: 'center',

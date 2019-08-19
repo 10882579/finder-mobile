@@ -4,6 +4,7 @@ import { detailStyle, defaultStyle } from '@src/static/index';
 import timefilter from '@src/timefilter';
 
 import Rating from './rating';
+import Form from './form';
 
 const RatingItem = (props) => {
   return (
@@ -66,6 +67,7 @@ class App extends React.Component {
               <RatingItem rating={1} percent={this.ratingPercentage(1)}/>
             </View>
           </View>
+          <Form {...this.props}/>
           {
             data.map( (item) => (
               <TouchableOpacity key={item.id}

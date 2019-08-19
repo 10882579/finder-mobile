@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+
 const { width, height } = Dimensions.get('window');
 const radius = Math.round(width + height) / 2
 
@@ -164,4 +165,47 @@ module.exports = StyleSheet.create({
     fontSize: 15,
     textAlign: 'justify',
   },
+  formRatingContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+  },
+  formStar: {
+    fontSize: 24,
+    marginRight: 7,
+    color: 'lightgrey',
+  },
+  selectedRating: {
+    color: 'gold'
+  },
+  formHideButton: {
+    position: 'absolute',
+    right: 0,
+  },
+  reviewInput: {
+    width: '100%',
+    textAlignVertical: 'top',
+    fontFamily: 'Default',
+    fontSize: 16,
+    padding: 10,
+    height: 160,
+    borderColor: '#E8E8E8',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  formSubmitButton: {
+    height: 50,
+    marginVertical: 20,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#C6C6C6'
+  },
+  formButtonText: {
+    color: 'white',
+    fontSize: 20,
+    fontFamily: 'Default'
+  },
+  activeFormButton: {
+    backgroundColor: '#003d66'
+  }
 })

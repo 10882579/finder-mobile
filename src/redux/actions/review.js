@@ -26,6 +26,31 @@ const fetchAccountReviews = (id, callback) => {
   }
 }
 
+const postAccountReview = (id, data, callback) => {
+  return (dispatch, getState) => {
+    const { account } = getState();
+    axios({
+      method: 'POST',
+      url: `${SERVER}/review/${id}/create/` ,
+      headers: {
+        'Accept': 'application/json',
+        'X-Auth-Token': account.token
+      },
+      data: data,
+    })
+    .then( ({ status }) => {
+      if(status == 200){
+        callback()
+      }
+    })
+    .catch( (err) => {
+      console.log(err);
+      
+    })
+  }
+}
+
 export {
   fetchAccountReviews,
+  postAccountReview
 }

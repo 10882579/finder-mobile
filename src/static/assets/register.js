@@ -58,7 +58,7 @@ module.exports = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#16222A'
+    backgroundColor: '#003d66'
   },
   submitText: {
     color: 'white',
