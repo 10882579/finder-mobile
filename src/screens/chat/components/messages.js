@@ -31,7 +31,7 @@ export default class App extends React.Component {
               <View 
                 style={[
                   chatStyle.messageListItem, 
-                  account.account_id == item.account_id ? {
+                  account.account_id == item.from ? {
                     flexDirection: 'row-reverse'
                   } : null
               ]} key={i}>

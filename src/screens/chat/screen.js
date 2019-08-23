@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { View, TextInput, KeyboardAvoidingView, TouchableOpacity, SafeAreaView, ActivityIndicator, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Header, Messages } from './components/index';
-import { fetchMessages } from '@redux/actions/notification';
+import { fetchMessages, saveMessage } from '@redux/actions/notification';
 import { chatStyle, defaultStyle } from '@src/static/index';
 import { connect } from 'react-redux';
 
-import localconfig from '@src/localconfig';
+import io from 'socket.io-client';
+import conf from '@src/localconfig';
 
 class App extends Component {
 
@@ -26,40 +27,32 @@ class App extends Component {
   componentDidMount = () => {
     const { account, navigation } = this.props;
     const { params } = navigation.state;
-
-    const SERVER = localconfig ? localconfig.SERVER : "https://finder-uz.herokuapp.com";
-
     if(account.accountFetched){
-      const url = `${SERVER}/${account.token}/${params.account_id}/`
-      this.socket = new WebSocket(url);
-      this.socket.onopen = () => {
-				console.log('Connected');
-      }
-      this.socket.onmessage = (e) => {
-        const data = JSON.parse(e.data)
-				if(data.message){
-					this.props.addMessage(data);
-        }
-      }
-      this.socket.onerror = (err) => {
-
-      }
-      this.socket.onclose = () => {
-				console.log('Disconnected')
-      }
+      this.socket = io(conf.SOCKET_SERVER);
+      this.socket.on(params.room, (data) => {
+        this.props.addMessage(data);
+      })
     }
   }
 
   componentWillUnmount(){
-    this.socket.close()
+    this.socket.disconnect()
   }
 
-  sendMessage = async () => {
+  sendMessage = () => {
+    const { navigation, account, saveMessage } = this.props;
+    const { params } = navigation.state;
+
     if(this.state.text.length > 0){
-      await this.socket.send(JSON.stringify(
-        { message: this.state.text }
-      ))
-      this.setState({...this.state, text: ''});      
+      saveMessage({room: params.room, message: this.state.text}, () => {
+        this.socket.emit('chat-message', {
+          from: account.account_id,
+          room: params.room,
+          message: this.state.text,
+          created_at: new Date()
+        })
+        this.setState({...this.state, text: ''});
+      })    
 		}
 	}
 
@@ -119,6 +112,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchMessages: (id, cb) => {
       dispatch(fetchMessages(id, cb))
+    },
+    saveMessage: (obj, cb) => {
+      dispatch(saveMessage(obj, cb))
     },
     addMessage: (obj) => {
       dispatch({

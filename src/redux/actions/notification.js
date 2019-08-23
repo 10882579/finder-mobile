@@ -58,7 +58,35 @@ const fetchMessages = (id, callback) => {
   }
 }
 
+const saveMessage = (obj, callback) => {
+  return (dispatch, getState) => {
+    const { account } = getState();
+    if(account.accountFetched){
+      axios({
+        method: 'POST',
+        url: `${SERVER}/chat/${obj.room}/save-message/`,
+        headers: {
+          'Accept': 'application/json',
+          'X-auth-token': account.token
+        },
+        data: {
+          message: obj.message
+        }
+      })
+      .then( ({status}) => {
+        if(status === 200){
+          callback()
+        }
+      })
+      .catch( ({response}) => {
+  
+      })
+    }
+  }
+}
+
 export {
   fetchConversations,
-  fetchMessages
+  fetchMessages,
+  saveMessage
 }
