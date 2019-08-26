@@ -4,6 +4,7 @@ import { Entypo } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { Constants } from 'expo';
 
+import { fetchChatRoomName } from '@redux/actions/notification';
 import { defaultStyle, postStyle } from '@src/static/index';
 import { fetchPost } from "@redux/actions/home";
 import { savePost } from "@redux/actions/post";
@@ -126,6 +127,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchChatRoomName: (id, cb) => {
+      dispatch(fetchChatRoomName(id, cb))
+    },
     setPostState: (data) => {
       dispatch({
         type: 'SET_POST_STATE',

@@ -5,7 +5,6 @@ import { defaultStyle, chatStyle } from '@src/static/index';
 import { connect } from 'react-redux';
 
 import Header from './components/header'; 
-import Rating from './components/rating'; 
 
 class App extends Component {
 
@@ -47,7 +46,7 @@ class App extends Component {
                 </View>
                 <View style={chatStyle.usernameContainer}>
                   <Text style={chatStyle.username} numberOfLines={1}>{item.first_name} {item.last_name}</Text>
-                  <Rating rating={item.rating}/>
+                  <Text style={chatStyle.lastMessage} numberOfLines={1}>{item.last_message}</Text>
                 </View>
               </TouchableOpacity>
             ))

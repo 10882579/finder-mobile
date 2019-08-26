@@ -26,7 +26,7 @@ export default (props) => {
         <Text style={defaultStyle.headerBodyText}>{screen}</Text>
       </View>
 			{
-				account.accountFetched && params.id && !showForm ? (
+				account.accountFetched && params.id && !showForm && params.screen == 'rating' ? (
 					<TouchableOpacity style={defaultStyle.headerIconContainer} onPress={ toggleForm }>
 						<AntDesign name='plus' style={defaultStyle.headerIcon}/>
 					</TouchableOpacity>

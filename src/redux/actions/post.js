@@ -115,7 +115,7 @@ const fetchUserPosts = (id, page, callback) => {
   return (dispatch, getState) => {
     const { account } = getState();
     axios({
-      method: 'POST',
+      method: 'GET',
       url: `${SERVER}/account/${id}/posts/page=${page}`,
       headers: {
         'Accept': 'application/json',
@@ -136,7 +136,7 @@ const fetchUserSavedPosts = (page, callback) => {
     const { account } = getState();
     if(account.accountFetched){
       axios({
-        method: 'POST',
+        method: 'GET',
         url: `${SERVER}/account/posts/page=${page}`,
         headers: {
           'Accept': 'application/json',

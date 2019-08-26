@@ -6,7 +6,7 @@ const SERVER = localconfig ? localconfig.SERVER : "https://finder-uz.herokuapp.c
 const fetchAllPosts = () => {
   return (dispatch, getState) => {
     axios({
-      method: 'POST',
+      method: 'GET',
       url: `${SERVER}/post/list/`,
       headers: {
         'Accept': 'application/json',
@@ -107,7 +107,7 @@ const fetchPost = (id, cb) => {
   return (dispatch, getState) => {
     const { account } = getState();
     axios({
-      method: 'POST',
+      method: 'GET',
       url: `${SERVER}/post/${id}/`,
       headers: {
         'Accept': 'application/json',

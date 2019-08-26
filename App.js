@@ -9,6 +9,9 @@ import { splashStyle } from '@src/static/index';
 import Navigation from '@src/navigation/index';
 import store from '@src/redux/store';
 
+import io from 'socket.io-client';
+import conf from '@src/localconfig';
+
 export default class App extends React.Component {
 
   state = {
@@ -18,6 +21,16 @@ export default class App extends React.Component {
   async componentWillMount(){
     const token = await AsyncStorage.getItem('token');
     store.dispatch(fetchAccount(token));
+    if(token){
+      this.socket = io(conf.SOCKET_SERVER);
+      this.socket.on(token, (data) => {
+        store.dispatch({
+          type: 'UPDATE_LAST_MESSAGE',
+          payload: data.message,
+          id: data.chat_id
+        })
+      })
+    }
   }
 
   async componentDidMount() {

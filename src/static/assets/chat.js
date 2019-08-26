@@ -36,6 +36,11 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     fontSize: 20,
   },
+  lastMessage: {
+    fontFamily: 'Default',
+    fontSize: 16,
+    color: '#003d66'
+  },
   ratingStarContainer: {
     flexDirection: 'row',
     marginBottom: 5,

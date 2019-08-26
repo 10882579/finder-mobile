@@ -67,7 +67,7 @@ const fetchAccount = (token) => {
   return (dispatch, getState) => {
     if(token !== null){
       axios({
-        method: 'POST',
+        method: 'GET',
         url: `${SERVER}/account/`,
         headers: {
           'Accept': 'application/json',
@@ -93,7 +93,7 @@ const fetchSpecificAccount = (id, callback) => {
   return (dispatch, getState) => {
     const { account } = getState();
     axios({
-      method: 'POST',
+      method: 'GET',
       url: `${SERVER}/account/${id}/`,
       headers: {
         'Accept': 'application/json',
@@ -116,7 +116,7 @@ const fetchFollowingUsers = (page, callback) => {
     const { account } = getState();
     if(account.accountFetched){
       axios({
-        method: 'POST',
+        method: 'GET',
         url: `${SERVER}/account/following/page=${page}`,
         headers: {
           'Accept': 'application/json',

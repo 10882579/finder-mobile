@@ -4,6 +4,7 @@ import { View, TouchableOpacity, Text, Image, ActivityIndicator } from 'react-na
 import { connect }  from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { followAccount, fetchSpecificAccount } from '@redux/actions/account';
+import { fetchChatRoomName } from '@redux/actions/notification';
 import { defaultStyle, accountStyle } from '@src/static/index';
 import { Contact, Rating, LikeAccount, Header } from './components/index';
 
@@ -113,6 +114,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchChatRoomName: (id, cb) => {
+      dispatch(fetchChatRoomName(id, cb))
+    },
     fetchSpecificAccount: (id, cb) => {
       dispatch(fetchSpecificAccount(id, cb))
     },

@@ -10,7 +10,7 @@ const fetchAccountReviews = (id, callback) => {
     const url = id ? `${SERVER}/review/${id}/list/` 
                    : `${SERVER}/review/list/`;
     axios({
-      method: 'POST',
+      method: 'GET',
       url: url,
       headers: {
         'Accept': 'application/json',

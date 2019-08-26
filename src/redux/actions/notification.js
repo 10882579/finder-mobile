@@ -8,7 +8,7 @@ const fetchConversations = () => {
     const { account } = getState();
     if(account.accountFetched){
       axios({
-        method: 'POST',
+        method: 'GET',
         url: `${SERVER}/chat/conversations/`,
         headers: {
           'Accept': 'application/json',
@@ -30,12 +30,36 @@ const fetchConversations = () => {
   }
 }
 
-const fetchMessages = (id, callback) => {
+const fetchChatRoomName = (id, callback) => {
   return (dispatch, getState) => {
     const { account } = getState();
     if(account.accountFetched){
       axios({
         method: 'POST',
+        url: `${SERVER}/chat/${id}/name/`,
+        headers: {
+          'Accept': 'application/json',
+          'X-auth-token': account.token
+        },
+      })
+      .then( ({data, status}) => {
+        if(status == 200){
+          callback(data)
+        }
+      })
+      .catch( ({response}) => {
+        
+      })
+    }
+  }
+}
+
+const fetchMessages = (id, callback) => {
+  return (dispatch, getState) => {
+    const { account } = getState();
+    if(account.accountFetched){
+      axios({
+        method: 'GET',
         url: `${SERVER}/chat/messages/${id}/`,
         headers: {
           'Accept': 'application/json',
@@ -87,6 +111,7 @@ const saveMessage = (obj, callback) => {
 
 export {
   fetchConversations,
+  fetchChatRoomName,
   fetchMessages,
   saveMessage
 }

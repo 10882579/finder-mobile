@@ -6,17 +6,20 @@ import { defaultStyle, postStyle } from '@src/static/index';
 
 export default (props) => {
 
-  const { navigation, account, post } = props;
+  const { navigation, account, post, fetchChatRoomName } = props;
   const { params } = navigation.state;
 
   navigateToChat = () => {
 		if(account.accountFetched){
-			navigation.navigate('Chat', {
-        ...post.account,
-        from: {
-          screen: 'Post',
-          id: params.id
-        }
+      fetchChatRoomName(post.account.account_id, (data) => {
+        navigation.navigate('Chat', {
+          ...post.account,
+          room: data.room,
+          from: {
+            screen: 'Post',
+            id: params.id
+          }
+        })
       })
 		}
 		else{

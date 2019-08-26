@@ -31,6 +31,7 @@ class App extends Component {
       this.socket = io(conf.SOCKET_SERVER);
       this.socket.on(params.room, (data) => {
         this.props.addMessage(data);
+        this.props.updateLastMessage(params.id, data.message);
       })
     }
   }
@@ -115,6 +116,13 @@ const mapDispatchToProps = (dispatch) => {
     },
     saveMessage: (obj, cb) => {
       dispatch(saveMessage(obj, cb))
+    },
+    updateLastMessage: (id, message) => {
+      dispatch({
+        type: 'UPDATE_LAST_MESSAGE',
+        payload: message,
+        id: id
+      })
     },
     addMessage: (obj) => {
       dispatch({
