@@ -24,11 +24,19 @@ export default class App extends React.Component {
     if(token){
       this.socket = io(conf.SOCKET_SERVER);
       this.socket.on(token, (data) => {
-        store.dispatch({
-          type: 'UPDATE_LAST_MESSAGE',
-          payload: data.message,
-          id: data.chat_id
-        })
+        if(data.type == 'notification'){
+          store.dispatch({
+            type: 'ADD_NOTIFICATION',
+            payload: data,
+          })
+        }
+        else if(data.type == 'chat_message'){
+          store.dispatch({
+            type: 'UPDATE_LAST_MESSAGE',
+            payload: data.message,
+            id: data.chat_id
+          })
+        }
       })
     }
   }

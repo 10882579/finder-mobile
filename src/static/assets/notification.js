@@ -20,4 +20,41 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     fontSize: 18
   },
+  scrollviewContainer:{
+    flex: 1,
+    padding: 10,
+  },
+  itemContainer: {
+    backgroundColor: 'white',
+    marginBottom: 10,
+    width: '100%',
+  },
+  iconContainer: {
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  titleContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  title: {
+    fontFamily: 'Default',
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  createdAt:{
+    fontFamily: 'Default',
+    color: 'grey',
+    fontSize: 16,
+  },
+  messageContainer: {
+    padding: 15,
+  },
+  message: {
+    fontFamily: 'Default',
+    fontSize: 16,
+  }
 })

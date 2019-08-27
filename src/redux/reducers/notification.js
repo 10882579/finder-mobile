@@ -1,4 +1,5 @@
 const initialState  = {
+  notifications: [],
   conversations: [],
   messages: [],
 }
@@ -7,6 +8,12 @@ const initialState  = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'SET_NOTIFICATION_STATE':
+      state = {
+        ...state, 
+        notifications: action.payload
+      }
+      break;
     case 'SET_CONVERSATION_STATE':
       state = {
         ...state, 
@@ -41,6 +48,30 @@ const reducer = (state = initialState, action) => {
       state = {
         ...state,
         conversations: new_cons
+      }
+      break;
+    case 'ADD_NOTIFICATION':
+      state = {
+        ...state, 
+        notifications: [...state.notifications, action.payload]
+      }
+      break;
+    case 'SET_NOTIFICATION_READ':
+      const new_notif = [];
+      state.notifications.forEach((item) => {
+        if(item.id == action.payload){
+          new_notif.push({
+            ...item,
+            read: true
+          })
+        }
+        else{
+          new_notif.push(item)
+        }
+      })
+      state = {
+        ...state,
+        notifications: new_notif
       }
       break;
     case 'LOG_OUT':

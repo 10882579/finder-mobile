@@ -30,6 +30,60 @@ const fetchConversations = () => {
   }
 }
 
+const fetchNotifications = () => {
+  return (dispatch, getState) => {
+    const { account } = getState();
+    if(account.accountFetched){
+      axios({
+        method: 'GET',
+        url: `${SERVER}/notification/list/`,
+        headers: {
+          'Accept': 'application/json',
+          'X-auth-token': account.token
+        },
+      })
+      .then( ({data, status}) => {
+        if(status == 200){
+          dispatch({
+            type: "SET_NOTIFICATION_STATE",
+            payload: data
+          })
+        }
+      })
+      .catch( ({response}) => {
+        
+      })
+    }
+  }
+}
+
+const setNotificationRead = (id, callback) => {
+  return (dispatch, getState) => {
+    const { account } = getState();
+    if(account.accountFetched){
+      axios({
+        method: 'POST',
+        url: `${SERVER}/notification/${id}/read/`,
+        headers: {
+          'Accept': 'application/json',
+          'X-auth-token': account.token
+        },
+      })
+      .then( ({data, status}) => {
+        if(status == 200){
+          dispatch({
+            type: 'SET_NOTIFICATION_READ',
+            payload: id
+          })
+        }
+      })
+      .catch( ({response}) => {
+        
+      })
+    }
+  }
+}
+
 const fetchChatRoomName = (id, callback) => {
   return (dispatch, getState) => {
     const { account } = getState();
@@ -110,6 +164,8 @@ const saveMessage = (obj, callback) => {
 }
 
 export {
+  setNotificationRead,
+  fetchNotifications,
   fetchConversations,
   fetchChatRoomName,
   fetchMessages,
