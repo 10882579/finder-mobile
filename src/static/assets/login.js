@@ -38,6 +38,10 @@ module.exports = StyleSheet.create({
     height: 140,
     resizeMode: 'contain'
   },
+  loginContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
   loginInputContainer: {
     justifyContent: "flex-start",
     alignItems: 'center',
@@ -77,6 +81,20 @@ module.exports = StyleSheet.create({
     fontSize: 17,
     fontFamily: 'Default',
     marginLeft: 10,
+  },
+  errorContainer: {
+    marginTop: 20,
+    width: width,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  errorText: {
+    fontFamily: 'Default',
+    color: '#dc3545',
+    fontSize: 14,
+  },
+  errorStyle: {
+    borderBottomColor: '#dc3545'
   },
   submitBtn: {
     width: width - 80,

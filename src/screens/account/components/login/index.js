@@ -27,6 +27,7 @@ class App extends Component {
 
   state = {
     screen: 'login',
+    loginError: false,
   }
 
   componentWillMount(){
@@ -69,12 +70,12 @@ class App extends Component {
 
     loginToAccount( (status, data) => {
       if(status == 200){
-        handleGoBack(navigation);
         navigation.setParams({from: {screen: 'Home'}});
         AsyncStorage.setItem('token', data.token);
+        handleGoBack(navigation);
       }
-      else if(status == 400){
-        alert(data);
+      else{
+        this.setState( (prev) => ({...prev, loginError: true}))
       }
     })
   }
@@ -89,7 +90,9 @@ class App extends Component {
   render() {
 
     const { login, updateLoginState } = this.props;
-    const { screen } = this.state;
+    const { screen, loginError } = this.state;
+
+    const errorStyle = loginError ? loginStyle.errorStyle : null;
 
     return (
       <View style={loginStyle.container}>
@@ -110,8 +113,8 @@ class App extends Component {
           </Animated.View>
           {
             screen == 'login' ? (
-              <View>
-                <View style={loginStyle.inputContainer}>
+              <View style={loginStyle.loginContainer}>
+                <View style={[loginStyle.inputContainer, errorStyle]}>
                   <AntDesign name='user' color='#16222A' size={28}/>
                   <TextInput
                     onFocus={ this.renderLogin }
@@ -125,7 +128,7 @@ class App extends Component {
                     onChangeText={ (v) => updateLoginState({entry: v}) }
                   />
                 </View>
-                <View style={loginStyle.inputContainer}>
+                <View style={[loginStyle.inputContainer, errorStyle]}>
                   <AntDesign name='lock' color='#16222A' size={28}/>
                   <TextInput
                     onFocus={ this.renderLogin }
@@ -140,6 +143,15 @@ class App extends Component {
                     onChangeText={ (v) => updateLoginState({password: v}) }
                   />
                 </View>
+                {
+                  loginError ? (
+                    <View style={loginStyle.errorContainer}>
+                      <Text style={loginStyle.errorText}>
+                        Kiritilgan email/raqam yoki kod noto'g'ri!
+                      </Text>
+                    </View>
+                  ) : null
+                }
                 <TouchableOpacity style={loginStyle.submitBtn} onPress={ this.login }>
                   <Text style={loginStyle.submitText}>LOG IN</Text>
                 </TouchableOpacity>
@@ -152,7 +164,12 @@ class App extends Component {
                   </TouchableOpacity>
                 </View>
               </View>
-            ) : <Register {...this.props} toggleScreen={this.toggleScreen}/>
+            ) : null
+          }
+          {
+            screen == 'register' ? (
+              <Register {...this.props} toggleScreen={this.toggleScreen}/>
+            ) : null
           }
         </Animated.View>
       </View>

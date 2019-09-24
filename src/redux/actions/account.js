@@ -25,11 +25,9 @@ const loginToAccount = (callback) => {
       }
     })
     .catch( ({response}) => {
-      if(response.status == 400){
-        const status = response.status;
-        const errors = response.data;
-        callback(status, errors)
-      }
+      const status = response.status;
+      const errors = response.data;
+      callback(status, errors)
     })
   }
 }

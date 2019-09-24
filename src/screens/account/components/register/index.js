@@ -10,36 +10,14 @@ import {
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { AntDesign, Feather } from '@expo/vector-icons';
-import { registerStyle, loginStyle, defaultStyle } from '@src/static/index';
+import { registerStyle, loginStyle } from '@src/static/index';
 import { registerAccount } from '@redux/actions/account';
 import handleGoBack from '@redux/actions/handleGoBack';
-
-const AlertComponent = (props) => {
-  return (
-    <Animatable.View style={defaultStyle.errorScreenContainer} animation="shake" delay={500}>
-      <View style={defaultStyle.errorContainer}>
-        <View style={defaultStyle.errorListContainer}>
-          <Feather name='alert-triangle' color='white' size={60}/>
-          <View style={defaultStyle.errorListItems}>
-            {
-              props.errors.map( (v, i) => (
-                <Text key={i} style={defaultStyle.errorText}>{v}</Text>
-              ))
-            }
-          </View>
-        </View>
-        <TouchableOpacity style={defaultStyle.dismissBtn} activeOpacity={0.8} onPress={ () => props.toggleAlert(false) }>
-          <Text style={defaultStyle.dismissBtnText}>Ok</Text>
-        </TouchableOpacity>
-      </View>
-    </Animatable.View>
-  )
-}
 
 class App extends Component {
 
   state = {
-    showAlert: false,
+    registerError: false,
     errors: []
   }
 
@@ -51,21 +29,48 @@ class App extends Component {
         navigation.setParams({from: {screen: 'Home'}});
         AsyncStorage.setItem('token', data.token);
       }
-      else if(status == 400){
-        this.toggleAlert(true, data)
+      else {
+        this.validate(data);
+        this.setState( (prev) => ({...prev, registerError: true}))
       }
     })
   }
 
-  toggleAlert = (bool, data) => {
-    this.setState( (prev) => {
-      return {...prev, showAlert: bool, errors: data}
-    })
+  validate = (errs) => {
+    const { register } = this.props;
+    const re_email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const errors = [];
+
+    if(errs.email || !re_email.test(register.email) || errs.phone_number || register.phone_number.length < 9){
+      errors.push("Email/Telefon raqam kiritilmagan!");
+    }
+
+    if(errs.first_name || errs.last_name || register.first_name.length < 2 || register.last_name.length < 2){
+      errors.push("Ism/Familiya ikki yoki undan ortiq harflardan iborat bo'lishi shart!");
+    }
+
+    if(errs.password || register.password.length < 7){
+      errors.push("Yashirin kod yetti yoki undan ortiq harf va raqamlardan iborat bo'lishi shart!");
+    }
+
+    if(errs.non_field_errors){
+      errs.non_field_errors.filter( (v) => {
+        if(v == 'email_in_use'){
+          errors.push("Bu email mavjud, boshqa email kiriting!");
+        }
+        if(v == 'phone_number_in_use'){
+          errors.push("Bu telefon raqam mavjud, boshqa telefon raqam kiriting!");          
+        } 
+      })
+    }
+
+    this.setState( (prev) => ({...prev, errors: errors}))
   }
 
   render() {
 
     const { register, updateRegisterState, toggleScreen } = this.props;
+    const { registerError, errors } = this.state;
 
     return (
         <Animatable.View animation="fadeIn" delay={500} style={registerStyle.registerContainer}>
@@ -143,6 +148,17 @@ class App extends Component {
               onChangeText={ (v) => updateRegisterState({password: v}) }
             />
           </View>
+          {
+            registerError ? (
+              <View style={registerStyle.errorContainer}>
+                {
+                  errors.map( (item, i) => (
+                    <Text key={i} style={registerStyle.errorText}>* {item}</Text>
+                  ))
+                }
+              </View>
+            ) : null
+          }
           <TouchableOpacity style={registerStyle.submitBtn} onPress={ this.register }>
             <Text style={registerStyle.submitText}>REGISTER</Text>
           </TouchableOpacity>
@@ -154,9 +170,6 @@ class App extends Component {
               </Text>
             </TouchableOpacity>
           </View>
-          { this.state.showAlert ? (
-            <AlertComponent errors={this.state.errors} {...this.props} toggleAlert={this.toggleAlert} />
-          ) : null}
         </Animatable.View>
     )
   }

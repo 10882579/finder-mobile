@@ -51,6 +51,20 @@ module.exports = StyleSheet.create({
     fontFamily: 'Default',
     color: 'lightgrey'
   },
+  errorContainer: {
+    marginTop: 20,
+    paddingHorizontal: 20,
+    width: width,
+    alignItems: 'flex-start',
+  },
+  errorText: {
+    fontFamily: 'Default',
+    color: '#dc3545',
+    fontSize: 14,
+  },
+  errorStyle: {
+    borderColor: '#dc3545'
+  },
   submitBtn: {
     width: width - 40,
     height: 50,
