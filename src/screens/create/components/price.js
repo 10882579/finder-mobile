@@ -30,6 +30,7 @@ export default (props) => {
           <View style={createStyle.priceInputContainer}>
             <TextInput
               onChangeText={ (v) => updateCreateState({price: v}) }
+              keyboardType="numeric"
               placeholder="Qiymat | Narx"
               placeholderTextColor='darkgrey'
               underlineColorAndroid="transparent"

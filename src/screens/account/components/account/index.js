@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity, Image, Text } from 'react-native';
 import { defaultStyle, accountStyle } from '@src/static/index';
 import { EvilIcons, AntDesign, Feather } from '@expo/vector-icons';
-import { ImagePicker } from 'expo';
+import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
 
 import Header from "./header";

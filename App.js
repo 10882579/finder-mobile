@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StatusBar, AsyncStorage } from 'react-native';
 import * as Animate from 'react-native-animatable';
 import { Provider } from 'react-redux';
-import { Font } from 'expo';
+import * as Font from 'expo-font';
 
 import { fetchAccount } from '@redux/actions/account';
 import { splashStyle } from '@src/static/index';

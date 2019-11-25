@@ -8,7 +8,6 @@ import { createStyle } from '@src/static/index';
 import Header from './components/header';
 import Title from './components/title';
 import Price from './components/price';
-import Category from './components/category';
 import ImageUpload from './components/imageupload';
 import Description from './components/description';
 
@@ -65,8 +64,9 @@ class App extends Component {
           )}
         >
           <ImageUpload {...this.props} handleAutoScroll={this.handleAutoScroll}/>
-          <Title {...this.props} 
-            toggle={this.toggleCategoryModal}
+          <Title {...this.props}
+            isVisible={this.state.showCategory} 
+            toggleCategory={this.toggleCategoryModal}
             handleAutoScroll={this.handleAutoScroll} 
             categories={this.state.categories}
           />
@@ -74,11 +74,6 @@ class App extends Component {
           <Description {...this.props} handleAutoScroll={this.handleAutoScroll}/>
         </ScrollView>
         <Header {...this.props} color={color}/>
-        <Category {...this.props} 
-          show={this.state.showCategory} 
-          categories={this.state.categories} 
-          toggleCategoryModal={this.toggleCategoryModal}
-        />
       </View>
     )
   }

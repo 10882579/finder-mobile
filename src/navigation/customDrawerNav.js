@@ -9,7 +9,7 @@ import {
 	Dimensions, 
 	Platform
 } from 'react-native';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux';

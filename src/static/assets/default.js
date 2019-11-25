@@ -1,5 +1,5 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 
 const { width, height } = Dimensions.get('window');
 
@@ -46,6 +46,15 @@ module.exports = StyleSheet.create({
     color: 'white',
     fontFamily: 'Default',
     fontSize: 20
+  },
+  headerLogoContainer: {
+    height: 40,
+    width: 60
+  },
+  headerLogo: {
+    height: '100%',
+    width: '100%',
+    resizeMode: 'contain'
   },
   body:{
     flex: 1,

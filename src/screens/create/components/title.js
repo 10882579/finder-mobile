@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, TouchableOpacity, TextInput, Text } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { View, TouchableOpacity, TextInput, Text, ScrollView } from 'react-native';
+import { Ionicons, Feather } from '@expo/vector-icons';
+import Modal from 'react-native-modal';
 
 import { defaultStyle, createStyle } from '@src/static/index';
 
@@ -20,7 +21,7 @@ const ConditionButton = (props) => {
 
 export default (props) => {
   
-  const { handleAutoScroll, updateCreateState, data, categories } = props;
+  const { handleAutoScroll, updateCreateState, data, isVisible } = props;
 
   handleScrollView= (t) => {
     if(t == 0){
@@ -33,26 +34,19 @@ export default (props) => {
     }
   }
 
-  getCategoryValue = (name) => {
-    const obj = categories.find( (category) => {
-      if(category.name == name){
-        return category.value
-      }
-    })
-    return obj.value
+  handleCategorySelect = (value) => {
+    updateCreateState({category: value});
+    props.toggleCategory();
   }
 
   return (
     <View style={createStyle.division}>
       <View style={createStyle.divisionContainer}>
         <View style={createStyle.categoryContainer}>
-          <Text style={createStyle.conditionText}>Kategoriya:</Text>
-          <TouchableOpacity onPress={props.toggle}>
-            <Text style={createStyle.categorySelectText}>
-              {
-                data.category ? getCategoryValue(data.category) : 'Tanlash'
-              }
-            </Text>
+          <Text style={createStyle.categoryNameText}>Kategoriya:</Text>
+          <TouchableOpacity style={createStyle.selectContainer} onPress={ props.toggleCategory }>
+            <Text style={createStyle.selectedCategory}>{ data.category }</Text>
+            <Ionicons name='ios-arrow-down' size={24} color='black'/>
           </TouchableOpacity>
         </View>
         <View style={createStyle.titleInputContainer}>
@@ -127,6 +121,23 @@ export default (props) => {
           <Feather name='chevron-right' color='white' size={30}/>
         </TouchableOpacity> 
       </View>
+      <Modal isVisible={isVisible} style={createStyle.categoryModalContainer}>
+        <View style={createStyle.categoryListContainer}>
+          <View style={createStyle.modalHeader}>
+            <Text style={createStyle.categoryTitleText}>Kategoriyalar</Text>
+          </View>
+          <ScrollView>
+            {
+              props.categories.map( (category) => (
+                <TouchableOpacity style={createStyle.categoryListItem} key={category.id} 
+                  onPress={ () => this.handleCategorySelect(category.value)}>
+                  <Text style={createStyle.categoryNameText}>{category.value}</Text>
+                </TouchableOpacity>
+              ))
+            }
+          </ScrollView>
+        </View>
+      </Modal>
     </View>
   )
 }

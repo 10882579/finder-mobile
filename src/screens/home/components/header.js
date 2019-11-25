@@ -1,31 +1,42 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, StatusBar } from 'react-native';
+import { View,TouchableOpacity, StatusBar, Image, Keyboard } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 
-import { homeStyle, defaultStyle } from '@src/static/index'
+import { defaultStyle } from '@src/static/index'
 
 export default (props) => {
+
+  toggleDrawer = () => {
+    Keyboard.dismiss()
+    props.navigation.toggleDrawer();
+  }
 
   return (
     <View style={[defaultStyle.customHeaderContainer, defaultStyle.shadow]}>
       <StatusBar barStyle="light-content"/>
       <TouchableOpacity
         style={defaultStyle.headerIconContainer}
-        onPress={ () => props.navigation.toggleDrawer() }
+        onPress={ this.toggleDrawer }
         >
         <Feather name='menu' size={25} color='white'/>
       </TouchableOpacity>
       <View style={defaultStyle.headerBodyContainer}>
-        <View style={homeStyle.headerSearchContainer}>
-          <Ionicons name='ios-search' style={homeStyle.searchIcon} />
-          <TextInput
-            placeholder='Qidirmoq'
-            style={homeStyle.searchInput}
-            underlineColorAndroid="transparent"
-            autoCorrect={false}
-          />
+        <View style={defaultStyle.headerLogoContainer}>
+          <Image source={require('@src/static/imgs/logo-grey.png')} style={defaultStyle.headerLogo}/>
         </View>
       </View>
+      <TouchableOpacity 
+        style={defaultStyle.headerIconContainer}
+        onPress={ props.toggleSearch }
+      >
+        {
+          props.show ? (
+            <Ionicons name='ios-search' style={defaultStyle.headerIcon}/>
+          ) : (
+            <Ionicons name='md-close' style={defaultStyle.headerIcon}/>
+          )
+        }
+      </TouchableOpacity>
     </View>
   )
 }

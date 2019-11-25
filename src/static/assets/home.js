@@ -1,93 +1,59 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import Constants from 'expo-constants';
 
 const { width, height } = Dimensions.get('window');
 
 module.exports = StyleSheet.create({
-  headerSearchContainer: {
-    height: 40,
-    flexDirection: 'row',
+  postContainer: {
+    width: (width - 20)/3,
+    height: (width/3),
+    margin: 2.5,
+  },
+  searchContainer: {
+    width: width,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
     backgroundColor: 'white',
-    borderRadius: 4,
-    alignItems: 'center',
-    marginLeft: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgrey',
+  },
+  searchInputContainer: {
+    height: 50,
+    paddingLeft: 5,
+    marginVertical: 5,
+    flexDirection: 'row',
+    borderBottomColor: 'lightgrey',
+    borderBottomWidth: 1,
   },
   searchInput: {
     flex: 1,
     fontSize: 18,
-    paddingHorizontal: 5
-  },
-  searchIcon: {
-    fontSize: 20,
-    paddingHorizontal: 8,
-    color: 'darkgrey'
-  },
-  headerFilterBtn: {
-    fontSize: 35,
-    color: 'white',
-    marginBottom: 5
-  },
-  progressBarContainer: {
-    width: width,
-    padding: 10,
-    flexDirection: 'row',
-  },
-  progressContainer:{
-    flex: 1,
-    height: 30,
-    justifyContent: 'center',
-    backgroundColor: '#DADADA',
-    borderRadius: 50,
-    borderColor: 'darkgrey',
-    borderWidth: 0.5,
-    overflow: 'hidden',
-  },
-  progress: {
-    height: 30,
-    position: 'absolute',
-    borderRadius: 50,
-    backgroundColor: 'rgb(0,128,0)',
-  },
-  percentContainer:{
-    width: 45,
-    height: 30,
-    justifyContent:'center',
-    alignItems:'flex-end',
-  },
-  progressText: {
-    fontSize: 16,
     fontFamily: 'Default',
   },
-  listImageGrid: {
-    flexDirection: 'row',
+  searchButton: {
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  premiumImageSingleGrid: {
-    width: width - (width / 3) - 5,
-    height: width - (width / 3) - 5,
-    marginRight: 5,
-    marginBottom: 5,
+  priceFilterContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: "row",
+    marginVertical: 10,
+    height: 50,
   },
-  premiumImageDoubleGrid: {
-    width: width - (width * 2/3) - 10,
-    height: width - (width * 2/3) - 5,
+  priceFilterInput: {
+    height: 40,
+    width: width /4,
+    marginHorizontal: 5,
+    paddingHorizontal: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgrey',
+    justifyContent: 'center',
   },
-  imageFieldPress: {
-    height: '100%',
-    width: '100%',
-    marginBottom: 5
-  },
-  regularImageGrid: {
-    width: (width / 3) -5,
-    height: (width / 3) -5,
-    marginRight: 5,
-    marginBottom: 5,
-  },
-  bookmarkContainer: {
-    position: 'absolute',
-    top: 5,
-    right: 10,
-  },
-  bookmark: {
-    fontSize: 32,
-    color: 'white'
+  filterText: {
+    fontFamily: 'Default',
+    fontSize: 16
   },
 })

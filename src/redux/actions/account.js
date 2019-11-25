@@ -1,7 +1,7 @@
 import axios from 'axios';
 import localconfig from '@src/localconfig';
 
-const SERVER = localconfig ? localconfig.SERVER : "https://finder-uz.herokuapp.com";
+const SERVER = localconfig.SERVER;
 
 const loginToAccount = (callback) => {
   return (dispatch, getState) => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Animated, View, ScrollView, ActivityIndicator, Text, Dimensions } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { connect } from 'react-redux';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 
 import { fetchChatRoomName } from '@redux/actions/notification';
 import { defaultStyle, postStyle } from '@src/static/index';
@@ -37,7 +37,7 @@ class App extends Component {
       fetchPost(params.id, (data) => {
         if(data){
           setPostState(data);
-          setInterval( () => this.setState( () => ({loading: false})), 500)
+          setTimeout( () => this.setState( () => ({loading: false})), 500)
         }
         else{
           navigation.navigate(from.screen);

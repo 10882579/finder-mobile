@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 const { width, height } = Dimensions.get('window');
 
 module.exports = StyleSheet.create({

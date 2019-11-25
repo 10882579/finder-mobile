@@ -1,5 +1,5 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 
 const { width, height } = Dimensions.get('window');
 
@@ -104,22 +104,61 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
   },
+  titleInputContainer: {
+    height: 50,
+    marginVertical: 10,
+    borderBottomColor: 'darkgrey',
+    borderBottomWidth: 1,
+  },
   categoryContainer: {
     height: 40,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  categorySelectText: {
-    color: 'darkgrey',
+  categoryModalContainer: {
+    padding: 0,
+    margin: 0,
+    width: width,
+    justifyContent: 'flex-end',
+  },
+  modalHeader: {
+    borderBottomWidth: 1,
+    alignItems: 'center',
+    marginHorizontal: 30,
+    justifyContent: 'center',
+    borderBottomColor: 'lightgrey',
+  },
+  categoryTitleText: {
+    fontFamily: 'Default-Bold',
+    fontSize: 20,
+    padding: 20,
+  },
+  categoryListContainer: {
+    backgroundColor:'white',
+    width: width,
+    height: height/2,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    overflow:'hidden'
+  },
+  categoryListItem: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 13,
+  },
+  categoryNameText: {
     fontFamily: 'Default',
     fontSize: 18,
   },
-  titleInputContainer: {
-    height: 50,
-    marginVertical: 10,
-    borderBottomColor: 'darkgrey',
-    borderBottomWidth: 1,
+  selectContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  selectedCategory: {
+    fontFamily: 'Default',
+    paddingHorizontal: 7,
+    fontSize: 16,
   },
   input: {
     flex: 1,
@@ -181,39 +220,6 @@ module.exports = StyleSheet.create({
   negotiationText: {
     fontFamily: 'Default',
     fontSize: 12,
-  },
-  categoryModalContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    zIndex: 99999,
-  },
-  categoryListContainer: {
-    backgroundColor:'white',
-    width: width,
-    height: height*3/5,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  categoryTitleText: {
-    fontFamily: 'Default-Bold',
-    alignSelf: 'center',
-    fontSize: 20,
-    padding: 20,
-  },
-  categoryListItem: {
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  categoryNameText: {
-    fontFamily: 'Default',
-    fontSize: 18,
   },
   descriptionText: {
     fontSize: 18,

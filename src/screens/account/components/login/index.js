@@ -11,7 +11,7 @@ import {
   Keyboard,
   Platform
 } from 'react-native';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { loginStyle } from '@src/static/index';
